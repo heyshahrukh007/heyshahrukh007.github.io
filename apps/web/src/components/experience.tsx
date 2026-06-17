@@ -49,11 +49,16 @@ function ExperienceEntry({
   );
 }
 
-export default function Experience() {
+type ExperienceProps = {
+  headingLevel?: 1 | 2;
+};
+
+export default function Experience({ headingLevel = 2 }: ExperienceProps) {
   return (
     <section id="experience" aria-labelledby="experience-heading" className="space-y-10">
       <SectionHeading
         id="experience-heading"
+        headingLevel={headingLevel}
         title={experience.title}
         description={experience.description}
       />

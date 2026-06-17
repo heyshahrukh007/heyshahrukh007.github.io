@@ -1,12 +1,20 @@
+import Link from "next/link";
+
 import { SectionHeading } from "@/components/section-heading";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
 import { about } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 
-export default function About() {
+type AboutProps = {
+  compact?: boolean;
+  headingLevel?: 1 | 2;
+};
+
+export default function About({ compact = false, headingLevel = 2 }: AboutProps) {
   return (
     <section id="about" aria-labelledby="about-heading" className="space-y-10">
-      <SectionHeading id="about-heading" title={about.title} />
+      <SectionHeading id="about-heading" title={about.title} headingLevel={headingLevel} />
 
       <div className="max-w-2xl space-y-4">
         {about.summary.map((paragraph) => (
@@ -16,40 +24,48 @@ export default function About() {
         ))}
       </div>
 
-      <div className="space-y-10 border-t border-border/40 pt-10">
-        <Subsection title="Experience">
-          <p className="max-w-2xl rounded-xl border border-border/50 bg-muted/15 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
-            {about.yearsOfExperience}
-          </p>
-        </Subsection>
+      {compact ? (
+        <p className="text-sm">
+          <Link href="/about" className={textLinkClassName}>
+            Read more about me →
+          </Link>
+        </p>
+      ) : (
+        <div className="space-y-10 border-t border-border/40 pt-10">
+          <Subsection title="Experience">
+            <p className="max-w-2xl rounded-xl border border-border/50 bg-muted/15 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
+              {about.yearsOfExperience}
+            </p>
+          </Subsection>
 
-        <Subsection title="Areas of expertise">
-          <TagList items={about.expertise} />
-        </Subsection>
+          <Subsection title="Areas of expertise">
+            <TagList items={about.expertise} />
+          </Subsection>
 
-        <Subsection title="Career highlights">
-          <ul className="max-w-2xl space-y-4">
-            {about.careerHighlights.map((highlight) => (
-              <li
-                key={highlight}
-                className="border-l-2 border-primary/40 pl-4 text-sm leading-relaxed text-muted-foreground"
-              >
-                {highlight}
-              </li>
-            ))}
-          </ul>
-        </Subsection>
+          <Subsection title="Career highlights">
+            <ul className="max-w-2xl space-y-4">
+              {about.careerHighlights.map((highlight) => (
+                <li
+                  key={highlight}
+                  className="border-l-2 border-primary/40 pl-4 text-sm leading-relaxed text-muted-foreground"
+                >
+                  {highlight}
+                </li>
+              ))}
+            </ul>
+          </Subsection>
 
-        <Subsection title="Strengths">
-          <ul className="max-w-2xl space-y-3">
-            {about.strengths.map((strength) => (
-              <li key={strength} className="text-sm leading-relaxed text-muted-foreground">
-                {strength}
-              </li>
-            ))}
-          </ul>
-        </Subsection>
-      </div>
+          <Subsection title="Strengths">
+            <ul className="max-w-2xl space-y-3">
+              {about.strengths.map((strength) => (
+                <li key={strength} className="text-sm leading-relaxed text-muted-foreground">
+                  {strength}
+                </li>
+              ))}
+            </ul>
+          </Subsection>
+        </div>
+      )}
     </section>
   );
 }

@@ -8,21 +8,25 @@ import { contact, getEnabledSocialLinks, site, socialLinks } from "@/lib/site";
 import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
-export default function ContactSection() {
+type ContactSectionProps = {
+  headingLevel?: 1 | 2;
+};
+
+export default function ContactSection({ headingLevel = 2 }: ContactSectionProps) {
   const profiles = getEnabledSocialLinks(socialLinks);
   const github = profiles.find((profile) => profile.label === "GitHub");
 
   return (
-    <section aria-labelledby="contact-heading" className="space-y-10">
+    <section id="contact" aria-labelledby="contact-heading" className="space-y-10">
       <SectionHeading
         id="contact-heading"
-        headingLevel={1}
+        headingLevel={headingLevel}
         title={contact.title}
         description={contact.summary}
       />
 
       <header className="max-w-2xl space-y-3 border-t border-border/40 pt-10">
-        <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{site.name}</h2>
+        <h3 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{site.name}</h3>
         <p className="text-sm text-primary/80">{site.role}</p>
         <p className="text-xs text-muted-foreground">{site.location}</p>
       </header>

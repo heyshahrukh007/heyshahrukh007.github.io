@@ -15,7 +15,7 @@ type EnabledExternalHeroCta = {
 type EnabledInternalHeroCta = {
   label: string;
   enabled: true;
-  href: Route;
+  href: NavHref;
   variant?: VariantProps<typeof buttonVariants>["variant"];
 };
 
@@ -32,10 +32,12 @@ export function isExternalHeroCta(cta: EnabledHeroCta): cta is EnabledExternalHe
   return "external" in cta;
 }
 
+export type NavHref = Route | `${Route}#${string}`;
+
 type EnabledNavItem = {
   label: string;
   enabled: true;
-  href: Route;
+  href: NavHref;
 };
 
 type DisabledNavItem = {
@@ -59,7 +61,7 @@ export const hero = {
   ctas: [
     { label: "View Projects", enabled: true, href: "/projects" },
     { label: "Download Resume", enabled: true, href: "/resume", variant: "outline" },
-    { label: "Contact", enabled: true, href: "/contact", variant: "outline" },
+    { label: "Contact", enabled: true, href: "/about#contact", variant: "outline" },
   ],
 } as const satisfies {
   headline: string;
@@ -75,15 +77,15 @@ export const hero = {
  */
 export const navItems = [
   { href: "/", label: "Home", enabled: true },
-  { label: "About", enabled: false },
-  { label: "Skills", enabled: false },
-  { label: "Experience", enabled: false },
+  { href: "/about", label: "About", enabled: true },
   { href: "/projects", label: "Projects", enabled: true },
-  { label: "Architecture", enabled: false },
+  { href: "/architecture", label: "Architecture", enabled: true },
   { label: "Articles", enabled: false },
   { label: "Open Source", enabled: false },
   { href: "/resume", label: "Resume", enabled: true },
-  { href: "/contact", label: "Contact", enabled: true },
+  { label: "Experience", enabled: false },
+  { label: "Skills", enabled: false },
+  { label: "Contact", enabled: false },
 ] satisfies NavItem[];
 
 export function getEnabledNavItems(items: readonly NavItem[]): EnabledNavItem[] {

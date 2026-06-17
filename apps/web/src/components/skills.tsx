@@ -3,11 +3,16 @@ import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
 import { skills } from "@/lib/site";
 
-export default function Skills() {
+type SkillsProps = {
+  headingLevel?: 1 | 2;
+};
+
+export default function Skills({ headingLevel = 2 }: SkillsProps) {
   return (
     <section id="skills" aria-labelledby="skills-heading" className="space-y-10">
       <SectionHeading
         id="skills-heading"
+        headingLevel={headingLevel}
         title={skills.title}
         description={skills.description}
       />
