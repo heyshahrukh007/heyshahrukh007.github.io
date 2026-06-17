@@ -3,7 +3,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "../index.css";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
 import Providers from "@/components/providers";
+import SkipLink from "@/components/skip-link";
+import { site } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "heyshahrukh007.github.io",
-  description: "Site under construction",
+  title: site.name,
+  description: `${site.role} portfolio`,
 };
 
 export default function RootLayout({
@@ -29,7 +33,18 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
-          <div className="flex h-svh flex-col">{children}</div>
+          <div className="relative flex min-h-svh flex-col">
+            <SkipLink />
+            <Header />
+            <main
+              id="main-content"
+              tabIndex={-1}
+              className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-6 py-12 outline-none sm:py-16"
+            >
+              {children}
+            </main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

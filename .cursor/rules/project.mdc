@@ -5,6 +5,8 @@ Follow:
 - docs/TASK-TRACKER.md
 - docs/TECH.md
 
+UI design reference: https://github.com/once-ui-system/magic-portfolio (see docs/TECH.md §10)
+
 Rules:
 
 - Implement only requested task.

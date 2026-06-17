@@ -119,6 +119,7 @@
   --animate-icon-float: icon-float 3s ease-in-out infinite;
   --animate-dot-bounce: dot-bounce 1.4s ease-in-out infinite;
   --animate-shimmer: shimmer 2s ease-in-out infinite;
+  --animate-highlight-card-enter: highlight-card-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes gradient-shift {
@@ -179,12 +180,22 @@
   }
 }
 
+@keyframes highlight-card-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-gradient-shift,
   .animate-orb-float,
   .animate-icon-float,
   .animate-dot-bounce,
-  .animate-shimmer {
+  .animate-shimmer,
+  .animate-highlight-card-enter {
     animation: none !important;
   }
 }
@@ -193,10 +204,27 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    @apply font-sans overflow-x-clip;
+  }
   body {
     @apply font-sans bg-background text-foreground;
+    background-image: radial-gradient(
+      circle,
+      color-mix(in oklch, var(--foreground) 8%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
   }
-  html {
-    @apply font-sans;
+}
+
+@layer components {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }

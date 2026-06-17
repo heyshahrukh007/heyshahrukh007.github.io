@@ -17,25 +17,32 @@ This file provides context about the project for AI assistants.
 - CSS: tailwind
 - UI Library: shadcn-ui
 
-### Additional Features
-
-- Testing: vitest
-
 ## Project Structure
 
 ```
 heyshahrukh007.github.io/
 ├── apps/
-│   ├── web/         # Frontend application
-├── packages/
+│   └── web/         # Next.js portfolio (static export)
+├── packages/        # env, shared TS config
+└── docs/            # FRD, TASKS, TECH, TASK-TRACKER
 ```
+
+### Site map (current)
+
+| Page | Path |
+|------|------|
+| Home | `/` — hero, highlights, About summary |
+| About + Contact | `/about` |
+| Projects | `/projects`, `/projects/[slug]` |
+| Architecture | `/architecture`, `/architecture/[slug]` |
+| Resume + Experience + Skills | `/resume` |
+| Articles | `/articles` (built, nav disabled) |
 
 ## Common Commands
 
 - `pnpm install` - Install dependencies
 - `pnpm dev` - Start development server
 - `pnpm build` - Build for production
-- `pnpm test` - Run tests
 
 ## Feature Development References
 
@@ -44,6 +51,11 @@ When an AI assistant develops or updates any feature, it must reference:
 - `docs/FRD.md` for feature requirements and product behavior
 - `docs/TASKS.md` for requirements and implementation scope
 - `docs/TASK-TRACKER.md` for task status and progress tracking
+- `docs/TECH.md` for technical conventions and UI design reference
+
+### UI design reference
+
+For layout, section structure, and UX, follow [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) as documented in `docs/TECH.md` §10.
 
 ## Maintenance
 

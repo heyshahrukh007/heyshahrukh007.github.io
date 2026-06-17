@@ -18,6 +18,18 @@ This document describes **how** the portfolio site is built. The [FRD](./FRD.md)
 
 The site is a **static** personal portfolio deployed to **GitHub Pages** at `https://heyshahrukh007.github.io`. There is no backend server at runtime.
 
+### CRITICAL: DRY (Don't Repeat Yourself)
+
+All feature work **must** follow the DRY principle.
+
+- Extract shared config, types, and constants once (e.g. `apps/web/src/lib/site.ts`)
+- Reuse existing components and utilities before creating new ones
+- Centralize navigation, profile data, social links, and section metadata in shared modules
+- Avoid duplicating layout, styling, or markup patterns across pages
+- When the same logic or UI appears more than once, refactor into a reusable helper or component
+
+AI assistants and developers implementing tasks must check for existing abstractions before adding new code.
+
 ---
 
 ## 2. Tech Stack
@@ -43,12 +55,11 @@ The site is a **static** personal portfolio deployed to **GitHub Pages** at `htt
 | Icons | Lucide React |
 | Fonts | Inter Variable, Geist (Google Fonts) |
 | Animations | tw-animate-css + custom CSS keyframes |
-| Theming | next-themes (forced dark mode for now) |
+| Theming | Dark mode only via `html.dark` |
 | Toasts | Sonner |
 | Forms (planned) | TanStack React Form |
 | Validation | Zod |
 | Compiler | React Compiler |
-| Testing | Vitest, Testing Library, jsdom |
 
 ### Shared packages
 
@@ -127,32 +138,42 @@ heyshahrukh007.github.io/
 
 | Area | Status |
 |------|--------|
-| Home page | Under construction hero with CSS animations |
-| Navigation | Removed (temporary) |
+| Global layout | Header, skip link, main landmark, footer |
+| Navigation | Enabled: Home, About, Projects, Architecture, Resume |
+| Home page | Hero, professional highlights, compact About summary |
+| About page | Full About + Contact (`/about`, contact at `#contact`) |
+| Resume page | Download CTAs, experience timeline, skills (`/resume`) |
+| Projects | Index + `[slug]` detail pages |
+| Architecture | Index + `[slug]` case study pages |
+| Articles | Built but **disabled in nav**; routes remain for later |
+| Open Source | **Not shipped** — removed from site |
 | Theme | Dark mode only, forced |
-| Header | Removed (was theme toggle only) |
-| FRD sections | Not yet implemented |
+| Accessibility | Skip link, focus styles, semantic landmarks, `prefers-reduced-motion` |
+| Design reference | [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) UX patterns |
+
+### Content source
+
+Section copy, navigation, and structured lists live in [`apps/web/src/lib/site.ts`](../apps/web/src/lib/site.ts). Pages compose shared section components; avoid duplicating content in page files.
 
 ---
 
-## 6. Planned Routes
+## 6. Routes
 
-Aligned with [FRD navigation](./FRD.md#6-navigation-requirements):
+| Route | Section | Nav | Notes |
+|-------|---------|-----|-------|
+| `/` | Home | Yes | Hero + highlights + About summary |
+| `/about` | About + Contact | Yes | Contact section uses `id="contact"` |
+| `/projects` | Projects | Yes | Full project listing |
+| `/projects/[slug]` | Project detail | — | `generateStaticParams` |
+| `/architecture` | Architecture | Yes | Case study listing |
+| `/architecture/[slug]` | Architecture detail | — | `generateStaticParams` |
+| `/resume` | Resume | Yes | PDF CTAs + `#experience` + `#skills` |
+| `/articles` | Articles | No | Disabled in nav for now |
+| `/articles/[slug]` | Article detail | — | Disabled in nav for now |
 
-| Route | Section | Status |
-|-------|---------|--------|
-| `/` | Home | Under construction |
-| `/about` | About | Planned |
-| `/skills` | Skills | Planned |
-| `/experience` | Experience | Planned |
-| `/projects` | Projects | Planned |
-| `/architecture` | Architecture showcase | Planned |
-| `/articles` | Technical articles | Planned |
-| `/open-source` | Open source | Planned |
-| `/resume` | Resume | Planned |
-| `/contact` | Contact | Planned |
+**Not used:** `/contact` (merged into `/about`), `/open-source`, separate `/experience` or `/skills` pages.
 
-Article and project detail pages (e.g. `/articles/[slug]`, `/projects/[slug]`) will use static generation with `generateStaticParams`.
+Detail pages use static generation with `generateStaticParams`.
 
 ---
 
@@ -246,6 +267,21 @@ pnpm build
 - **Responsive:** Mobile-first Tailwind breakpoints
 - **Accessibility:** Semantic HTML, `prefers-reduced-motion` on custom animations
 
+### Design reference
+
+When implementing UI sections (hero, about, work/projects, blog, gallery, contact, etc.), use [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) as the UX and layout reference. Live demo: [demo.magic-portfolio.com](https://demo.magic-portfolio.com).
+
+| Reference area | What to borrow |
+|----------------|----------------|
+| Home | Clean hero, concise intro, clear primary actions |
+| About / CV | Structured profile summary and professional details |
+| Work / Projects | Project listing and detail page patterns |
+| Blog / Articles | Article listing and reading layout |
+| Gallery | Optional media showcase section |
+| Overall | Simple, timeless portfolio UX; responsive layout; minimal motion; clear section hierarchy |
+
+Adapt patterns to this stack (Next.js + Tailwind + shadcn/ui). Do not copy Once UI components directly; match UX intent and presentation.
+
 ---
 
 ## 11. Environment Variables
@@ -262,8 +298,8 @@ Add variables to `packages/env` when needed (e.g. analytics ID, form endpoint UR
 |-------|---------|-------|
 | Content format | MDX vs JSON vs CMS | MDX recommended for static deploy |
 | Contact form | Static links only vs Formspree/Resend | No backend on GitHub Pages |
-| Navigation | Restore header nav vs single-page scroll | FRD expects multi-page nav |
-| Light mode | Re-enable theme toggle | Currently dark-only |
+| Navigation | Enabled routes only in header; hash links supported for in-page anchors |
+| Light mode | Re-enable theme toggle | Dark-only for now; `html` uses `class="dark"` |
 | SEO | sitemap.xml, robots.txt, OG images | Add at build time |
 | Analytics | Plausible, GA, Vercel Analytics | Client-side only |
 
@@ -282,5 +318,7 @@ Add variables to `packages/env` when needed (e.g. analytics ID, form endpoint UR
 ## 14. References
 
 - [Functional Requirements (FRD)](./FRD.md)
+- [Magic Portfolio — UX reference](https://github.com/once-ui-system/magic-portfolio)
+- [Magic Portfolio demo](https://demo.magic-portfolio.com)
 - [Next.js static export](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)
 - [GitHub Pages Actions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow)
