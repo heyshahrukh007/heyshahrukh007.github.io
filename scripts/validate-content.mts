@@ -53,6 +53,14 @@ function main() {
     errors.push("Resume file missing at /resume.pdf");
   }
 
+  const heroPortraitPath = join(rootDir, "apps/web/public/images/hero-portrait.png");
+
+  if (!existsSync(heroPortraitPath)) {
+    warnings.push(
+      "Hero photo missing at /images/hero-portrait.png — add a portrait image for the hero section",
+    );
+  }
+
   if (warnings.length > 0) {
     console.warn("validate-content warnings:\n");
     for (const warning of warnings) {

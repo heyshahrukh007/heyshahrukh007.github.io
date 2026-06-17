@@ -62,19 +62,35 @@ export const home = {
 } as const;
 
 export const hero = {
-  headline: site.name,
-  subheadline: site.role,
+  greeting: `Hi, I'm ${site.name.split(" ")[0] ?? site.name}`,
+  title: {
+    lead: "I'm",
+    highlights: ["Software"],
+    tail: "Engineer.",
+  },
   summary:
     "Software engineer based in India. I build reliable web applications and scalable systems with a focus on clean architecture, performance, and thoughtful user experience.",
+  photo: {
+    src: "/images/hero-portrait.png",
+    alt: `${site.name} portrait`,
+  },
   ctas: [
     { label: "View Projects", enabled: true, href: "/projects" },
     { label: "Download Resume", enabled: true, href: "/resume", variant: "outline" },
     { label: "Contact", enabled: true, href: "/about#contact", variant: "outline" },
   ],
 } as const satisfies {
-  headline: string;
-  subheadline: string;
+  greeting: string;
+  title: {
+    lead: string;
+    highlights: readonly string[];
+    tail: string;
+  };
   summary: string;
+  photo: {
+    src: string;
+    alt: string;
+  };
   ctas: readonly HeroCta[];
 };
 

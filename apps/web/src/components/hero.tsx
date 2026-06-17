@@ -1,78 +1,102 @@
+import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { ExternalLink } from "@/components/external-link";
-import { ProfileAvatar } from "@/components/profile-avatar";
+import { HeroPortrait } from "@/components/hero-portrait";
 import { buttonVariants } from "@/components/ui/button";
 import { SocialLinks } from "@/components/social-links";
 import {
   getEnabledHeroCtas,
   hero,
   isExternalHeroCta,
-  site,
   type EnabledHeroCta,
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-function HeroCtaButton({ cta }: { cta: EnabledHeroCta }) {
+function HeroCtaButton({
+  cta,
+  primary = false,
+}: {
+  cta: EnabledHeroCta;
+  primary?: boolean;
+}) {
   const className = cn(
     buttonVariants({
       variant: cta.variant ?? "default",
-      shape: "pill",
+      shape: primary ? "default" : "pill",
       size: "lg",
     }),
-    "px-5",
+    primary ? "rounded-xl px-6 text-sm font-semibold" : "px-5",
+  );
+
+  const content = (
+    <>
+      {cta.label}
+      {primary ? <ArrowRightIcon className="size-4" /> : null}
+    </>
   );
 
   if (isExternalHeroCta(cta)) {
     return (
       <ExternalLink href={cta.href} className={className}>
-        {cta.label}
+        {content}
       </ExternalLink>
     );
   }
 
   return (
     <Link href={cta.href} className={className}>
-      {cta.label}
+      {content}
     </Link>
   );
 }
 
 export default function Hero() {
   const ctas = getEnabledHeroCtas(hero.ctas);
+  const [primaryCta, ...secondaryCtas] = ctas;
 
   return (
-    <section aria-labelledby="hero-heading" className="flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-10">
-      <ProfileAvatar size="lg" className="mx-auto sm:mx-0" />
+    <section
+      aria-labelledby="hero-heading"
+      className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12 xl:gap-16"
+    >
+      <div className="flex min-w-0 flex-col gap-6 text-center lg:gap-7 lg:text-left">
+        <p className="text-sm font-medium text-muted-foreground sm:text-base">{hero.greeting}</p>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-8 text-center sm:text-left">
         <div className="space-y-4">
           <h1
             id="hero-heading"
-            className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
+            className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-[3.25rem] lg:leading-[1.08]"
           >
-            {hero.headline}
+            {hero.title.lead}{" "}
+            {hero.title.highlights.map((highlight) => (
+              <span key={highlight} className="text-primary">
+                {highlight}{" "}
+              </span>
+            ))}
+            {hero.title.tail}
           </h1>
-          <p className="text-lg text-muted-foreground sm:text-xl">{hero.subheadline}</p>
-          <p className="text-sm text-muted-foreground/80">{site.location}</p>
-          <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0">
             {hero.summary}
           </p>
         </div>
 
         {ctas.length > 0 ? (
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
-            {ctas.map((cta) => (
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap lg:items-start lg:justify-start">
+            {primaryCta ? <HeroCtaButton cta={primaryCta} primary /> : null}
+            {secondaryCtas.map((cta) => (
               <HeroCtaButton key={cta.label} cta={cta} />
             ))}
           </div>
         ) : null}
 
         <SocialLinks
-          className="justify-center sm:justify-start"
+          className="justify-center lg:justify-start"
           excludeHrefs={ctas.map((cta) => cta.href)}
         />
       </div>
+
+      <HeroPortrait className="lg:justify-self-end" />
     </section>
   );
 }
