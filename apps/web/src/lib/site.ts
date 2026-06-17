@@ -655,6 +655,17 @@ export const resume = {
   },
 } as const;
 
+export const contact = {
+  title: "Contact",
+  summary: "Get in touch for collaboration, opportunities, or technical conversations.",
+  intro:
+    "I'm open to discussing software engineering roles, freelance work, and interesting product ideas. Email is the fastest way to reach me.",
+  email: {
+    address: "heyshahrukh007@gmail.com",
+    href: "mailto:heyshahrukh007@gmail.com",
+  },
+} as const;
+
 export const socialLinks = [
   {
     label: "GitHub",
