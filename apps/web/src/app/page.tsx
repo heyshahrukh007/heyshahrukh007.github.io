@@ -1,5 +1,5 @@
-import HomePlaceholder from "@/components/home-placeholder";
+import Hero from "@/components/hero";
 
 export default function Home() {
-  return <HomePlaceholder />;
+  return <Hero />;
 }

@@ -1,5 +1,37 @@
 import type { Route } from "next";
 
+import type { VariantProps } from "class-variance-authority";
+
+import { buttonVariants } from "@/components/ui/button";
+
+type EnabledExternalHeroCta = {
+  label: string;
+  enabled: true;
+  external: true;
+  href: string;
+  variant?: VariantProps<typeof buttonVariants>["variant"];
+};
+
+type EnabledInternalHeroCta = {
+  label: string;
+  enabled: true;
+  href: Route;
+  variant?: VariantProps<typeof buttonVariants>["variant"];
+};
+
+type DisabledHeroCta = {
+  label: string;
+  enabled: false;
+};
+
+export type HeroCta = EnabledExternalHeroCta | EnabledInternalHeroCta | DisabledHeroCta;
+
+export type EnabledHeroCta = EnabledExternalHeroCta | EnabledInternalHeroCta;
+
+export function isExternalHeroCta(cta: EnabledHeroCta): cta is EnabledExternalHeroCta {
+  return "external" in cta;
+}
+
 type EnabledNavItem = {
   label: string;
   enabled: true;
@@ -18,6 +50,29 @@ export const site = {
   role: "Software Engineer",
   location: "India",
 } as const;
+
+export const hero = {
+  headline: site.name,
+  subheadline: site.role,
+  summary:
+    "Software engineer based in India. I build reliable web applications and scalable systems with a focus on clean architecture, performance, and thoughtful user experience.",
+  ctas: [
+    { label: "View Projects", enabled: false },
+    { label: "Download Resume", enabled: false },
+    { label: "Contact", enabled: false },
+    {
+      label: "View GitHub",
+      enabled: true,
+      external: true,
+      href: "https://github.com/heyshahrukh007",
+    },
+  ],
+} as const satisfies {
+  headline: string;
+  subheadline: string;
+  summary: string;
+  ctas: readonly HeroCta[];
+};
 
 /**
  * Navigation registry aligned with FRD sections.
@@ -42,6 +97,10 @@ export function getEnabledNavItems(items: readonly NavItem[]): EnabledNavItem[] 
 }
 
 export const enabledNavItems = getEnabledNavItems(navItems);
+
+export function getEnabledHeroCtas(items: readonly HeroCta[]): EnabledHeroCta[] {
+  return items.filter((item): item is EnabledHeroCta => item.enabled);
+}
 
 export function getEnabledSocialLinks<T extends { enabled: boolean }>(links: readonly T[]): T[] {
   return links.filter((item) => item.enabled);

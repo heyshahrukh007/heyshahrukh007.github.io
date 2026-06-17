@@ -4,7 +4,7 @@
 | -------- | ------------------------- | ------ | -------- |
 | TASK-001 | Repository Setup          | DONE   | High     |
 | TASK-002 | Global Layout             | DONE   | High     |
-| TASK-003 | Hero Section              | TODO   | High     |
+| TASK-003 | Hero Section              | DONE   | High     |
 | TASK-004 | Professional Highlights   | TODO   | Medium   |
 | TASK-005 | About Section             | TODO   | Medium   |
 | TASK-006 | Skills Section            | TODO   | Medium   |
