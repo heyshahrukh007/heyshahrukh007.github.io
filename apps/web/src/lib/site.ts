@@ -637,6 +637,23 @@ export const openSource = {
 
 export type OpenSourceItem = (typeof openSource.items)[number];
 
+export const resume = {
+  title: "Resume",
+  summary:
+    "A concise overview of my experience, strengths, and the kind of engineering work I focus on.",
+  lastUpdated: "June 2025",
+  highlights: [
+    "Software engineer with 5+ years of experience building production web applications.",
+    "Full-stack background across TypeScript, React, Next.js, APIs, and static deployment workflows.",
+    "Focused on maintainable architecture, performance, and clear collaboration with product teams.",
+  ],
+  file: {
+    label: "Shahrukh Mansuri — Software Engineer",
+    href: "/resume.pdf",
+    downloadName: "Shahrukh-Mansuri-Resume.pdf",
+  },
+} as const;
+
 export const socialLinks = [
   {
     label: "GitHub",

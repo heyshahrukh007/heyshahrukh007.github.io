@@ -1,10 +1,5 @@
-import SectionPlaceholder from "@/components/section-placeholder";
+import ResumeSection from "@/components/resume-section";
 
 export default function ResumePage() {
-  return (
-    <SectionPlaceholder
-      title="Resume"
-      description="Resume download and details will be added in TASK-013."
-    />
-  );
+  return <ResumeSection />;
 }
