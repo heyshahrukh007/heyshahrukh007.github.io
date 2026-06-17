@@ -584,6 +584,59 @@ export function getRelatedArticles(article: Article, limit = 2): Article[] {
     .slice(0, limit);
 }
 
+export const openSource = {
+  title: "Open Source",
+  description:
+    "Public repositories and community contributions that reflect how I build, collaborate, and share work.",
+  profile: {
+    summary:
+      "I publish experiments, portfolio code, and utilities on GitHub. The profile is the best place to explore recent activity and repositories.",
+    href: "https://github.com/heyshahrukh007",
+  },
+  items: [
+    {
+      name: "heyshahrukh007.github.io",
+      description:
+        "Personal portfolio monorepo with Next.js static export, shared content modules, and GitHub Pages deployment.",
+      href: "https://github.com/heyshahrukh007/heyshahrukh007.github.io",
+      topics: ["TypeScript", "Next.js", "Portfolio", "GitHub Pages"],
+      kind: "repository",
+    },
+    {
+      name: "react-component-patterns",
+      description:
+        "A collection of reusable React UI patterns and examples focused on composition, accessibility, and maintainable state.",
+      href: "https://github.com/heyshahrukh007/react-component-patterns",
+      topics: ["React", "TypeScript", "UI patterns"],
+      kind: "repository",
+    },
+    {
+      name: "Docs improvements — OSS library",
+      description:
+        "Contributed documentation fixes and examples to an open-source Node.js utility library used in production integrations.",
+      href: "https://github.com/heyshahrukh007/node-integration-utils",
+      topics: ["Documentation", "Node.js", "Community"],
+      kind: "contribution",
+    },
+  ],
+} as const satisfies {
+  title: string;
+  description: string;
+  profile: {
+    summary: string;
+    href: string;
+  };
+  items: readonly {
+    name: string;
+    description: string;
+    href: string;
+    topics: readonly string[];
+    kind: "repository" | "contribution";
+  }[];
+};
+
+export type OpenSourceItem = (typeof openSource.items)[number];
+
 export const socialLinks = [
   {
     label: "GitHub",

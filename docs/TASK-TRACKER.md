@@ -13,7 +13,7 @@
 | TASK-009 | Project Details Component | DONE   | Medium   |
 | TASK-010 | Architecture Section      | DONE   | High     |
 | TASK-011 | Articles Section          | DONE   | Medium   |
-| TASK-012 | Open Source Section       | TODO   | Medium   |
+| TASK-012 | Open Source Section       | DONE   | Medium   |
 | TASK-013 | Resume Section            | TODO   | Medium   |
 | TASK-014 | Contact Section           | TODO   | High     |
 | TASK-015 | Responsive Design         | TODO   | High     |

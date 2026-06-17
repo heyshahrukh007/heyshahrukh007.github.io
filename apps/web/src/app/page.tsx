@@ -4,6 +4,7 @@ import FeaturedArchitecture from "@/components/featured-architecture";
 import FeaturedArticles from "@/components/featured-articles";
 import FeaturedProjects from "@/components/featured-projects";
 import Hero from "@/components/hero";
+import OpenSourceSection from "@/components/open-source-section";
 import ProfessionalHighlights from "@/components/professional-highlights";
 import Skills from "@/components/skills";
 
@@ -18,6 +19,7 @@ export default function Home() {
       <FeaturedArchitecture />
       <Skills />
       <FeaturedArticles />
+      <OpenSourceSection />
     </div>
   );
 }
