@@ -18,6 +18,18 @@ This document describes **how** the portfolio site is built. The [FRD](./FRD.md)
 
 The site is a **static** personal portfolio deployed to **GitHub Pages** at `https://heyshahrukh007.github.io`. There is no backend server at runtime.
 
+### CRITICAL: DRY (Don't Repeat Yourself)
+
+All feature work **must** follow the DRY principle.
+
+- Extract shared config, types, and constants once (e.g. `apps/web/src/lib/site.ts`)
+- Reuse existing components and utilities before creating new ones
+- Centralize navigation, profile data, social links, and section metadata in shared modules
+- Avoid duplicating layout, styling, or markup patterns across pages
+- When the same logic or UI appears more than once, refactor into a reusable helper or component
+
+AI assistants and developers implementing tasks must check for existing abstractions before adding new code.
+
 ---
 
 ## 2. Tech Stack

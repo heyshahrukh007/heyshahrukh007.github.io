@@ -6,6 +6,7 @@ import "../index.css";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import Providers from "@/components/providers";
+import { site } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "heyshahrukh007.github.io",
-  description: "Site under construction",
+  title: site.name,
+  description: `${site.role} portfolio`,
 };
 
 export default function RootLayout({
@@ -29,15 +30,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, color-mix(in oklch, var(--foreground) 8%, transparent) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      >
         <Providers>
-          <div className="relative flex min-h-svh flex-col">
-            <div
-              aria-hidden
-              className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_15%_15%,oklch(0.7_0.15_162/0.12),transparent_32%),radial-gradient(circle_at_85%_85%,oklch(0.7_0.15_162/0.08),transparent_35%)]"
-            />
+          <div className="flex min-h-svh flex-col">
             <Header />
-            <main className="mx-auto flex w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+            <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-6 py-12 sm:py-16">
               {children}
             </main>
             <Footer />
