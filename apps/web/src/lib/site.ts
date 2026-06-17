@@ -140,6 +140,58 @@ export const about = {
   ],
 } as const;
 
+export const skills = {
+  title: "Skills",
+  description: "Technologies and practices I use to design, build, and ship reliable software.",
+  categories: [
+    {
+      name: "Frontend Development",
+      description:
+        "Building responsive interfaces, component systems, and polished client-side experiences.",
+      skills: ["TypeScript", "React", "Next.js", "Tailwind CSS", "HTML & CSS"],
+    },
+    {
+      name: "Backend Development",
+      description: "Designing APIs and services that are secure, scalable, and easy to evolve.",
+      skills: ["Node.js", "REST APIs", "API design", "Authentication", "Microservices"],
+    },
+    {
+      name: "Databases",
+      description: "Modeling data and tuning storage layers for clarity, integrity, and performance.",
+      skills: ["PostgreSQL", "MongoDB", "Redis", "Schema design", "Query optimization"],
+    },
+    {
+      name: "Cloud Technologies",
+      description: "Deploying and operating applications on managed cloud and static platforms.",
+      skills: ["AWS", "Vercel", "GitHub Pages", "Static hosting", "CDN"],
+    },
+    {
+      name: "DevOps",
+      description: "Automating delivery pipelines and keeping environments reproducible.",
+      skills: ["Docker", "CI/CD", "GitHub Actions", "Infrastructure as code", "Linux"],
+    },
+    {
+      name: "Messaging Systems",
+      description: "Connecting services with asynchronous and real-time communication patterns.",
+      skills: ["Redis Pub/Sub", "WebSockets", "Event-driven patterns", "Queues"],
+    },
+    {
+      name: "Monitoring & Observability",
+      description: "Understanding production behavior through logs, metrics, and profiling.",
+      skills: ["Logging", "Metrics", "Error tracking", "Performance profiling"],
+    },
+    {
+      name: "Testing",
+      description: "Verifying behavior at multiple levels to ship changes with confidence.",
+      skills: ["Unit testing", "Integration testing", "Vitest", "Jest", "E2E testing"],
+    },
+  ],
+} as const satisfies {
+  title: string;
+  description: string;
+  categories: readonly { name: string; description: string; skills: readonly string[] }[];
+};
+
 export const socialLinks = [
   {
     label: "GitHub",

@@ -1,16 +1,7 @@
-import type { ReactNode } from "react";
-
 import { SectionHeading } from "@/components/section-heading";
+import { Subsection } from "@/components/subsection";
+import { TagList } from "@/components/tag-list";
 import { about } from "@/lib/site";
-
-function AboutSubsection({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold tracking-tight text-foreground">{title}</h3>
-      {children}
-    </div>
-  );
-}
 
 export default function About() {
   return (
@@ -26,25 +17,17 @@ export default function About() {
       </div>
 
       <div className="space-y-10 border-t border-border/40 pt-10">
-        <AboutSubsection title="Experience">
+        <Subsection title="Experience">
           <p className="max-w-2xl rounded-xl border border-border/50 bg-muted/15 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
             {about.yearsOfExperience}
           </p>
-        </AboutSubsection>
+        </Subsection>
 
-        <AboutSubsection title="Areas of expertise">
-          <ul className="flex flex-wrap gap-2">
-            {about.expertise.map((area) => (
-              <li key={area}>
-                <span className="inline-flex rounded-full border border-border/60 bg-muted/20 px-3.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-border hover:text-foreground">
-                  {area}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </AboutSubsection>
+        <Subsection title="Areas of expertise">
+          <TagList items={about.expertise} />
+        </Subsection>
 
-        <AboutSubsection title="Career highlights">
+        <Subsection title="Career highlights">
           <ul className="max-w-2xl space-y-4">
             {about.careerHighlights.map((highlight) => (
               <li
@@ -55,9 +38,9 @@ export default function About() {
               </li>
             ))}
           </ul>
-        </AboutSubsection>
+        </Subsection>
 
-        <AboutSubsection title="Strengths">
+        <Subsection title="Strengths">
           <ul className="max-w-2xl space-y-3">
             {about.strengths.map((strength) => (
               <li key={strength} className="text-sm leading-relaxed text-muted-foreground">
@@ -65,7 +48,7 @@ export default function About() {
               </li>
             ))}
           </ul>
-        </AboutSubsection>
+        </Subsection>
       </div>
     </section>
   );
