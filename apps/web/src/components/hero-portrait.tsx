@@ -63,14 +63,14 @@ export function HeroPortrait({ className }: HeroPortraitProps) {
       <div className="relative aspect-4/5 w-full">
         <div
           aria-hidden
-          className="absolute top-[6%] left-1/2 size-[82%] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
+          className="absolute top-[6%] left-1/2 size-[82%] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl"
         />
         <div
           aria-hidden
-          className="absolute top-[8%] left-1/2 size-[76%] -translate-x-1/2 rounded-full bg-muted/50 ring-1 ring-border/40 dark:bg-muted/35"
+          className="absolute top-[8%] left-1/2 size-[76%] -translate-x-1/2 rounded-full bg-background ring-1 ring-border dark:bg-card"
         />
 
-        <div className="absolute inset-0 overflow-hidden rounded-[1.75rem] bg-[#141414] shadow-[0_24px_64px_rgba(0,0,0,0.35)] ring-1 ring-border/50 dark:bg-transparent dark:shadow-none dark:ring-0">
+        <div className="absolute inset-0 overflow-hidden rounded-[1.75rem] bg-card shadow-lg ring-1 ring-border dark:shadow-md dark:ring-border/50">
           {hasError ? (
             <div
               aria-label={hero.photo.alt}
