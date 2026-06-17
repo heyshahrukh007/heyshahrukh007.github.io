@@ -87,6 +87,8 @@ Build About section.
 
 - Professional summary
 - Career overview
+- Compact summary variant on home (`/`)
+- Full section on `/about`
 
 #### Dependencies
 
@@ -106,6 +108,7 @@ Display categorized skills.
 
 - Skill categories
 - Skill cards
+- Rendered on `/resume` (`#skills`)
 
 #### Dependencies
 
@@ -125,6 +128,7 @@ Display professional history.
 
 - Timeline component
 - Experience cards
+- Rendered on `/resume` (`#experience`)
 
 #### Dependencies
 
@@ -214,6 +218,10 @@ TASK-002
 
 Showcase GitHub projects.
 
+#### Status
+
+**Deferred** — section and `/open-source` route removed from current release. Revisit in a future enhancement.
+
 #### Deliverables
 
 - Repository cards
@@ -256,6 +264,7 @@ Provide contact information.
 
 - Contact links
 - Social profiles
+- Rendered on `/about` (`#contact`)
 
 #### Dependencies
 

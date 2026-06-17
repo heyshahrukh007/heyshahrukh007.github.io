@@ -35,8 +35,9 @@ The website should serve as a central platform for recruiters, hiring managers, 
 ### Secondary Objectives
 
 - Share technical knowledge through articles and case studies.
-- Showcase open-source contributions.
 - Build credibility within the developer community.
+
+> **Note:** Open-source showcase (FR-009) is deferred for a future release.
 
 ---
 
@@ -75,7 +76,6 @@ Interested in:
 
 - Technical articles
 - Architecture case studies
-- Open-source work
 - Learning resources
 
 ---
@@ -369,6 +369,8 @@ Users shall be able to:
 
 The Open Source section highlights community involvement and publicly available work.
 
+> **Status:** Deferred — not included in the current release. GitHub profile links remain available via Contact and social links.
+
 ### Requirements
 
 The system shall display:
@@ -402,8 +404,8 @@ The Resume section provides access to the latest professional resume.
 
 The system shall provide:
 
-- Resume overview
 - Resume download option
+- In-browser resume preview
 
 ### User Actions
 
@@ -449,18 +451,17 @@ Users shall be able to:
 
 # 6. Navigation Requirements
 
-The website shall provide navigation to the following sections:
+The website shall provide header navigation to:
 
-- Home
-- About
-- Skills
-- Experience
-- Projects
-- Architecture
-- Articles
-- Open Source
-- Resume
-- Contact
+- Home (`/`)
+- About (`/about`, includes Contact at `#contact`)
+- Projects (`/projects`)
+- Architecture (`/architecture`)
+- Resume (`/resume`, includes Experience and Skills)
+
+Articles routes (`/articles`) are built but hidden from the header until enabled.
+
+Skills and Experience are reachable on the Resume page rather than as separate top-level routes.
 
 ### Acceptance Criteria
 

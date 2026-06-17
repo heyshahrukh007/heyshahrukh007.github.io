@@ -13,7 +13,7 @@
 | TASK-009 | Project Details Component | DONE   | Medium   |
 | TASK-010 | Architecture Section      | DONE   | High     |
 | TASK-011 | Articles Section          | DONE   | Medium   |
-| TASK-012 | Open Source Section       | DONE   | Medium   |
+| TASK-012 | Open Source Section       | DEFERRED | Medium   |
 | TASK-013 | Resume Section            | DONE   | Medium   |
 | TASK-014 | Contact Section           | DONE   | High     |
 | TASK-015 | Responsive Design         | DONE   | High     |
@@ -28,3 +28,4 @@
 * BLOCKED
 * REVIEW
 * DONE
+* DEFERRED — scoped out of current release; may return later

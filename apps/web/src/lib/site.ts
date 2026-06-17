@@ -70,25 +70,17 @@ export const hero = {
   ctas: readonly HeroCta[];
 };
 
-/**
- * Navigation registry aligned with FRD sections.
- * Only `enabled: true` items appear in the header.
- * Contact lives on `/about#contact`; Experience and Skills on `/resume`.
- */
+/** Only `enabled: true` items appear in the header. */
 export const navItems = [
   { href: "/", label: "Home", enabled: true },
   { href: "/about", label: "About", enabled: true },
   { href: "/projects", label: "Projects", enabled: true },
   { href: "/architecture", label: "Architecture", enabled: true },
   { label: "Articles", enabled: false },
-  { label: "Open Source", enabled: false },
   { href: "/resume", label: "Resume", enabled: true },
-  { label: "Experience", enabled: false },
-  { label: "Skills", enabled: false },
-  { label: "Contact", enabled: false },
 ] satisfies NavItem[];
 
-export function getEnabledNavItems(items: readonly NavItem[]): EnabledNavItem[] {
+function getEnabledNavItems(items: readonly NavItem[]): EnabledNavItem[] {
   return items.filter((item): item is EnabledNavItem => item.enabled);
 }
 
@@ -274,7 +266,6 @@ export const projects = {
       ],
       technologies: ["Next.js", "TypeScript", "Tailwind CSS", "pnpm", "GitHub Pages"],
       role: "Designer & full-stack developer",
-      featured: true,
       links: {
         live: "https://heyshahrukh007.github.io",
         source: "https://github.com/heyshahrukh007/heyshahrukh007.github.io",
@@ -296,7 +287,6 @@ export const projects = {
       ],
       technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "REST APIs"],
       role: "Frontend lead",
-      featured: true,
       links: {
         source: "https://github.com/heyshahrukh007",
       },
@@ -317,7 +307,6 @@ export const projects = {
       ],
       technologies: ["TypeScript", "Node.js", "Redis", "Docker", "GitHub Actions"],
       role: "Backend contributor",
-      featured: false,
       links: {
         source: "https://github.com/heyshahrukh007",
       },
@@ -334,7 +323,6 @@ export const projects = {
     contributions: readonly string[];
     technologies: readonly string[];
     role: string;
-    featured: boolean;
     links?: {
       live?: string;
       source?: string;
@@ -379,7 +367,6 @@ export const architecture = {
         "Accessible diagram fallbacks matter when image assets are not yet available.",
       ],
       technologies: ["Next.js", "TypeScript", "pnpm", "GitHub Pages", "Tailwind CSS"],
-      featured: true,
       diagram: {
         alt: "Static portfolio deployment flow from build pipeline to GitHub Pages CDN",
         caption: "Build-time export to static assets served by GitHub Pages.",
@@ -420,7 +407,6 @@ export const architecture = {
         "Typed payloads caught integration contract drift early in CI.",
       ],
       technologies: ["Node.js", "Redis", "Docker", "TypeScript", "REST APIs"],
-      featured: true,
       diagram: {
         alt: "Event-driven integration architecture with API services, queue, and workers",
         caption: "Services publish integration jobs that workers process asynchronously.",
@@ -453,7 +439,6 @@ export const architecture = {
     designConsiderations: readonly string[];
     lessonsLearned: readonly string[];
     technologies: readonly string[];
-    featured: boolean;
     diagram: {
       alt: string;
       caption?: string;
@@ -491,7 +476,6 @@ export const articles = {
       publishedAtLabel: "November 2025",
       readingTimeMinutes: 6,
       tags: ["Next.js", "Architecture", "GitHub Pages"],
-      featured: true,
       content: [
         "Static hosting changes the constraints you design around. There is no server to fall back on at runtime, so every route must be known—or discoverable—at build time.",
         "Centralizing navigation, metadata, and section content in typed modules keeps the UI consistent while making it obvious where to add the next feature. Pair that with generateStaticParams for dynamic segments and you retain type-safe links without sacrificing static delivery.",
@@ -507,7 +491,6 @@ export const articles = {
       publishedAtLabel: "August 2025",
       readingTimeMinutes: 8,
       tags: ["React", "Performance", "Frontend"],
-      featured: true,
       content: [
         "Performance work is most effective when it is tied to user-visible outcomes, not abstract benchmark scores. Start with what feels slow, measure that path, and stop when the experience is reliably good.",
         "Bundle size is only one lever. Data-fetching waterfalls, unnecessary re-renders, and layout thrash often dominate real-world pages long before raw JavaScript weight becomes the bottleneck.",
@@ -523,7 +506,6 @@ export const articles = {
       publishedAtLabel: "April 2025",
       readingTimeMinutes: 7,
       tags: ["APIs", "Architecture", "Backend"],
-      featured: false,
       content: [
         "External APIs fail in boring ways: timeouts, ambiguous 5xx responses, and rate limits that only appear under load. Systems that treat those cases as exceptional tend to fail loudly in production.",
         "Clear boundaries help—validate payloads at the edge, use idempotent workers for retries, and push failure visibility into metrics instead of scattered log lines.",
@@ -542,7 +524,6 @@ export const articles = {
     publishedAtLabel: string;
     readingTimeMinutes: number;
     tags: readonly string[];
-    featured: boolean;
     content: readonly string[];
   }[];
 };
