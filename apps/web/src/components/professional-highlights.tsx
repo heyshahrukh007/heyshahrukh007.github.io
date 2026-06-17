@@ -1,4 +1,5 @@
 import { CountUp } from "@/components/count-up";
+import { SectionHeading } from "@/components/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { professionalHighlights } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -9,10 +10,14 @@ const COUNT_DURATION_MS = 2000;
 
 export default function ProfessionalHighlights() {
   return (
-    <section aria-labelledby="professional-highlights-heading" className="mt-16">
-      <h2 id="professional-highlights-heading" className="sr-only">
-        Professional Highlights
-      </h2>
+    <section aria-labelledby="professional-highlights-heading" className="space-y-8">
+      <SectionHeading
+        id="professional-highlights-heading"
+        title="Highlights"
+        description="A snapshot of experience, delivery, and the domains I work in."
+        align="center"
+      />
+
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
         {professionalHighlights.map((highlight, index) => (
           <li
@@ -23,8 +28,9 @@ export default function ProfessionalHighlights() {
             <Card
               size="sm"
               className={cn(
-                "group/highlight h-full transform-gpu transition-[transform,box-shadow,ring-color] duration-500 ease-highlight",
-                "hover:-translate-y-1.5 hover:shadow-lg hover:ring-primary/20",
+                "group/highlight h-full transform-gpu border border-border/50 bg-muted/15 ring-0",
+                "transition-[transform,box-shadow,border-color] duration-500 ease-highlight",
+                "hover:-translate-y-1.5 hover:border-border hover:bg-muted/25 hover:shadow-lg",
               )}
             >
               <CardContent className="flex flex-col items-center gap-1.5 pt-4 text-center">

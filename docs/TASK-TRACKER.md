@@ -6,7 +6,7 @@
 | TASK-002 | Global Layout             | DONE   | High     |
 | TASK-003 | Hero Section              | DONE   | High     |
 | TASK-004 | Professional Highlights   | DONE   | Medium   |
-| TASK-005 | About Section             | TODO   | Medium   |
+| TASK-005 | About Section             | DONE   | Medium   |
 | TASK-006 | Skills Section            | TODO   | Medium   |
 | TASK-007 | Experience Timeline       | TODO   | High     |
 | TASK-008 | Projects Section          | TODO   | High     |

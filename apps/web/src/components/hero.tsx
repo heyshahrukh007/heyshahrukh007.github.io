@@ -7,6 +7,7 @@ import {
   getEnabledHeroCtas,
   hero,
   isExternalHeroCta,
+  site,
   type EnabledHeroCta,
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -40,26 +41,27 @@ export default function Hero() {
   const ctas = getEnabledHeroCtas(hero.ctas);
 
   return (
-    <section className="flex flex-1 flex-col justify-center gap-8">
+    <section className="mx-auto flex w-full max-w-xl flex-col items-center gap-8 text-center">
       <div className="space-y-4">
-        <p className="text-sm text-muted-foreground">{hero.subheadline}</p>
-        <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
           {hero.headline}
         </h1>
-        <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="text-lg text-muted-foreground sm:text-xl">{hero.subheadline}</p>
+        <p className="text-sm text-muted-foreground/80">{site.location}</p>
+        <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
           {hero.summary}
         </p>
       </div>
 
       {ctas.length > 0 ? (
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3">
           {ctas.map((cta) => (
             <HeroCtaButton key={cta.label} cta={cta} />
           ))}
         </div>
       ) : null}
 
-      <SocialLinks excludeHrefs={ctas.map((cta) => cta.href)} />
+      <SocialLinks className="justify-center" excludeHrefs={ctas.map((cta) => cta.href)} />
     </section>
   );
 }

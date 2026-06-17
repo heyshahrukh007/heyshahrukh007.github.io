@@ -112,6 +112,34 @@ export const professionalHighlights = [
   description?: string;
 }[];
 
+export const about = {
+  title: "About",
+  summary: [
+    "I'm a software engineer based in India with a focus on building dependable web products—balancing clean architecture, performance, and thoughtful user experience.",
+    "I work across the stack, from interfaces and APIs to deployment and observability, and I care about code that teams can maintain and extend over time.",
+  ],
+  yearsOfExperience: "5+ years building production web applications and backend systems.",
+  expertise: [
+    "Full-stack web development",
+    "REST & API design",
+    "TypeScript & React",
+    "System architecture",
+    "Performance optimization",
+  ],
+  strengths: [
+    "Translating complex requirements into clear, maintainable solutions",
+    "Writing readable, well-structured code with strong attention to detail",
+    "Collaborating across design, product, and engineering",
+    "Debugging and improving systems under real production constraints",
+  ],
+  careerHighlights: [
+    "Delivered scalable web applications used in production environments",
+    "Improved application performance and reliability through targeted refactoring",
+    "Owned features from design through deployment and iteration",
+    "Contributed to shared conventions and tooling that improved team velocity",
+  ],
+} as const;
+
 export const socialLinks = [
   {
     label: "GitHub",
