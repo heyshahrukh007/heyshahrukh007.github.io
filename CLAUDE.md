@@ -37,6 +37,13 @@ heyshahrukh007.github.io/
 - `pnpm build` - Build for production
 - `pnpm test` - Run tests
 
+## Feature Development References
+
+When an AI assistant develops or updates any feature, it must reference:
+
+- `docs/TASKS.md` for requirements and implementation scope
+- `docs/TASK-TRACKER.md` for task status and progress tracking
+
 ## Maintenance
 
 Keep CLAUDE.md updated when:
