@@ -255,9 +255,9 @@
   body {
     @apply font-sans bg-background text-foreground;
     background-image: 
-      linear-gradient(90deg, color-mix(in oklch, var(--primary) 15%, transparent) 1.5px, transparent 1.5px),
-      linear-gradient(color-mix(in oklch, var(--primary) 15%, transparent) 1.5px, transparent 1.5px);
-    background-size: 60px 60px;
+      repeating-linear-gradient(45deg, transparent, transparent 2px, color-mix(in oklch, var(--primary) 8%, transparent) 2px, color-mix(in oklch, var(--primary) 8%, transparent) 4px),
+      repeating-linear-gradient(-45deg, transparent, transparent 2px, color-mix(in oklch, var(--primary) 6%, transparent) 2px, color-mix(in oklch, var(--primary) 6%, transparent) 4px);
+    background-size: 100% 100%;
     background-attachment: fixed;
   }
 }
