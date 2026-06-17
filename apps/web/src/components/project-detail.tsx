@@ -21,11 +21,11 @@ export function ProjectDetail({ project }: { project: Project }) {
 
       <div
         aria-hidden
-        className="aspect-video w-full overflow-hidden rounded-xl border border-border/50 bg-muted/15"
+        className="aspect-[16/10] w-full max-h-48 overflow-hidden rounded-xl border border-border/50 bg-muted/15 sm:max-h-none sm:aspect-video"
       />
 
       <header className="space-y-4">
-        <h1 className="text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
           {project.name}
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">

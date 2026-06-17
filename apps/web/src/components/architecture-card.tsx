@@ -14,12 +14,12 @@ export function ArchitectureCard({ caseStudy, className }: ArchitectureCardProps
     <article className={cn("space-y-4", className)}>
       <ArchitectureDiagram {...caseStudy.diagram} />
 
-      <div className="flex flex-col gap-6 sm:flex-row sm:gap-8">
-        <h3 className="text-balance text-xl font-semibold tracking-tight text-foreground sm:flex-5 sm:text-2xl">
+      <div className="grid gap-4 lg:grid-cols-12 lg:gap-8">
+        <h3 className="text-balance text-xl font-semibold tracking-tight text-foreground lg:col-span-5 lg:text-2xl">
           {caseStudy.name}
         </h3>
 
-        <div className="space-y-4 sm:flex-7">
+        <div className="space-y-4 lg:col-span-7">
           <p className="text-sm leading-relaxed text-muted-foreground">{caseStudy.summary}</p>
 
           <p className="text-sm leading-relaxed text-muted-foreground">
@@ -59,7 +59,7 @@ export function ArchitectureList({
   return (
     <ul
       className={cn(
-        "space-y-16",
+        "space-y-10 sm:space-y-12",
         showTopBorder && "border-t border-border/40 pt-10",
         className,
       )}

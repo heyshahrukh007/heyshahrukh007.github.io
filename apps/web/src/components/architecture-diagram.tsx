@@ -35,11 +35,11 @@ export function ArchitectureDiagram({
             unoptimized
           />
         ) : (
-          <div
-            role="img"
-            aria-label={alt}
-            className="flex aspect-video w-full flex-col justify-center gap-3 p-6 sm:p-8"
-          >
+        <div
+          role="img"
+          aria-label={alt}
+          className="flex aspect-[16/10] w-full max-h-48 flex-col justify-center gap-2 p-4 sm:max-h-none sm:aspect-video sm:gap-3 sm:p-6 md:p-8"
+        >
             {layers.map((layer, index) => (
               <div key={layer.label} className="space-y-2">
                 <div className="rounded-lg border border-border/60 bg-background/60 px-4 py-3 text-center">

@@ -17,15 +17,15 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
     <article className={cn("space-y-4", className)}>
       <div
         aria-hidden
-        className="aspect-video w-full overflow-hidden rounded-xl border border-border/50 bg-muted/15"
+        className="aspect-[16/10] w-full max-h-48 overflow-hidden rounded-xl border border-border/50 bg-muted/15 sm:max-h-none sm:aspect-video"
       />
 
-      <div className="flex flex-col gap-6 sm:flex-row sm:gap-8">
-        <h3 className="text-balance text-xl font-semibold tracking-tight text-foreground sm:flex-5 sm:text-2xl">
+      <div className="grid gap-4 lg:grid-cols-12 lg:gap-8">
+        <h3 className="text-balance text-xl font-semibold tracking-tight text-foreground lg:col-span-5 lg:text-2xl">
           {project.name}
         </h3>
 
-        <div className="space-y-4 sm:flex-7">
+        <div className="space-y-4 lg:col-span-7">
           <p className="text-sm leading-relaxed text-muted-foreground">{project.summary}</p>
 
           <p className="text-sm text-primary/80">{project.role}</p>
@@ -84,7 +84,7 @@ export function ProjectsList({ items, className, showTopBorder = true }: Project
   return (
     <ul
       className={cn(
-        "space-y-16",
+        "space-y-10 sm:space-y-12",
         showTopBorder && "border-t border-border/40 pt-10",
         className,
       )}

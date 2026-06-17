@@ -22,7 +22,7 @@ export function ArchitectureDetail({ caseStudy }: { caseStudy: ArchitectureCaseS
       <ArchitectureDiagram {...diagram} />
 
       <header className="space-y-4">
-        <h1 className="text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
           {caseStudy.name}
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">

@@ -32,7 +32,7 @@ export function ArticleDetail({ article }: { article: Article }) {
           <span aria-hidden> · </span>
           <span>{formatReadingTime(article.readingTimeMinutes)}</span>
         </p>
-        <h1 className="text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
           {article.title}
         </h1>
         <p className="text-base leading-relaxed text-muted-foreground">{article.summary}</p>

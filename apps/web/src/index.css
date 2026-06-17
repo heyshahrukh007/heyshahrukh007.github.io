@@ -204,6 +204,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    @apply font-sans overflow-x-clip;
+  }
   body {
     @apply font-sans bg-background text-foreground;
     background-image: radial-gradient(
@@ -213,7 +216,15 @@
     );
     background-size: 24px 24px;
   }
-  html {
-    @apply font-sans;
+}
+
+@layer components {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }

@@ -23,7 +23,7 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
     >
       <div
         aria-hidden
-        className="aspect-4/3 w-full shrink-0 overflow-hidden rounded-xl border border-border/50 bg-muted/15 sm:w-36"
+        className="aspect-4/3 w-full shrink-0 overflow-hidden rounded-xl border border-border/50 bg-muted/15 sm:w-36 md:w-44"
       />
 
       <div className="flex min-w-0 flex-1 flex-col gap-3">
