@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ContentThumbnail } from "@/components/content-thumbnail";
 import { TagList } from "@/components/tag-list";
 import { getArticleRoute, type Article } from "@/lib/site";
 import { textLinkClassName } from "@/lib/link-styles";
@@ -22,9 +23,10 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
         className,
       )}
     >
-      <div
-        aria-hidden
-        className="aspect-4/3 w-full shrink-0 overflow-hidden rounded-xl border border-border/50 bg-muted/15 sm:w-36 md:w-44"
+      <ContentThumbnail
+        label={article.title}
+        aspectClassName="aspect-4/3"
+        className="sm:w-36 md:w-44"
       />
 
       <div className="flex min-w-0 flex-1 flex-col gap-3">

@@ -10,7 +10,10 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "check-types": "turbo check-types",
-    "dev:web": "turbo -F web dev"
+    "dev:web": "turbo -F web dev",
+    "validate:content": "node --experimental-strip-types scripts/validate-content.mts",
+    "validate:links": "node --experimental-strip-types scripts/validate-links.mts",
+    "validate": "pnpm validate:content && pnpm build && pnpm validate:links"
   },
   "dependencies": {
     "@heyshahrukh007.github.io/env": "workspace:*",

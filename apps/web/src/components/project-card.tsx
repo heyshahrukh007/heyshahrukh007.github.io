@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ContentThumbnail } from "@/components/content-thumbnail";
 import { ExternalLink } from "@/components/external-link";
 import { TagList } from "@/components/tag-list";
 import { getProjectRoute, type Project } from "@/lib/site";
@@ -12,14 +13,11 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project, className }: ProjectCardProps) {
-  const { links } = project;
+  const links = "links" in project ? project.links : undefined;
 
   return (
     <article className={cn("space-y-4", className)}>
-      <div
-        aria-hidden
-        className="aspect-[16/10] w-full max-h-48 overflow-hidden rounded-xl border border-border/50 bg-muted/15 sm:max-h-none sm:aspect-video"
-      />
+      <ContentThumbnail label={project.name} className="max-h-48 sm:max-h-none" />
 
       <div className="grid gap-4 lg:grid-cols-12 lg:gap-8">
         <h3 className="text-balance text-xl font-semibold tracking-tight text-foreground lg:col-span-5 lg:text-2xl">

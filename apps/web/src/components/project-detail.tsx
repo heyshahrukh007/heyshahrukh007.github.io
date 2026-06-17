@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ContentThumbnail } from "@/components/content-thumbnail";
 import { ExternalLink } from "@/components/external-link";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
@@ -7,7 +8,7 @@ import type { Project } from "@/lib/site";
 import { textLinkClassName } from "@/lib/link-styles";
 
 export function ProjectDetail({ project }: { project: Project }) {
-  const { links } = project;
+  const links = "links" in project ? project.links : undefined;
 
   return (
     <article className="space-y-10">
@@ -17,10 +18,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         </Link>
       </p>
 
-      <div
-        aria-hidden
-        className="aspect-[16/10] w-full max-h-48 overflow-hidden rounded-xl border border-border/50 bg-muted/15 sm:max-h-none sm:aspect-video"
-      />
+      <ContentThumbnail label={project.name} className="max-h-48 sm:max-h-none" />
 
       <header className="space-y-4">
         <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl">

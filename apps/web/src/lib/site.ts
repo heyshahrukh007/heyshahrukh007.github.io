@@ -53,6 +53,14 @@ export const site = {
   location: "India",
 } as const;
 
+export const home = {
+  featuredProjects: {
+    title: "Selected work",
+    description: "Recent projects that highlight product thinking, implementation quality, and impact.",
+    limit: 2,
+  },
+} as const;
+
 export const hero = {
   headline: site.name,
   subheadline: site.role,
@@ -287,9 +295,6 @@ export const projects = {
       ],
       technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "REST APIs"],
       role: "Frontend lead",
-      links: {
-        source: "https://github.com/heyshahrukh007",
-      },
     },
     {
       slug: "api-integration-toolkit",
@@ -307,9 +312,6 @@ export const projects = {
       ],
       technologies: ["TypeScript", "Node.js", "Redis", "Docker", "GitHub Actions"],
       role: "Backend contributor",
-      links: {
-        source: "https://github.com/heyshahrukh007",
-      },
     },
   ],
 } as const satisfies {
@@ -339,6 +341,10 @@ export function getProjectRoute(slug: ProjectSlug): Route {
 
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.items.find((item) => item.slug === slug);
+}
+
+export function getFeaturedProjects(limit = home.featuredProjects.limit) {
+  return projects.items.slice(0, limit);
 }
 
 export const architecture = {
@@ -579,10 +585,5 @@ export const socialLinks = [
     label: "GitHub",
     href: "https://github.com/heyshahrukh007",
     enabled: true,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com",
-    enabled: false,
   },
 ] as const;

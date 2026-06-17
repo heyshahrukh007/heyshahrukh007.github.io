@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ProfileAvatar } from "@/components/profile-avatar";
 import { SectionHeading } from "@/components/section-heading";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
@@ -16,12 +17,16 @@ export default function About({ compact = false, headingLevel = 2 }: AboutProps)
     <section id="about" aria-labelledby="about-heading" className="space-y-10">
       <SectionHeading id="about-heading" title={about.title} headingLevel={headingLevel} />
 
-      <div className="max-w-2xl space-y-4">
-        {about.summary.map((paragraph) => (
-          <p key={paragraph} className="text-base leading-relaxed text-muted-foreground">
-            {paragraph}
-          </p>
-        ))}
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
+        {!compact ? <ProfileAvatar size="lg" className="mx-auto sm:mx-0" /> : null}
+
+        <div className="max-w-2xl space-y-4">
+          {about.summary.map((paragraph) => (
+            <p key={paragraph} className="text-base leading-relaxed text-muted-foreground">
+              {paragraph}
+            </p>
+          ))}
+        </div>
       </div>
 
       {compact ? (
