@@ -1,42 +1,75 @@
 # heyshahrukh007.github.io
 
-This project was created with [Better Fullstack](https://github.com/Marve10s/Better-Fullstack), a modern TypeScript stack that combines Next.js, and more.
+Personal portfolio website for **Shahrukh Mansuri**, built as a static Next.js app and deployed to [GitHub Pages](https://heyshahrukh007.github.io).
 
-## Features
+> **Status:** Under construction — the live site shows a landing page while portfolio sections are being built.
 
-- **TypeScript** - For type safety and improved developer experience
-- **Next.js** - Full-stack React framework
-- **TailwindCSS** - CSS framework
-- **shadcn/ui** - UI components
-- **Turborepo** - Optimized monorepo build system
+## Tech Stack
+
+- **TypeScript** — Monorepo with pnpm + Turborepo
+- **Next.js 16** — App Router, static export (`output: "export"`)
+- **React 19** — React Compiler enabled
+- **Tailwind CSS 4** — Styling and design tokens
+- **shadcn/ui** — UI components (radix-luma style)
+- **Vitest** — Testing
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [docs/FRD.md](docs/FRD.md) | Functional requirements — what the site must do |
+| [docs/TECH.md](docs/TECH.md) | Technical design — architecture, deployment, conventions |
 
 ## Getting Started
 
-First, install the dependencies:
+Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-Then, run the development server:
+Run the development server:
 
 ```bash
-pnpm run dev
+pnpm dev:web
 ```
 
-Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
+Open [http://localhost:3001](http://localhost:3001) in your browser.
+
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start all apps in development mode |
+| `pnpm dev:web` | Start only the web app (port 3001) |
+| `pnpm build` | Build static export to `apps/web/out` |
+| `pnpm check-types` | Run TypeScript checks across the workspace |
 
 ## Project Structure
 
 ```
 heyshahrukh007.github.io/
 ├── apps/
-│   ├── web/         # Frontend application (Next.js)
+│   └── web/              # Next.js portfolio app
+├── packages/
+│   ├── config/           # Shared TypeScript config
+│   └── env/              # Typed environment validation
+├── docs/
+│   ├── FRD.md            # Functional requirements
+│   └── TECH.md           # Technical design
+└── .github/workflows/
+    └── deploy-pages.yml  # GitHub Pages deployment
 ```
 
-## Available Scripts
+## Deployment
 
-- `pnpm run dev`: Start all applications in development mode
-- `pnpm run build`: Build all applications
-- `pnpm run dev:web`: Start only the web application
-- `pnpm run check-types`: Check TypeScript types across all apps
+The site is deployed to GitHub Pages via GitHub Actions (manual trigger).
+
+1. Ensure **Settings → Pages → Source** is set to **GitHub Actions**
+2. Go to **Actions → Deploy to GitHub Pages → Run workflow**
+
+The build outputs static files from `apps/web/out` to `https://heyshahrukh007.github.io`.
+
+## License
+
+Private project.
