@@ -643,14 +643,6 @@ export const resume = {
   title: "Resume",
   summary:
     "Download the latest version of my resume or preview it in the browser.",
-  overview:
-    "The resume covers software engineering experience, project delivery, technical skills, and the kinds of product and platform problems I have helped teams solve.",
-  lastUpdated: "June 2025",
-  highlights: [
-    "Software engineer with 5+ years of experience building production web applications.",
-    "Full-stack background across TypeScript, React, Next.js, APIs, and static deployment workflows.",
-    "Focused on maintainable architecture, performance, and clear collaboration with product teams.",
-  ],
   file: {
     href: "/resume.pdf",
     downloadName: "Shahrukh-Mansuri-Resume.pdf",
