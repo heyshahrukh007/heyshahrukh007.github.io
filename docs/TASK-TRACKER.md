@@ -10,7 +10,7 @@
 | TASK-006 | Skills Section            | DONE   | Medium   |
 | TASK-007 | Experience Timeline       | DONE   | High     |
 | TASK-008 | Projects Section          | DONE   | High     |
-| TASK-009 | Project Details Component | TODO   | Medium   |
+| TASK-009 | Project Details Component | DONE   | Medium   |
 | TASK-010 | Architecture Section      | TODO   | High     |
 | TASK-011 | Articles Section          | TODO   | Medium   |
 | TASK-012 | Open Source Section       | TODO   | Medium   |

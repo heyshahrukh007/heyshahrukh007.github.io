@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 import { ExternalLink } from "@/components/external-link";
 import { TagList } from "@/components/tag-list";
-import type { Project } from "@/lib/site";
+import { getProjectRoute, type Project } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {
@@ -38,26 +40,30 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
 
           <TagList items={project.technologies} />
 
-          {links?.live || links?.source ? (
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-              {links.live ? (
-                <ExternalLink
-                  href={links.live}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  View project ↗
-                </ExternalLink>
-              ) : null}
-              {links.source ? (
-                <ExternalLink
-                  href={links.source}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  View source ↗
-                </ExternalLink>
-              ) : null}
-            </div>
-          ) : null}
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <Link
+              href={getProjectRoute(project.slug)}
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Read case study →
+            </Link>
+            {links && "live" in links ? (
+              <ExternalLink
+                href={links.live}
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                View project ↗
+              </ExternalLink>
+            ) : null}
+            {links?.source ? (
+              <ExternalLink
+                href={links.source}
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                View source ↗
+              </ExternalLink>
+            ) : null}
+          </div>
         </div>
       </div>
     </article>

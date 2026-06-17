@@ -252,20 +252,6 @@ export const skills = {
   categories: readonly { name: string; description: string; skills: readonly string[] }[];
 };
 
-export type Project = {
-  slug: string;
-  name: string;
-  summary: string;
-  objectives: readonly string[];
-  technologies: readonly string[];
-  role: string;
-  featured: boolean;
-  links?: {
-    live?: string;
-    source?: string;
-  };
-};
-
 export const projects = {
   title: "Projects",
   description: "Selected work highlighting product thinking, implementation quality, and measurable impact.",
@@ -278,6 +264,11 @@ export const projects = {
       objectives: [
         "Present professional background and project work in a clear, accessible layout.",
         "Ship a fast static site with a maintainable monorepo and content-driven sections.",
+      ],
+      contributions: [
+        "Designed the information architecture and section flow aligned with portfolio UX references.",
+        "Implemented static export, shared content modules, and reusable UI primitives.",
+        "Set up monorepo tooling with pnpm and production build verification for GitHub Pages.",
       ],
       technologies: ["Next.js", "TypeScript", "Tailwind CSS", "pnpm", "GitHub Pages"],
       role: "Designer & full-stack developer",
@@ -296,6 +287,11 @@ export const projects = {
         "Reduce manual status checks for customer operations staff.",
         "Surface actionable metrics with filters and role-based views.",
       ],
+      contributions: [
+        "Led frontend architecture for dashboard views, filters, and shared table components.",
+        "Partnered with backend engineers on API contracts and optimistic UI updates.",
+        "Improved list rendering performance for large account datasets.",
+      ],
       technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "REST APIs"],
       role: "Frontend lead",
       featured: true,
@@ -312,6 +308,11 @@ export const projects = {
         "Standardize integration patterns across services.",
         "Improve observability and failure handling for external API calls.",
       ],
+      contributions: [
+        "Built typed HTTP clients with retry, timeout, and structured error surfaces.",
+        "Added logging hooks and examples for service teams adopting the toolkit.",
+        "Documented integration patterns and CI workflows for package releases.",
+      ],
       technologies: ["TypeScript", "Node.js", "Redis", "Docker", "GitHub Actions"],
       role: "Backend contributor",
       featured: false,
@@ -323,11 +324,35 @@ export const projects = {
 } as const satisfies {
   title: string;
   description: string;
-  items: readonly Project[];
+  items: readonly {
+    slug: string;
+    name: string;
+    summary: string;
+    objectives: readonly string[];
+    contributions: readonly string[];
+    technologies: readonly string[];
+    role: string;
+    featured: boolean;
+    links?: {
+      live?: string;
+      source?: string;
+    };
+  }[];
 };
+
+export type Project = (typeof projects.items)[number];
+export type ProjectSlug = Project["slug"];
 
 export function getFeaturedProjects(items: readonly Project[]): Project[] {
   return items.filter((item) => item.featured);
+}
+
+export function getProjectRoute(slug: ProjectSlug): Route {
+  return `/projects/${slug}` as Route;
+}
+
+export function getProjectBySlug(slug: string): Project | undefined {
+  return projects.items.find((item) => item.slug === slug);
 }
 
 export const socialLinks = [
