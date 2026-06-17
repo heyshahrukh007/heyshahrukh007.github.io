@@ -41,6 +41,7 @@ heyshahrukh007.github.io/
 
 When an AI assistant develops or updates any feature, it must reference:
 
+- `docs/FRD.md` for feature requirements and product behavior
 - `docs/TASKS.md` for requirements and implementation scope
 - `docs/TASK-TRACKER.md` for task status and progress tracking
 
