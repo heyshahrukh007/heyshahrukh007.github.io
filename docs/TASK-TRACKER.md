@@ -8,7 +8,7 @@
 | TASK-004 | Professional Highlights   | DONE   | Medium   |
 | TASK-005 | About Section             | DONE   | Medium   |
 | TASK-006 | Skills Section            | DONE   | Medium   |
-| TASK-007 | Experience Timeline       | TODO   | High     |
+| TASK-007 | Experience Timeline       | DONE   | High     |
 | TASK-008 | Projects Section          | TODO   | High     |
 | TASK-009 | Project Details Component | TODO   | Medium   |
 | TASK-010 | Architecture Section      | TODO   | High     |
