@@ -246,6 +246,21 @@ pnpm build
 - **Responsive:** Mobile-first Tailwind breakpoints
 - **Accessibility:** Semantic HTML, `prefers-reduced-motion` on custom animations
 
+### Design reference
+
+When implementing UI sections (hero, about, work/projects, blog, gallery, contact, etc.), use [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) as the UX and layout reference. Live demo: [demo.magic-portfolio.com](https://demo.magic-portfolio.com).
+
+| Reference area | What to borrow |
+|----------------|----------------|
+| Home | Clean hero, concise intro, clear primary actions |
+| About / CV | Structured profile summary and professional details |
+| Work / Projects | Project listing and detail page patterns |
+| Blog / Articles | Article listing and reading layout |
+| Gallery | Optional media showcase section |
+| Overall | Simple, timeless portfolio UX; responsive layout; minimal motion; clear section hierarchy |
+
+Adapt patterns to this stack (Next.js + Tailwind + shadcn/ui). Do not copy Once UI components directly; match UX intent and presentation.
+
 ---
 
 ## 11. Environment Variables
@@ -282,5 +297,7 @@ Add variables to `packages/env` when needed (e.g. analytics ID, form endpoint UR
 ## 14. References
 
 - [Functional Requirements (FRD)](./FRD.md)
+- [Magic Portfolio — UX reference](https://github.com/once-ui-system/magic-portfolio)
+- [Magic Portfolio demo](https://demo.magic-portfolio.com)
 - [Next.js static export](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)
 - [GitHub Pages Actions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow)

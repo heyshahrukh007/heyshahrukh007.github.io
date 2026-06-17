@@ -44,6 +44,11 @@ When an AI assistant develops or updates any feature, it must reference:
 - `docs/FRD.md` for feature requirements and product behavior
 - `docs/TASKS.md` for requirements and implementation scope
 - `docs/TASK-TRACKER.md` for task status and progress tracking
+- `docs/TECH.md` for technical conventions and UI design reference
+
+### UI design reference
+
+For layout, section structure, and UX, follow [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) as documented in `docs/TECH.md` §10.
 
 ## Maintenance
 
