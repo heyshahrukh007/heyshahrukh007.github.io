@@ -355,6 +355,137 @@ export function getProjectBySlug(slug: string): Project | undefined {
   return projects.items.find((item) => item.slug === slug);
 }
 
+export const architecture = {
+  title: "Architecture",
+  description:
+    "System design case studies covering trade-offs, deployment patterns, and lessons from production work.",
+  items: [
+    {
+      slug: "static-portfolio-platform",
+      name: "Static Portfolio Platform",
+      summary:
+        "A monorepo-based static portfolio architecture optimized for GitHub Pages, fast builds, and content-driven sections.",
+      problem:
+        "The portfolio needed zero server runtime on GitHub Pages while staying easy to extend with new sections, typed routes, and shared content modules.",
+      solution:
+        "Use Next.js static export from a pnpm monorepo, centralize site content in TypeScript modules, and prerender all routes at build time for CDN delivery.",
+      designConsiderations: [
+        "Static export compatibility for every route and dynamic slug page.",
+        "Content colocated in site modules for non-developer-friendly updates later.",
+        "Minimal client JavaScript with server components where possible.",
+        "Design system consistency through shared section primitives.",
+      ],
+      lessonsLearned: [
+        "generateStaticParams keeps typed dynamic routes compatible with static hosting.",
+        "Shared content modules prevent layout drift as sections grow.",
+        "Accessible diagram fallbacks matter when image assets are not yet available.",
+      ],
+      technologies: ["Next.js", "TypeScript", "pnpm", "GitHub Pages", "Tailwind CSS"],
+      featured: true,
+      diagram: {
+        alt: "Static portfolio deployment flow from build pipeline to GitHub Pages CDN",
+        caption: "Build-time export to static assets served by GitHub Pages.",
+        layers: [
+          {
+            label: "Next.js build",
+            description: "App Router static export with generateStaticParams",
+          },
+          {
+            label: "Static output",
+            description: "HTML, CSS, and JS written to apps/web/out",
+          },
+          {
+            label: "GitHub Pages CDN",
+            description: "Global delivery of prerendered portfolio pages",
+          },
+        ],
+      },
+    },
+    {
+      slug: "event-driven-integrations",
+      name: "Event-Driven Service Integrations",
+      summary:
+        "An integration architecture using queues and typed workers to decouple services and handle external API failures gracefully.",
+      problem:
+        "Multiple services called third-party APIs directly, causing duplicated retry logic, cascading timeouts, and poor visibility into failed synchronizations.",
+      solution:
+        "Introduce a message-driven boundary with typed job payloads, worker consumers, dead-letter handling, and structured logging across the integration path.",
+      designConsiderations: [
+        "Idempotent workers to safely retry message processing.",
+        "Schema validation at enqueue and dequeue boundaries.",
+        "Backoff and circuit-breaking for unstable external providers.",
+        "Metrics on queue depth, failure rate, and processing latency.",
+      ],
+      lessonsLearned: [
+        "Pushing retries to the edges reduced duplicated logic in API handlers.",
+        "Dead-letter queues made intermittent provider failures diagnosable.",
+        "Typed payloads caught integration contract drift early in CI.",
+      ],
+      technologies: ["Node.js", "Redis", "Docker", "TypeScript", "REST APIs"],
+      featured: true,
+      diagram: {
+        alt: "Event-driven integration architecture with API services, queue, and workers",
+        caption: "Services publish integration jobs that workers process asynchronously.",
+        layers: [
+          {
+            label: "API services",
+            description: "Enqueue validated integration jobs",
+          },
+          {
+            label: "Message queue",
+            description: "Buffers work and supports retry policies",
+          },
+          {
+            label: "Worker consumers",
+            description: "Call external APIs with observability hooks",
+          },
+        ],
+      },
+    },
+  ],
+} as const satisfies {
+  title: string;
+  description: string;
+  items: readonly {
+    slug: string;
+    name: string;
+    summary: string;
+    problem: string;
+    solution: string;
+    designConsiderations: readonly string[];
+    lessonsLearned: readonly string[];
+    technologies: readonly string[];
+    featured: boolean;
+    diagram: {
+      alt: string;
+      caption?: string;
+      src?: string;
+      layers?: readonly { label: string; description: string }[];
+    };
+  }[];
+};
+
+export type ArchitectureCaseStudy = (typeof architecture.items)[number];
+export type ArchitectureSlug = ArchitectureCaseStudy["slug"];
+
+export function getFeaturedArchitecture(
+  items: readonly ArchitectureCaseStudy[],
+): ArchitectureCaseStudy[] {
+  return items.filter((item) => item.featured);
+}
+
+export function getArchitectureRoute(slug: ArchitectureSlug): Route {
+  return `/architecture/${slug}` as Route;
+}
+
+export function getArchitectureIndexRoute(): Route {
+  return "/architecture" as Route;
+}
+
+export function getArchitectureBySlug(slug: string): ArchitectureCaseStudy | undefined {
+  return architecture.items.find((item) => item.slug === slug);
+}
+
 export const socialLinks = [
   {
     label: "GitHub",

@@ -11,7 +11,7 @@
 | TASK-007 | Experience Timeline       | DONE   | High     |
 | TASK-008 | Projects Section          | DONE   | High     |
 | TASK-009 | Project Details Component | DONE   | Medium   |
-| TASK-010 | Architecture Section      | TODO   | High     |
+| TASK-010 | Architecture Section      | DONE   | High     |
 | TASK-011 | Articles Section          | TODO   | Medium   |
 | TASK-012 | Open Source Section       | TODO   | Medium   |
 | TASK-013 | Resume Section            | TODO   | Medium   |
