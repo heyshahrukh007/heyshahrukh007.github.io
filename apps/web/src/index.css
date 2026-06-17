@@ -37,6 +37,9 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --radius: 0.625rem;
+  --motion-duration-fast: 150ms;
+  --motion-duration-normal: 220ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark {
@@ -189,14 +192,54 @@
   }
 }
 
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scroll-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-gradient-shift,
   .animate-orb-float,
   .animate-icon-float,
   .animate-dot-bounce,
   .animate-shimmer,
-  .animate-highlight-card-enter {
+  .animate-highlight-card-enter,
+  .motion-page-enter,
+  .motion-scroll-reveal,
+  .motion-scroll-reveal-pending {
     animation: none !important;
+  }
+
+  .motion-interactive,
+  .motion-nav-indicator {
+    transition: none !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
@@ -226,5 +269,30 @@
 
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+
+  .motion-interactive {
+    transition-property: color, background-color, border-color, opacity, transform;
+    transition-duration: var(--motion-duration-fast);
+    transition-timing-function: var(--motion-ease);
+  }
+
+  .motion-page-enter {
+    animation: page-enter var(--motion-duration-normal) var(--motion-ease) both;
+  }
+
+  .motion-scroll-reveal-pending {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  .motion-scroll-reveal {
+    animation: scroll-reveal var(--motion-duration-normal) var(--motion-ease) both;
+  }
+
+  .motion-nav-indicator {
+    transition:
+      transform var(--motion-duration-normal) var(--motion-ease),
+      width var(--motion-duration-normal) var(--motion-ease);
   }
 }

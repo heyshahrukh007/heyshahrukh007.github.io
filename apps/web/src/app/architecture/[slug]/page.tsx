@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ArchitectureDetail } from "@/components/architecture-detail";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { createPageMetadata } from "@/lib/seo";
 import { architecture, getArchitectureBySlug } from "@/lib/site";
 
@@ -36,5 +37,9 @@ export default async function ArchitectureCaseStudyPage({ params }: Architecture
     notFound();
   }
 
-  return <ArchitectureDetail caseStudy={caseStudy} />;
+  return (
+    <ScrollReveal>
+      <ArchitectureDetail caseStudy={caseStudy} />
+    </ScrollReveal>
+  );
 }

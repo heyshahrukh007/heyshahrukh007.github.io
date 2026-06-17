@@ -1,4 +1,5 @@
 import { ArchitectureList } from "@/components/architecture-card";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { createPageMetadata } from "@/lib/seo";
 import { architecture } from "@/lib/site";
@@ -18,7 +19,9 @@ export default function ArchitecturePage() {
         title={architecture.title}
         description={architecture.description}
       />
-      <ArchitectureList items={architecture.items} showTopBorder={false} />
+      <ScrollReveal>
+        <ArchitectureList items={architecture.items} showTopBorder={false} />
+      </ScrollReveal>
     </div>
   );
 }

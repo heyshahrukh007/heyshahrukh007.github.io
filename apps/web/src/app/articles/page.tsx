@@ -1,4 +1,5 @@
 import { ArticlesList } from "@/components/article-card";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { createPageMetadata } from "@/lib/seo";
 import { articles } from "@/lib/site";
@@ -18,7 +19,9 @@ export default function ArticlesPage() {
         title={articles.title}
         description={articles.description}
       />
-      <ArticlesList items={articles.items} showTopBorder={false} />
+      <ScrollReveal>
+        <ArticlesList items={articles.items} showTopBorder={false} />
+      </ScrollReveal>
     </div>
   );
 }

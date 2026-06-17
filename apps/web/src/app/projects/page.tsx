@@ -1,4 +1,5 @@
 import { ProjectsList } from "@/components/project-card";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { createPageMetadata } from "@/lib/seo";
 import { projects } from "@/lib/site";
@@ -18,7 +19,9 @@ export default function ProjectsPage() {
         title={projects.title}
         description={projects.description}
       />
-      <ProjectsList items={projects.items} showTopBorder={false} />
+      <ScrollReveal>
+        <ProjectsList items={projects.items} showTopBorder={false} />
+      </ScrollReveal>
     </div>
   );
 }

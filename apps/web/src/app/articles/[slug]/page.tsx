@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ArticleDetail } from "@/components/article-detail";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { createPageMetadata } from "@/lib/seo";
 import { articles, getArticleBySlug } from "@/lib/site";
 
@@ -36,5 +37,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
-  return <ArticleDetail article={article} />;
+  return (
+    <ScrollReveal>
+      <ArticleDetail article={article} />
+    </ScrollReveal>
+  );
 }

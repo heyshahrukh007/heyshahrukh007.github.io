@@ -39,7 +39,7 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
         <h3 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
           <Link
             href={getArticleRoute(article.slug)}
-            className="transition-colors hover:text-primary"
+            className="motion-interactive transition-colors hover:text-primary"
           >
             {article.title}
           </Link>

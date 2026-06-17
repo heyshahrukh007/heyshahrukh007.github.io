@@ -15,7 +15,7 @@ export function SiteLogo({ className }: SiteLogoProps) {
     <Link
       href="/"
       aria-label={`${site.name} — home`}
-      className={cn("group inline-flex min-w-0 items-center gap-2.5", className)}
+      className={cn("group motion-interactive inline-flex min-w-0 items-center gap-2.5", className)}
     >
       <span className="relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-background text-xs font-semibold tracking-tight text-primary shadow-sm transition-colors group-hover:border-primary/40">
         <span
