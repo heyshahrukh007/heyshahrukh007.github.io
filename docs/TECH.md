@@ -138,33 +138,42 @@ heyshahrukh007.github.io/
 
 | Area | Status |
 |------|--------|
-| Global layout | Header, main content area, and footer implemented |
-| Navigation | Enabled routes: Home, Projects, Resume, Contact |
-| Home page | Hero section with headline, summary, FRD CTAs, and social links |
+| Global layout | Header, skip link, main landmark, footer |
+| Navigation | Enabled: Home, About, Projects, Architecture, Resume |
+| Home page | Hero, professional highlights, compact About summary |
+| About page | Full About + Contact (`/about`, contact at `#contact`) |
+| Resume page | Download CTAs, experience timeline, skills (`/resume`) |
+| Projects | Index + `[slug]` detail pages |
+| Architecture | Index + `[slug]` case study pages |
+| Articles | Built but **disabled in nav**; routes remain for later |
+| Open Source | **Not shipped** — removed from site |
 | Theme | Dark mode only, forced |
+| Accessibility | Skip link, focus styles, semantic landmarks, `prefers-reduced-motion` |
 | Design reference | [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) UX patterns |
-| FRD sections | Hero live; Projects, Resume, Contact are route stubs pending full tasks |
+
+### Content source
+
+Section copy, navigation, and structured lists live in [`apps/web/src/lib/site.ts`](../apps/web/src/lib/site.ts). Pages compose shared section components; avoid duplicating content in page files.
 
 ---
 
-## 6. Planned Routes
+## 6. Routes
 
-Aligned with [FRD navigation](./FRD.md#6-navigation-requirements):
+| Route | Section | Nav | Notes |
+|-------|---------|-----|-------|
+| `/` | Home | Yes | Hero + highlights + About summary |
+| `/about` | About + Contact | Yes | Contact section uses `id="contact"` |
+| `/projects` | Projects | Yes | Full project listing |
+| `/projects/[slug]` | Project detail | — | `generateStaticParams` |
+| `/architecture` | Architecture | Yes | Case study listing |
+| `/architecture/[slug]` | Architecture detail | — | `generateStaticParams` |
+| `/resume` | Resume | Yes | PDF CTAs + `#experience` + `#skills` |
+| `/articles` | Articles | No | Disabled in nav for now |
+| `/articles/[slug]` | Article detail | — | Disabled in nav for now |
 
-| Route | Section | Status |
-|-------|---------|--------|
-| `/` | Home | Hero section live |
-| `/about` | About | Planned |
-| `/skills` | Skills | Planned |
-| `/experience` | Experience | Planned |
-| `/projects` | Projects | Stub page (TASK-008) |
-| `/architecture` | Architecture showcase | Planned |
-| `/articles` | Technical articles | Planned |
-| `/open-source` | Open source | Planned |
-| `/resume` | Resume | Stub page (TASK-013) |
-| `/contact` | Contact | Stub page (TASK-014) |
+**Not used:** `/contact` (merged into `/about`), `/open-source`, separate `/experience` or `/skills` pages.
 
-Article and project detail pages (e.g. `/articles/[slug]`, `/projects/[slug]`) will use static generation with `generateStaticParams`.
+Detail pages use static generation with `generateStaticParams`.
 
 ---
 
@@ -289,7 +298,7 @@ Add variables to `packages/env` when needed (e.g. analytics ID, form endpoint UR
 |-------|---------|-------|
 | Content format | MDX vs JSON vs CMS | MDX recommended for static deploy |
 | Contact form | Static links only vs Formspree/Resend | No backend on GitHub Pages |
-| Navigation | Multi-page nav with enabled routes only | Header shows implemented routes; more appear as sections ship |
+| Navigation | Enabled routes only in header; hash links supported for in-page anchors |
 | Light mode | Re-enable theme toggle | Dark-only for now; `html` uses `class="dark"` |
 | SEO | sitemap.xml, robots.txt, OG images | Add at build time |
 | Analytics | Plausible, GA, Vercel Analytics | Client-side only |

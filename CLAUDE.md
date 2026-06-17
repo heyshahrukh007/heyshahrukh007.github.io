@@ -22,9 +22,21 @@ This file provides context about the project for AI assistants.
 ```
 heyshahrukh007.github.io/
 ├── apps/
-│   ├── web/         # Frontend application
-├── packages/
+│   └── web/         # Next.js portfolio (static export)
+├── packages/        # env, shared TS config
+└── docs/            # FRD, TASKS, TECH, TASK-TRACKER
 ```
+
+### Site map (current)
+
+| Page | Path |
+|------|------|
+| Home | `/` — hero, highlights, About summary |
+| About + Contact | `/about` |
+| Projects | `/projects`, `/projects/[slug]` |
+| Architecture | `/architecture`, `/architecture/[slug]` |
+| Resume + Experience + Skills | `/resume` |
+| Articles | `/articles` (built, nav disabled) |
 
 ## Common Commands
 
