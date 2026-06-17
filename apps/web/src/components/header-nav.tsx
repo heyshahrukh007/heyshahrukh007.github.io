@@ -34,7 +34,7 @@ function isCurrentNavItem(pathname: string, currentHash: string, href: string) {
   return pathname === hrefPath || pathname.startsWith(`${hrefPath}/`);
 }
 
-export default function HeaderNav() {
+export default function HeaderNav({ className }: { className?: string }) {
   const pathname = usePathname();
   const [currentHash, setCurrentHash] = useState("");
 
@@ -52,7 +52,14 @@ export default function HeaderNav() {
   }, [pathname]);
 
   return (
-    <nav aria-label="Primary" className="w-full max-w-full justify-self-center sm:w-auto">
+    <nav
+      aria-label="Primary"
+      className={cn(
+        "min-w-0 -mx-6 px-6",
+        "md:mx-0 md:flex md:justify-center md:px-0",
+        className,
+      )}
+    >
       <ul className="scrollbar-none mx-auto flex w-max max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-border/60 bg-muted/20 p-1">
         {enabledNavItems.map((item) => {
           const isCurrent = isCurrentNavItem(pathname, currentHash, item.href);
@@ -63,7 +70,7 @@ export default function HeaderNav() {
                 href={item.href}
                 aria-current={isCurrent ? "page" : undefined}
                 className={cn(
-                  "inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-2.5 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-h-0 sm:px-3.5 sm:py-1.5 sm:text-sm",
+                  "inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-2.5 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background md:min-h-0 md:px-3.5 md:py-1.5 md:text-sm",
                   isCurrent
                     ? "bg-background text-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground",

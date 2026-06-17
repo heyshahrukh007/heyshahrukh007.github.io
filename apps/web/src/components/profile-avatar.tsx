@@ -1,14 +1,6 @@
+import { getInitials } from "@/lib/initials";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
-
-function getInitials(name: string) {
-  return name
-    .split(/\s+/)
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-}
 
 type ProfileAvatarProps = {
   className?: string;
