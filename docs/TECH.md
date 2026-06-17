@@ -60,7 +60,6 @@ AI assistants and developers implementing tasks must check for existing abstract
 | Forms (planned) | TanStack React Form |
 | Validation | Zod |
 | Compiler | React Compiler |
-| Testing | Vitest, Testing Library, jsdom |
 
 ### Shared packages
 
@@ -140,11 +139,11 @@ heyshahrukh007.github.io/
 | Area | Status |
 |------|--------|
 | Global layout | Header, main content area, and footer implemented |
-| Navigation | Enabled routes only (currently Home); more links appear as sections ship |
-| Home page | Minimal placeholder until TASK-003 hero section |
+| Navigation | Enabled routes: Home, Projects, Resume, Contact |
+| Home page | Hero section with headline, summary, FRD CTAs, and social links |
 | Theme | Dark mode only, forced |
 | Design reference | [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) UX patterns |
-| FRD sections | Not yet implemented |
+| FRD sections | Hero live; Projects, Resume, Contact are route stubs pending full tasks |
 
 ---
 
@@ -154,16 +153,16 @@ Aligned with [FRD navigation](./FRD.md#6-navigation-requirements):
 
 | Route | Section | Status |
 |-------|---------|--------|
-| `/` | Home | Placeholder (hero in TASK-003) |
+| `/` | Home | Hero section live |
 | `/about` | About | Planned |
 | `/skills` | Skills | Planned |
 | `/experience` | Experience | Planned |
-| `/projects` | Projects | Planned |
+| `/projects` | Projects | Stub page (TASK-008) |
 | `/architecture` | Architecture showcase | Planned |
 | `/articles` | Technical articles | Planned |
 | `/open-source` | Open source | Planned |
-| `/resume` | Resume | Planned |
-| `/contact` | Contact | Planned |
+| `/resume` | Resume | Stub page (TASK-013) |
+| `/contact` | Contact | Stub page (TASK-014) |
 
 Article and project detail pages (e.g. `/articles/[slug]`, `/projects/[slug]`) will use static generation with `generateStaticParams`.
 

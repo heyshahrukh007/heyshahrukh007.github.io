@@ -57,15 +57,9 @@ export const hero = {
   summary:
     "Software engineer based in India. I build reliable web applications and scalable systems with a focus on clean architecture, performance, and thoughtful user experience.",
   ctas: [
-    { label: "View Projects", enabled: false },
-    { label: "Download Resume", enabled: false },
-    { label: "Contact", enabled: false },
-    {
-      label: "View GitHub",
-      enabled: true,
-      external: true,
-      href: "https://github.com/heyshahrukh007",
-    },
+    { label: "View Projects", enabled: true, href: "/projects" },
+    { label: "Download Resume", enabled: true, href: "/resume", variant: "outline" },
+    { label: "Contact", enabled: true, href: "/contact", variant: "outline" },
   ],
 } as const satisfies {
   headline: string;
@@ -84,12 +78,12 @@ export const navItems = [
   { label: "About", enabled: false },
   { label: "Skills", enabled: false },
   { label: "Experience", enabled: false },
-  { label: "Projects", enabled: false },
+  { href: "/projects", label: "Projects", enabled: true },
   { label: "Architecture", enabled: false },
   { label: "Articles", enabled: false },
   { label: "Open Source", enabled: false },
-  { label: "Resume", enabled: false },
-  { label: "Contact", enabled: false },
+  { href: "/resume", label: "Resume", enabled: true },
+  { href: "/contact", label: "Contact", enabled: true },
 ] satisfies NavItem[];
 
 export function getEnabledNavItems(items: readonly NavItem[]): EnabledNavItem[] {

@@ -11,7 +11,6 @@ Personal portfolio website for **Shahrukh Mansuri**, built as a static Next.js a
 - **React 19** — React Compiler enabled
 - **Tailwind CSS 4** — Styling and design tokens
 - **shadcn/ui** — UI components (radix-luma style)
-- **Vitest** — Testing
 
 ## Documentation
 

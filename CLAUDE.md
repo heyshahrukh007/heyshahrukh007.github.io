@@ -17,10 +17,6 @@ This file provides context about the project for AI assistants.
 - CSS: tailwind
 - UI Library: shadcn-ui
 
-### Additional Features
-
-- Testing: vitest
-
 ## Project Structure
 
 ```
@@ -35,7 +31,6 @@ heyshahrukh007.github.io/
 - `pnpm install` - Install dependencies
 - `pnpm dev` - Start development server
 - `pnpm build` - Build for production
-- `pnpm test` - Run tests
 
 ## Feature Development References
 
