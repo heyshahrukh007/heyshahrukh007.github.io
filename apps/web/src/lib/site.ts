@@ -19,6 +19,11 @@ export const site = {
   location: "India",
 } as const;
 
+/**
+ * Navigation registry aligned with FRD sections.
+ * Set `enabled: true` (and add the route under `apps/web/src/app`) when a section ships;
+ * enabled items appear automatically in the header.
+ */
 export const navItems = [
   { href: "/", label: "Home", enabled: true },
   { label: "About", enabled: false },
@@ -37,6 +42,10 @@ export function getEnabledNavItems(items: readonly NavItem[]): EnabledNavItem[] 
 }
 
 export const enabledNavItems = getEnabledNavItems(navItems);
+
+export function getEnabledSocialLinks<T extends { enabled: boolean }>(links: readonly T[]): T[] {
+  return links.filter((item) => item.enabled);
+}
 
 export const socialLinks = [
   {

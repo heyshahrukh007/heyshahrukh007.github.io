@@ -1,5 +1,5 @@
-import UnderConstruction from "@/components/under-construction";
+import HomePlaceholder from "@/components/home-placeholder";
 
 export default function Home() {
-  return <UnderConstruction />;
+  return <HomePlaceholder />;
 }

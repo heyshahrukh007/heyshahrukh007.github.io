@@ -195,6 +195,12 @@
   }
   body {
     @apply font-sans bg-background text-foreground;
+    background-image: radial-gradient(
+      circle,
+      color-mix(in oklch, var(--foreground) 8%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
   }
   html {
     @apply font-sans;

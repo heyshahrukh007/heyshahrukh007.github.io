@@ -55,7 +55,7 @@ AI assistants and developers implementing tasks must check for existing abstract
 | Icons | Lucide React |
 | Fonts | Inter Variable, Geist (Google Fonts) |
 | Animations | tw-animate-css + custom CSS keyframes |
-| Theming | next-themes (forced dark mode for now) |
+| Theming | Dark mode only via `html.dark` |
 | Toasts | Sonner |
 | Forms (planned) | TanStack React Form |
 | Validation | Zod |
@@ -139,10 +139,11 @@ heyshahrukh007.github.io/
 
 | Area | Status |
 |------|--------|
-| Home page | Under construction hero with CSS animations |
-| Navigation | Removed (temporary) |
+| Global layout | Header, main content area, and footer implemented |
+| Navigation | Enabled routes only (currently Home); more links appear as sections ship |
+| Home page | Minimal placeholder until TASK-003 hero section |
 | Theme | Dark mode only, forced |
-| Header | Removed (was theme toggle only) |
+| Design reference | [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) UX patterns |
 | FRD sections | Not yet implemented |
 
 ---
@@ -153,7 +154,7 @@ Aligned with [FRD navigation](./FRD.md#6-navigation-requirements):
 
 | Route | Section | Status |
 |-------|---------|--------|
-| `/` | Home | Under construction |
+| `/` | Home | Placeholder (hero in TASK-003) |
 | `/about` | About | Planned |
 | `/skills` | Skills | Planned |
 | `/experience` | Experience | Planned |
@@ -289,8 +290,8 @@ Add variables to `packages/env` when needed (e.g. analytics ID, form endpoint UR
 |-------|---------|-------|
 | Content format | MDX vs JSON vs CMS | MDX recommended for static deploy |
 | Contact form | Static links only vs Formspree/Resend | No backend on GitHub Pages |
-| Navigation | Restore header nav vs single-page scroll | FRD expects multi-page nav |
-| Light mode | Re-enable theme toggle | Currently dark-only |
+| Navigation | Multi-page nav with enabled routes only | Header shows implemented routes; more appear as sections ship |
+| Light mode | Re-enable theme toggle | Dark-only for now; `html` uses `class="dark"` |
 | SEO | sitemap.xml, robots.txt, OG images | Add at build time |
 | Analytics | Plausible, GA, Vercel Analytics | Client-side only |
 

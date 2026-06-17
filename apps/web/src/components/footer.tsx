@@ -1,10 +1,9 @@
-import Link from "next/link";
-
-import { site, socialLinks } from "@/lib/site";
+import { ExternalLink } from "@/components/external-link";
+import { getEnabledSocialLinks, site, socialLinks } from "@/lib/site";
 
 export default function Footer() {
   const year = new Date().getFullYear();
-  const enabledSocial = socialLinks.filter((item) => item.enabled);
+  const enabledSocial = getEnabledSocialLinks(socialLinks);
 
   return (
     <footer className="border-t border-border/40">
@@ -19,14 +18,12 @@ export default function Footer() {
               {enabledSocial.map((item, index) => (
                 <span key={item.label} className="inline-flex items-center gap-2">
                   {index > 0 ? <span aria-hidden>/</span> : null}
-                  <Link
+                  <ExternalLink
                     href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
                     className="transition-colors hover:text-foreground"
                   >
                     {item.label}
-                  </Link>
+                  </ExternalLink>
                 </span>
               ))}
             </>
