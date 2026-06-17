@@ -255,9 +255,9 @@
   body {
     @apply font-sans bg-background text-foreground;
     background-image: 
-      linear-gradient(90deg, color-mix(in oklch, var(--border) 60%, transparent) 1px, transparent 1px),
-      linear-gradient(color-mix(in oklch, var(--border) 60%, transparent) 1px, transparent 1px);
-    background-size: 48px 48px;
+      linear-gradient(90deg, color-mix(in oklch, var(--primary) 15%, transparent) 1.5px, transparent 1.5px),
+      linear-gradient(color-mix(in oklch, var(--primary) 15%, transparent) 1.5px, transparent 1.5px);
+    background-size: 60px 60px;
     background-attachment: fixed;
   }
 }
