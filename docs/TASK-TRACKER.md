@@ -3,7 +3,7 @@
 | Task ID  | Task                      | Status | Priority |
 | -------- | ------------------------- | ------ | -------- |
 | TASK-001 | Repository Setup          | DONE   | High     |
-| TASK-002 | Global Layout             | TODO   | High     |
+| TASK-002 | Global Layout             | DONE   | High     |
 | TASK-003 | Hero Section              | TODO   | High     |
 | TASK-004 | Professional Highlights   | TODO   | Medium   |
 | TASK-005 | About Section             | TODO   | Medium   |

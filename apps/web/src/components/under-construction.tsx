@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export default function UnderConstruction() {
   return (
-    <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-12">
+    <section className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-12">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 overflow-hidden"
@@ -97,6 +97,6 @@ export default function UnderConstruction() {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 }
