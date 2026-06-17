@@ -1,0 +1,16 @@
+Follow:
+
+- docs/FRD.md
+- docs/TASKS.md
+- docs/TASK-TRACKER.md
+- docs/TECH.md
+
+Rules:
+
+- Implement only requested task.
+- Do not modify unrelated files.
+- Keep solutions simple.
+- Reuse existing components.
+- Update TASK-TRACKER.md after task completion.
+- Recommend next task.
+- Keep responses concise.
