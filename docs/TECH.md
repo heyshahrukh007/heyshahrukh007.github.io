@@ -224,7 +224,7 @@ File: [`.github/workflows/deploy-pages.yml`](../.github/workflows/deploy-pages.y
 ```bash
 pnpm install
 pnpm dev          # all apps (turbo)
-pnpm dev:web      # web only → http://localhost:3001
+pnpm dev:web      # web only → http://localhost:3000
 pnpm build        # production static export
 pnpm check-types  # TypeScript across workspace
 ```

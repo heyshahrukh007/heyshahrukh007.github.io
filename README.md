@@ -34,14 +34,14 @@ Run the development server:
 pnpm dev:web
 ```
 
-Open [http://localhost:3001](http://localhost:3001) in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Available Scripts
 
 | Command | Description |
 |---------|-------------|
 | `pnpm dev` | Start all apps in development mode |
-| `pnpm dev:web` | Start only the web app (port 3001) |
+| `pnpm dev:web` | Start only the web app (port 3000) |
 | `pnpm build` | Build static export to `apps/web/out` |
 | `pnpm check-types` | Run TypeScript checks across the workspace |
 
