@@ -225,6 +225,8 @@
   .motion-scroll-reveal,
   .motion-scroll-reveal-pending {
     animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .motion-interactive,
@@ -284,6 +286,11 @@
   .motion-scroll-reveal-pending {
     opacity: 0;
     transform: translateY(4px);
+  }
+
+  html:not(.motion-ready) .motion-scroll-reveal-pending {
+    opacity: 1;
+    transform: none;
   }
 
   .motion-scroll-reveal {

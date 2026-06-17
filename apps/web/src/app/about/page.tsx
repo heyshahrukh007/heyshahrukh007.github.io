@@ -14,7 +14,7 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col gap-12 sm:gap-16">
       <About headingLevel={1} />
-      <ScrollReveal>
+      <ScrollReveal hashTargetId="contact">
         <ContactSection headingLevel={2} />
       </ScrollReveal>
     </div>

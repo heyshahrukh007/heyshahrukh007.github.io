@@ -20,11 +20,11 @@
 | TASK-016 | Accessibility Review      | DONE   | Medium   |
 | TASK-017 | SEO Setup                 | DONE   | Medium   |
 | TASK-018 | Production Readiness      | DONE   | High     |
-| TASK-019 | ScrollReveal Accessibility Fix | TODO | Critical |
-| TASK-020 | Theme Hydration FOUC Fix  | TODO   | High     |
-| TASK-021 | Route Motion Regression Fix | TODO | High     |
-| TASK-022 | CI Link Validation Hardening | TODO | High     |
-| TASK-023 | Nav Active Indicator Fix  | TODO   | High     |
+| TASK-019 | ScrollReveal Accessibility Fix | DONE | Critical |
+| TASK-020 | Theme Hydration FOUC Fix  | DONE   | High     |
+| TASK-021 | Route Motion Regression Fix | DONE | High     |
+| TASK-022 | CI Link Validation Hardening | DONE | High     |
+| TASK-023 | Nav Active Indicator Fix  | DONE   | High     |
 
 ## Review backlog (Critical & High)
 

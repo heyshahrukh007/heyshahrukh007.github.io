@@ -147,27 +147,91 @@ function extractHrefValues(html: string) {
   return values;
 }
 
-async function checkExternalUrl(url: string) {
+async function fetchUrl(url: string, method: "HEAD" | "GET") {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
+  const timeout = setTimeout(() => controller.abort(), 8_000);
 
   try {
     const response = await fetch(url, {
-      method: "HEAD",
+      method,
       redirect: "follow",
       signal: controller.signal,
+      headers: method === "GET" ? { Range: "bytes=0-0" } : undefined,
     });
 
-    if (response.status >= 400) {
-      return `returned ${response.status}`;
-    }
-
-    return null;
+    return response.status;
   } catch (error) {
     return error instanceof Error ? error.message : "request failed";
   } finally {
     clearTimeout(timeout);
   }
+}
+
+async function checkExternalUrl(url: string) {
+  const headStatus = await fetchUrl(url, "HEAD");
+
+  if (typeof headStatus === "number" && headStatus < 400) {
+    return null;
+  }
+
+  if (headStatus === 405 || headStatus === 403) {
+    const getStatus = await fetchUrl(url, "GET");
+    if (typeof getStatus === "number" && getStatus < 400) {
+      return null;
+    }
+
+    if (typeof getStatus === "number") {
+      return `returned ${getStatus} on GET fallback`;
+    }
+
+    return getStatus;
+  }
+
+  if (typeof headStatus === "number") {
+    const getStatus = await fetchUrl(url, "GET");
+    if (typeof getStatus === "number" && getStatus < 400) {
+      return null;
+    }
+
+    if (typeof getStatus === "number") {
+      return `returned ${headStatus} (HEAD) and ${getStatus} (GET)`;
+    }
+
+    return `HEAD returned ${headStatus}; GET failed: ${getStatus}`;
+  }
+
+  const getStatus = await fetchUrl(url, "GET");
+  if (typeof getStatus === "number" && getStatus < 400) {
+    return null;
+  }
+
+  if (typeof getStatus === "number") {
+    return `returned ${getStatus} on GET fallback`;
+  }
+
+  return `HEAD failed (${headStatus}); GET failed (${getStatus})`;
+}
+
+async function mapConcurrent<T>(
+  items: readonly T[],
+  concurrency: number,
+  mapper: (item: T) => Promise<void>,
+) {
+  let index = 0;
+
+  async function worker() {
+    while (index < items.length) {
+      const current = items[index];
+      index += 1;
+      if (current !== undefined) {
+        await mapper(current);
+      }
+    }
+  }
+
+  await Promise.all(
+    Array.from({ length: Math.min(concurrency, items.length) }, () => worker()),
+  );
 }
 
 async function main() {
@@ -209,17 +273,19 @@ async function main() {
     }
   }
 
-  for (const url of collectExternalUrls(siteSource)) {
+  const externalUrls = collectExternalUrls(siteSource);
+
+  await mapConcurrent(externalUrls, 5, async (url) => {
     if (GENERIC_LINKEDIN_URL.test(`${url}"`)) {
       errors.push(`Placeholder external URL configured: ${url}`);
-      continue;
+      return;
     }
 
     const failure = await checkExternalUrl(url);
     if (failure) {
       errors.push(`External URL check failed for ${url}: ${failure}`);
     }
-  }
+  });
 
   const resumePath = join(rootDir, "apps/web/public/resume.pdf");
   if (!existsSync(resumePath)) {
@@ -235,7 +301,7 @@ async function main() {
   }
 
   console.log(
-    `validate-links passed (${parseSitemapRoutes().length} sitemap routes, ${collectExternalUrls(siteSource).length} external URLs).`,
+    `validate-links passed (${parseSitemapRoutes().length} sitemap routes, ${externalUrls.length} external URLs).`,
   );
 }
 

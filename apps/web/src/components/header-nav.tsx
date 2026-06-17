@@ -52,10 +52,12 @@ export default function HeaderNav({ className }: { className?: string }) {
     visible: false,
   });
 
-  const [reduceMotion, setReduceMotion] = useState(true);
+  const [motionPreference, setMotionPreference] = useState<"unknown" | "reduce" | "animate">(
+    "unknown",
+  );
 
-  useEffect(() => {
-    setReduceMotion(prefersReducedMotion());
+  useLayoutEffect(() => {
+    setMotionPreference(prefersReducedMotion() ? "reduce" : "animate");
   }, []);
 
   useEffect(() => {
@@ -88,6 +90,7 @@ export default function HeaderNav({ className }: { className?: string }) {
 
     const activeLink = linkRefs.current.get(activeItem.label);
     if (!activeLink) {
+      setIndicator({ width: 0, x: 0, visible: false });
       return;
     }
 
@@ -124,7 +127,7 @@ export default function HeaderNav({ className }: { className?: string }) {
     };
   }, [updateIndicator]);
 
-  const showIndicator = indicator.visible && !reduceMotion;
+  const showIndicator = motionPreference === "animate" && indicator.visible;
 
   return (
     <nav

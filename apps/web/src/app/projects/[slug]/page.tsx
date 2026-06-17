@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ProjectDetail } from "@/components/project-detail";
-import { ScrollReveal } from "@/components/scroll-reveal";
 import { createPageMetadata } from "@/lib/seo";
 import { getProjectBySlug, projects } from "@/lib/site";
 
@@ -37,9 +36,5 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
-  return (
-    <ScrollReveal>
-      <ProjectDetail project={project} />
-    </ScrollReveal>
-  );
+  return <ProjectDetail project={project} />;
 }
