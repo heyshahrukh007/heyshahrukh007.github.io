@@ -1,6 +1,9 @@
 import About from "@/components/about";
 import Hero from "@/components/hero";
 import ProfessionalHighlights from "@/components/professional-highlights";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({ path: "/" });
 
 export default function Home() {
   return (

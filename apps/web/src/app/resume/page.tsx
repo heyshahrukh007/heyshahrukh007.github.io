@@ -1,6 +1,14 @@
 import Experience from "@/components/experience";
 import ResumeSection from "@/components/resume-section";
 import Skills from "@/components/skills";
+import { createPageMetadata } from "@/lib/seo";
+import { resume } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: resume.title,
+  description: resume.summary,
+  path: "/resume",
+});
 
 export default function ResumePage() {
   return (

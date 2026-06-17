@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ProjectDetail } from "@/components/project-detail";
+import { createPageMetadata } from "@/lib/seo";
 import { getProjectBySlug, projects } from "@/lib/site";
 
 type ProjectPageProps = {
@@ -20,10 +21,11 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     return { title: "Project not found" };
   }
 
-  return {
+  return createPageMetadata({
     title: project.name,
     description: project.summary,
-  };
+    path: `/projects/${slug}`,
+  });
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {

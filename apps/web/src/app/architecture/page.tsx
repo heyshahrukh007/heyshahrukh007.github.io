@@ -1,6 +1,13 @@
 import { ArchitectureList } from "@/components/architecture-card";
 import { SectionHeading } from "@/components/section-heading";
+import { createPageMetadata } from "@/lib/seo";
 import { architecture } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: architecture.title,
+  description: architecture.description,
+  path: "/architecture",
+});
 
 export default function ArchitecturePage() {
   return (

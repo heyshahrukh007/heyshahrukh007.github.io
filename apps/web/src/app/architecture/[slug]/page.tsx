@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ArchitectureDetail } from "@/components/architecture-detail";
+import { createPageMetadata } from "@/lib/seo";
 import { architecture, getArchitectureBySlug } from "@/lib/site";
 
 type ArchitecturePageProps = {
@@ -20,10 +21,11 @@ export async function generateMetadata({ params }: ArchitecturePageProps): Promi
     return { title: "Architecture not found" };
   }
 
-  return {
+  return createPageMetadata({
     title: caseStudy.name,
     description: caseStudy.summary,
-  };
+    path: `/architecture/${slug}`,
+  });
 }
 
 export default async function ArchitectureCaseStudyPage({ params }: ArchitecturePageProps) {
