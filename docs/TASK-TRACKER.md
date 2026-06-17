@@ -20,6 +20,37 @@
 | TASK-016 | Accessibility Review      | DONE   | Medium   |
 | TASK-017 | SEO Setup                 | DONE   | Medium   |
 | TASK-018 | Production Readiness      | DONE   | High     |
+| TASK-019 | ScrollReveal Accessibility Fix | TODO | Critical |
+| TASK-020 | Theme Hydration FOUC Fix  | TODO   | High     |
+| TASK-021 | Route Motion Regression Fix | TODO | High     |
+| TASK-022 | CI Link Validation Hardening | TODO | High     |
+| TASK-023 | Nav Active Indicator Fix  | TODO   | High     |
+
+## Review backlog (Critical & High)
+
+Sourced from post–TASK-018 code review (`96fa816…HEAD`).
+
+### TASK-019 — ScrollReveal Accessibility Fix (Critical)
+
+- `scroll-reveal.tsx`: content starts `opacity: 0` before hydration; invisible without JS
+- `index.css`: `prefers-reduced-motion` does not reset `.motion-scroll-reveal-pending`
+- `about/page.tsx`: `#contact` hash target can scroll to a hidden `ContactSection`
+
+### TASK-020 — Theme Hydration FOUC Fix (High)
+
+- `layout.tsx` / `providers.tsx`: removed default `class="dark"`; theme applies after hydration → light flash for dark-default users
+
+### TASK-021 — Route Motion Regression Fix (High)
+
+- `template.tsx` + detail pages: stacked `motion-page-enter` and full-page `ScrollReveal` causes double fade and delayed above-the-fold content on route load
+
+### TASK-022 — CI Link Validation Hardening (High)
+
+- `validate-links.mts`: HEAD-only checks fail on some hosts; sequential 10s timeouts; network flakiness can block deploy
+
+### TASK-023 — Nav Active Indicator Fix (High)
+
+- `header-nav.tsx`: stale indicator when active link ref is missing; `reduceMotion` default causes active-tab style flash on mount
 
 ## Status Legend
 
