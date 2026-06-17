@@ -1,10 +1,12 @@
-import SectionPlaceholder from "@/components/section-placeholder";
+import { ProjectsList } from "@/components/project-card";
+import { SectionHeading } from "@/components/section-heading";
+import { projects } from "@/lib/site";
 
 export default function ProjectsPage() {
   return (
-    <SectionPlaceholder
-      title="Projects"
-      description="Featured projects will be added in TASK-008."
-    />
+    <div className="space-y-10">
+      <SectionHeading title={projects.title} description={projects.description} />
+      <ProjectsList items={projects.items} showTopBorder={false} />
+    </div>
   );
 }

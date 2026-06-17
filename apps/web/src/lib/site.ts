@@ -252,6 +252,84 @@ export const skills = {
   categories: readonly { name: string; description: string; skills: readonly string[] }[];
 };
 
+export type Project = {
+  slug: string;
+  name: string;
+  summary: string;
+  objectives: readonly string[];
+  technologies: readonly string[];
+  role: string;
+  featured: boolean;
+  links?: {
+    live?: string;
+    source?: string;
+  };
+};
+
+export const projects = {
+  title: "Projects",
+  description: "Selected work highlighting product thinking, implementation quality, and measurable impact.",
+  items: [
+    {
+      slug: "personal-portfolio",
+      name: "Personal Portfolio",
+      summary:
+        "A static Next.js portfolio deployed to GitHub Pages, built for performance, clarity, and easy content updates.",
+      objectives: [
+        "Present professional background and project work in a clear, accessible layout.",
+        "Ship a fast static site with a maintainable monorepo and content-driven sections.",
+      ],
+      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "pnpm", "GitHub Pages"],
+      role: "Designer & full-stack developer",
+      featured: true,
+      links: {
+        live: "https://heyshahrukh007.github.io",
+        source: "https://github.com/heyshahrukh007/heyshahrukh007.github.io",
+      },
+    },
+    {
+      slug: "client-dashboard",
+      name: "Client Operations Dashboard",
+      summary:
+        "An internal dashboard for tracking onboarding status, account health, and support workflows across teams.",
+      objectives: [
+        "Reduce manual status checks for customer operations staff.",
+        "Surface actionable metrics with filters and role-based views.",
+      ],
+      technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "REST APIs"],
+      role: "Frontend lead",
+      featured: true,
+      links: {
+        source: "https://github.com/heyshahrukh007",
+      },
+    },
+    {
+      slug: "api-integration-toolkit",
+      name: "API Integration Toolkit",
+      summary:
+        "A reusable toolkit for connecting third-party services with typed clients, retries, and structured logging.",
+      objectives: [
+        "Standardize integration patterns across services.",
+        "Improve observability and failure handling for external API calls.",
+      ],
+      technologies: ["TypeScript", "Node.js", "Redis", "Docker", "GitHub Actions"],
+      role: "Backend contributor",
+      featured: false,
+      links: {
+        source: "https://github.com/heyshahrukh007",
+      },
+    },
+  ],
+} as const satisfies {
+  title: string;
+  description: string;
+  items: readonly Project[];
+};
+
+export function getFeaturedProjects(items: readonly Project[]): Project[] {
+  return items.filter((item) => item.featured);
+}
+
 export const socialLinks = [
   {
     label: "GitHub",
