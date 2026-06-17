@@ -100,6 +100,18 @@ export function getEnabledSocialLinks<T extends { enabled: boolean }>(links: rea
   return links.filter((item) => item.enabled);
 }
 
+export const professionalHighlights = [
+  { count: 5, suffix: "+", label: "Years of experience" },
+  { count: 20, suffix: "+", label: "Projects delivered" },
+  { count: 15, suffix: "+", label: "Technologies mastered" },
+  { count: 3, label: "Domains worked in", description: "Web, APIs, and cloud systems" },
+] as const satisfies readonly {
+  count: number;
+  suffix?: string;
+  label: string;
+  description?: string;
+}[];
+
 export const socialLinks = [
   {
     label: "GitHub",
