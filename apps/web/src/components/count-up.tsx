@@ -20,7 +20,7 @@ export function CountUp({
   value,
   suffix = "",
   delay = 0,
-  duration = 2000,
+  duration = 1600,
   className,
 }: CountUpProps) {
   const elementRef = useRef<HTMLSpanElement>(null);

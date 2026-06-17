@@ -4,9 +4,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { professionalHighlights } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const CARD_STAGGER_MS = 150;
-const VALUE_DELAY_MS = 280;
-const COUNT_DURATION_MS = 2000;
+const CARD_STAGGER_MS = 80;
+const VALUE_DELAY_MS = 150;
+const COUNT_DURATION_MS = 1600;
 
 export default function ProfessionalHighlights() {
   return (
@@ -15,45 +15,37 @@ export default function ProfessionalHighlights() {
         id="professional-highlights-heading"
         title="Highlights"
         description="A snapshot of experience, delivery, and the domains I work in."
-        align="center"
       />
 
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
         {professionalHighlights.map((highlight, index) => (
           <li
             key={highlight.label}
-            className="animate-highlight-card-enter transform-gpu"
+            className="animate-highlight-card-enter"
             style={{ animationDelay: `${index * CARD_STAGGER_MS}ms` }}
           >
             <Card
               size="sm"
               className={cn(
-                "group/highlight h-full transform-gpu border border-border/50 bg-muted/15 ring-0",
-                "transition-[transform,box-shadow,border-color] duration-500 ease-highlight",
-                "hover:-translate-y-1.5 hover:border-border hover:bg-muted/25 hover:shadow-lg",
+                "h-full border border-border/50 bg-muted/15 ring-0",
+                "transition-colors duration-300",
+                "hover:border-border hover:bg-muted/20",
               )}
             >
-              <CardContent className="flex flex-col items-center gap-1.5 pt-4 text-center">
+              <CardContent className="flex flex-col items-start gap-1.5 pt-4 text-left">
                 <p className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
                   <CountUp
                     value={highlight.count}
                     suffix={"suffix" in highlight ? highlight.suffix : undefined}
                     delay={index * CARD_STAGGER_MS + VALUE_DELAY_MS}
                     duration={COUNT_DURATION_MS}
-                    className="transition-transform duration-500 ease-highlight group-hover/highlight:scale-[1.04]"
                   />
                 </p>
-                <p
-                  className="animate-highlight-label-enter text-xs leading-snug text-muted-foreground sm:text-sm"
-                  style={{ animationDelay: `${index * CARD_STAGGER_MS + VALUE_DELAY_MS + 120}ms` }}
-                >
+                <p className="text-xs leading-snug text-muted-foreground sm:text-sm">
                   {highlight.label}
                 </p>
                 {"description" in highlight && highlight.description ? (
-                  <p
-                    className="animate-highlight-label-enter text-xs leading-snug text-muted-foreground/80"
-                    style={{ animationDelay: `${index * CARD_STAGGER_MS + VALUE_DELAY_MS + 180}ms` }}
-                  >
+                  <p className="text-xs leading-snug text-muted-foreground/80">
                     {highlight.description}
                   </p>
                 ) : null}

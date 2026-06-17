@@ -119,9 +119,7 @@
   --animate-icon-float: icon-float 3s ease-in-out infinite;
   --animate-dot-bounce: dot-bounce 1.4s ease-in-out infinite;
   --animate-shimmer: shimmer 2s ease-in-out infinite;
-  --animate-highlight-card-enter: highlight-card-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-  --animate-highlight-label-enter: highlight-label-enter 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
-  --ease-highlight: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-highlight-card-enter: highlight-card-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes gradient-shift {
@@ -185,22 +183,9 @@
 @keyframes highlight-card-enter {
   from {
     opacity: 0;
-    transform: translate3d(0, 24px, 0);
   }
   to {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes highlight-label-enter {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 8px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -210,8 +195,7 @@
   .animate-icon-float,
   .animate-dot-bounce,
   .animate-shimmer,
-  .animate-highlight-card-enter,
-  .animate-highlight-label-enter {
+  .animate-highlight-card-enter {
     animation: none !important;
   }
 }
