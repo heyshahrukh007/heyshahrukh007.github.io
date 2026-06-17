@@ -1,6 +1,9 @@
+import Link from "next/link";
+
+import { Subsection } from "@/components/subsection";
 import { buttonVariants } from "@/components/ui/button";
 import { SectionHeading } from "@/components/section-heading";
-import { resume } from "@/lib/site";
+import { resume, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export default function ResumeSection() {
@@ -8,29 +11,67 @@ export default function ResumeSection() {
     <div className="space-y-10">
       <SectionHeading title={resume.title} description={resume.summary} />
 
-      <article className="max-w-2xl space-y-6 rounded-xl border border-border/50 bg-muted/15 p-6">
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-foreground">{resume.file.label}</p>
-          <p className="text-xs text-muted-foreground">Last updated {resume.lastUpdated}</p>
+      <header className="max-w-2xl space-y-3 border-t border-border/40 pt-10">
+        <h2 className="text-2xl font-semibold tracking-tight text-foreground">{site.name}</h2>
+        <p className="text-sm text-primary/80">{site.role}</p>
+        <p className="text-xs text-muted-foreground">
+          {site.location}
+          <span aria-hidden> · </span>
+          Last updated {resume.lastUpdated}
+        </p>
+      </header>
+
+      <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
+        {resume.overview}
+      </p>
+
+      <div className="space-y-10 border-t border-border/40 pt-10">
+        <Subsection title="What's inside">
+          <ul className="max-w-2xl space-y-3">
+            {resume.highlights.map((highlight) => (
+              <li
+                key={highlight}
+                className="border-l-2 border-primary/40 pl-4 text-sm leading-relaxed text-muted-foreground"
+              >
+                {highlight}
+              </li>
+            ))}
+          </ul>
+        </Subsection>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <a
+            href={resume.file.href}
+            download={resume.file.downloadName}
+            className={cn(
+              buttonVariants({ shape: "pill", size: "lg" }),
+              "inline-flex px-5",
+            )}
+          >
+            Download resume
+          </a>
+          <a
+            href={resume.file.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              buttonVariants({ variant: "outline", shape: "pill", size: "lg" }),
+              "inline-flex px-5",
+            )}
+          >
+            View resume ↗
+          </a>
         </div>
 
-        <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
-          {resume.highlights.map((highlight) => (
-            <li key={highlight}>{highlight}</li>
-          ))}
-        </ul>
-
-        <a
-          href={resume.file.href}
-          download={resume.file.downloadName}
-          className={cn(
-            buttonVariants({ shape: "pill", size: "lg" }),
-            "inline-flex px-5",
-          )}
-        >
-          Download resume
-        </a>
-      </article>
+        <p className="text-sm">
+          <Link
+            href="/#experience"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            View experience on the site →
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

@@ -640,7 +640,9 @@ export type OpenSourceItem = (typeof openSource.items)[number];
 export const resume = {
   title: "Resume",
   summary:
-    "A concise overview of my experience, strengths, and the kind of engineering work I focus on.",
+    "Download the latest version of my resume or preview it in the browser.",
+  overview:
+    "The resume covers software engineering experience, project delivery, technical skills, and the kinds of product and platform problems I have helped teams solve.",
   lastUpdated: "June 2025",
   highlights: [
     "Software engineer with 5+ years of experience building production web applications.",
@@ -648,7 +650,6 @@ export const resume = {
     "Focused on maintainable architecture, performance, and clear collaboration with product teams.",
   ],
   file: {
-    label: "Shahrukh Mansuri — Software Engineer",
     href: "/resume.pdf",
     downloadName: "Shahrukh-Mansuri-Resume.pdf",
   },
