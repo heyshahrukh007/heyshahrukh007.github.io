@@ -486,6 +486,104 @@ export function getArchitectureBySlug(slug: string): ArchitectureCaseStudy | und
   return architecture.items.find((item) => item.slug === slug);
 }
 
+export const articles = {
+  title: "Articles",
+  description: "Technical writing on architecture, frontend systems, and lessons from building production software.",
+  items: [
+    {
+      slug: "static-export-patterns",
+      title: "Static Export Patterns for Content-Driven Portfolios",
+      summary:
+        "How to structure a Next.js static export so new sections, typed routes, and shared content stay maintainable over time.",
+      publishedAt: "2025-11-12",
+      publishedAtLabel: "November 2025",
+      readingTimeMinutes: 6,
+      tags: ["Next.js", "Architecture", "GitHub Pages"],
+      featured: true,
+      content: [
+        "Static hosting changes the constraints you design around. There is no server to fall back on at runtime, so every route must be known—or discoverable—at build time.",
+        "Centralizing navigation, metadata, and section content in typed modules keeps the UI consistent while making it obvious where to add the next feature. Pair that with generateStaticParams for dynamic segments and you retain type-safe links without sacrificing static delivery.",
+        "The payoff is predictable deploys: build once, ship HTML to a CDN, and let the content model evolve without rethinking hosting on every task.",
+      ],
+    },
+    {
+      slug: "react-performance-checklist",
+      title: "A Practical React Performance Checklist",
+      summary:
+        "A focused set of checks I use before shipping UI-heavy features, from bundle boundaries to interaction-ready metrics.",
+      publishedAt: "2025-08-03",
+      publishedAtLabel: "August 2025",
+      readingTimeMinutes: 8,
+      tags: ["React", "Performance", "Frontend"],
+      featured: true,
+      content: [
+        "Performance work is most effective when it is tied to user-visible outcomes, not abstract benchmark scores. Start with what feels slow, measure that path, and stop when the experience is reliably good.",
+        "Bundle size is only one lever. Data-fetching waterfalls, unnecessary re-renders, and layout thrash often dominate real-world pages long before raw JavaScript weight becomes the bottleneck.",
+        "A short checklist—critical route metrics, component memoization where profiling proves it, and lazy boundaries for non-critical UI—prevents premature optimization while catching the issues users actually notice.",
+      ],
+    },
+    {
+      slug: "api-failure-handling",
+      title: "Designing for External API Failure",
+      summary:
+        "Retries, timeouts, and observability patterns that keep integrations resilient when third-party services misbehave.",
+      publishedAt: "2025-04-18",
+      publishedAtLabel: "April 2025",
+      readingTimeMinutes: 7,
+      tags: ["APIs", "Architecture", "Backend"],
+      featured: false,
+      content: [
+        "External APIs fail in boring ways: timeouts, ambiguous 5xx responses, and rate limits that only appear under load. Systems that treat those cases as exceptional tend to fail loudly in production.",
+        "Clear boundaries help—validate payloads at the edge, use idempotent workers for retries, and push failure visibility into metrics instead of scattered log lines.",
+        "The goal is not infinite resilience. It is predictable degradation: callers know what failed, operators can trace it, and users see honest feedback instead of silent breakage.",
+      ],
+    },
+  ],
+} as const satisfies {
+  title: string;
+  description: string;
+  items: readonly {
+    slug: string;
+    title: string;
+    summary: string;
+    publishedAt: string;
+    publishedAtLabel: string;
+    readingTimeMinutes: number;
+    tags: readonly string[];
+    featured: boolean;
+    content: readonly string[];
+  }[];
+};
+
+export type Article = (typeof articles.items)[number];
+export type ArticleSlug = Article["slug"];
+
+export function getFeaturedArticles(items: readonly Article[]): Article[] {
+  return items.filter((item) => item.featured);
+}
+
+export function getArticleRoute(slug: ArticleSlug): Route {
+  return `/articles/${slug}` as Route;
+}
+
+export function getArticlesIndexRoute(): Route {
+  return "/articles" as Route;
+}
+
+export function getArticleBySlug(slug: string): Article | undefined {
+  return articles.items.find((item) => item.slug === slug);
+}
+
+export function getRelatedArticles(article: Article, limit = 2): Article[] {
+  const articleTags = new Set<string>(article.tags);
+
+  return articles.items
+    .filter(
+      (item) => item.slug !== article.slug && item.tags.some((tag) => articleTags.has(tag)),
+    )
+    .slice(0, limit);
+}
+
 export const socialLinks = [
   {
     label: "GitHub",

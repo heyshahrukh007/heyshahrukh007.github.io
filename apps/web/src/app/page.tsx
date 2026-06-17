@@ -1,6 +1,7 @@
 import About from "@/components/about";
 import Experience from "@/components/experience";
 import FeaturedArchitecture from "@/components/featured-architecture";
+import FeaturedArticles from "@/components/featured-articles";
 import FeaturedProjects from "@/components/featured-projects";
 import Hero from "@/components/hero";
 import ProfessionalHighlights from "@/components/professional-highlights";
@@ -16,6 +17,7 @@ export default function Home() {
       <FeaturedProjects />
       <FeaturedArchitecture />
       <Skills />
+      <FeaturedArticles />
     </div>
   );
 }
