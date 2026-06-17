@@ -1,6 +1,7 @@
 import { ExternalLink } from "@/components/external-link";
 import { TagList } from "@/components/tag-list";
 import type { OpenSourceItem } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 const kindLabels = {
@@ -36,10 +37,7 @@ export function OpenSourceCard({ item, className }: OpenSourceCardProps) {
       <TagList items={item.topics} />
 
       <p className="text-sm">
-        <ExternalLink
-          href={item.href}
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
+        <ExternalLink href={item.href} className={textLinkClassName}>
           View on GitHub ↗
         </ExternalLink>
       </p>
@@ -64,6 +62,7 @@ export function OpenSourceList({
 
   return (
     <ul
+      aria-label="Open source projects"
       className={cn(
         "space-y-8",
         showTopBorder && "border-t border-border/40 pt-10",

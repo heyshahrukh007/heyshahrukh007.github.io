@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArticlesList } from "@/components/article-card";
 import { SectionHeading } from "@/components/section-heading";
 import { articles, getArticlesIndexRoute, getFeaturedArticles } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
+import { cn } from "@/lib/utils";
 
 export default function FeaturedArticles() {
   const featured = getFeaturedArticles(articles.items);
@@ -20,10 +22,7 @@ export default function FeaturedArticles() {
 
       {hasMore ? (
         <p className="text-sm">
-          <Link
-            href={getArticlesIndexRoute()}
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
+          <Link href={getArticlesIndexRoute()} className={cn("text-sm", textLinkClassName)}>
             View all articles →
           </Link>
         </p>

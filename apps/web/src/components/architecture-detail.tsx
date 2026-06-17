@@ -4,6 +4,7 @@ import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
 import { getArchitectureIndexRoute, type ArchitectureCaseStudy } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 
 export function ArchitectureDetail({ caseStudy }: { caseStudy: ArchitectureCaseStudy }) {
   const { diagram } = caseStudy;
@@ -11,10 +12,7 @@ export function ArchitectureDetail({ caseStudy }: { caseStudy: ArchitectureCaseS
   return (
     <article className="space-y-10">
       <p className="text-sm">
-        <Link
-          href={getArchitectureIndexRoute()}
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
+        <Link href={getArchitectureIndexRoute()} className={textLinkClassName}>
           ← All architecture
         </Link>
       </p>

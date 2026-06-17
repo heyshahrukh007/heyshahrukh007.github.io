@@ -6,6 +6,7 @@ type SectionHeadingProps = {
   description?: string;
   className?: string;
   align?: "left" | "center";
+  headingLevel?: 1 | 2;
 };
 
 export function SectionHeading({
@@ -14,7 +15,10 @@ export function SectionHeading({
   description,
   className,
   align = "left",
+  headingLevel = 2,
 }: SectionHeadingProps) {
+  const Heading = headingLevel === 1 ? "h1" : "h2";
+
   return (
     <div
       className={cn(
@@ -23,9 +27,12 @@ export function SectionHeading({
         className,
       )}
     >
-      <h2 id={id} className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+      <Heading
+        id={id}
+        className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl"
+      >
         {title}
-      </h2>
+      </Heading>
       {description ? (
         <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">{description}</p>
       ) : null}

@@ -4,6 +4,7 @@ import { ExternalLink } from "@/components/external-link";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
 import type { Project } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 
 export function ProjectDetail({ project }: { project: Project }) {
   const { links } = project;
@@ -11,10 +12,7 @@ export function ProjectDetail({ project }: { project: Project }) {
   return (
     <article className="space-y-10">
       <p className="text-sm">
-        <Link
-          href="/projects"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
+        <Link href="/projects" className={textLinkClassName}>
           ← All projects
         </Link>
       </p>
@@ -64,18 +62,12 @@ export function ProjectDetail({ project }: { project: Project }) {
           <Subsection title="Links">
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
               {"live" in links ? (
-                <ExternalLink
-                  href={links.live}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
+                <ExternalLink href={links.live} className={textLinkClassName}>
                   View project ↗
                 </ExternalLink>
               ) : null}
               {links.source ? (
-                <ExternalLink
-                  href={links.source}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
+                <ExternalLink href={links.source} className={textLinkClassName}>
                   View source ↗
                 </ExternalLink>
               ) : null}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ExternalLink } from "@/components/external-link";
 import { TagList } from "@/components/tag-list";
 import { getProjectRoute, type Project } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {
@@ -41,25 +42,16 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           <TagList items={project.technologies} />
 
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <Link
-              href={getProjectRoute(project.slug)}
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
+            <Link href={getProjectRoute(project.slug)} className={textLinkClassName}>
               Read case study →
             </Link>
             {links && "live" in links ? (
-              <ExternalLink
-                href={links.live}
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
+              <ExternalLink href={links.live} className={textLinkClassName}>
                 View project ↗
               </ExternalLink>
             ) : null}
             {links?.source ? (
-              <ExternalLink
-                href={links.source}
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
+              <ExternalLink href={links.source} className={textLinkClassName}>
                 View source ↗
               </ExternalLink>
             ) : null}
@@ -83,6 +75,7 @@ export function ProjectsList({ items, className, showTopBorder = true }: Project
 
   return (
     <ul
+      aria-label="Projects"
       className={cn(
         "space-y-10 sm:space-y-12",
         showTopBorder && "border-t border-border/40 pt-10",

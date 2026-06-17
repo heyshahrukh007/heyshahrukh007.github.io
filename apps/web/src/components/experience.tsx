@@ -58,7 +58,7 @@ export default function Experience() {
         description={experience.description}
       />
 
-      <ol className="space-y-8 border-t border-border/40 pt-10">
+      <ol aria-label="Work experience" className="space-y-8 border-t border-border/40 pt-10">
         {experience.entries.map((entry) => (
           <li key={`${entry.organization}-${entry.duration}`}>
             <ExperienceEntry {...entry} />

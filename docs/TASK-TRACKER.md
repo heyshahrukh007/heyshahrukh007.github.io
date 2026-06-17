@@ -17,7 +17,7 @@
 | TASK-013 | Resume Section            | DONE   | Medium   |
 | TASK-014 | Contact Section           | DONE   | High     |
 | TASK-015 | Responsive Design         | DONE   | High     |
-| TASK-016 | Accessibility Review      | TODO   | Medium   |
+| TASK-016 | Accessibility Review      | DONE   | Medium   |
 | TASK-017 | SEO Setup                 | TODO   | Medium   |
 | TASK-018 | Production Readiness      | TODO   | High     |
 

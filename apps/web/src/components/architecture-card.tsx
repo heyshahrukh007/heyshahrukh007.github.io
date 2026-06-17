@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { getArchitectureRoute, type ArchitectureCaseStudy } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 type ArchitectureCardProps = {
@@ -28,10 +29,7 @@ export function ArchitectureCard({ caseStudy, className }: ArchitectureCardProps
           </p>
 
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <Link
-              href={getArchitectureRoute(caseStudy.slug)}
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
+            <Link href={getArchitectureRoute(caseStudy.slug)} className={textLinkClassName}>
               Read case study →
             </Link>
           </div>
@@ -58,6 +56,7 @@ export function ArchitectureList({
 
   return (
     <ul
+      aria-label="Architecture case studies"
       className={cn(
         "space-y-10 sm:space-y-12",
         showTopBorder && "border-t border-border/40 pt-10",

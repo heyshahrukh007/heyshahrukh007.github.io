@@ -6,6 +6,14 @@ import { usePathname } from "next/navigation";
 import { enabledNavItems } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
+function isCurrentNavItem(pathname: string, href: string) {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export default function HeaderNav() {
   const pathname = usePathname();
 
@@ -16,9 +24,9 @@ export default function HeaderNav() {
           <li key={item.href} className="shrink-0">
             <Link
               href={item.href}
-              aria-current={pathname === item.href ? "page" : undefined}
+              aria-current={isCurrentNavItem(pathname, item.href) ? "page" : undefined}
               className={cn(
-                "inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-2.5 py-1.5 text-xs transition-colors sm:min-h-0 sm:px-3.5 sm:py-1.5 sm:text-sm",
+                "inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-2.5 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-h-0 sm:px-3.5 sm:py-1.5 sm:text-sm",
                 pathname === item.href
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground",

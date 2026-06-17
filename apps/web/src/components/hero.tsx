@@ -41,9 +41,12 @@ export default function Hero() {
   const ctas = getEnabledHeroCtas(hero.ctas);
 
   return (
-    <section className="mx-auto flex w-full max-w-xl flex-col items-center gap-8 text-center">
+    <section aria-labelledby="hero-heading" className="mx-auto flex w-full max-w-xl flex-col items-center gap-8 text-center">
       <div className="space-y-4">
-        <h1 className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        <h1
+          id="hero-heading"
+          className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
+        >
           {hero.headline}
         </h1>
         <p className="text-lg text-muted-foreground sm:text-xl">{hero.subheadline}</p>

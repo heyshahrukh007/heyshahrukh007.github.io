@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ProjectsList } from "@/components/project-card";
 import { SectionHeading } from "@/components/section-heading";
 import { getFeaturedProjects, projects } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
+import { cn } from "@/lib/utils";
 
 export default function FeaturedProjects() {
   const featured = getFeaturedProjects(projects.items);
@@ -20,10 +22,7 @@ export default function FeaturedProjects() {
 
       {hasMore ? (
         <p className="text-sm">
-          <Link
-            href="/projects"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
+          <Link href="/projects" className={cn("text-sm", textLinkClassName)}>
             View all projects →
           </Link>
         </p>

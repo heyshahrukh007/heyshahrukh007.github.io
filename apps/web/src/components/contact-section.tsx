@@ -5,6 +5,7 @@ import { Subsection } from "@/components/subsection";
 import { buttonVariants } from "@/components/ui/button";
 import { SectionHeading } from "@/components/section-heading";
 import { contact, getEnabledSocialLinks, site, socialLinks } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 export default function ContactSection() {
@@ -12,8 +13,13 @@ export default function ContactSection() {
   const github = profiles.find((profile) => profile.label === "GitHub");
 
   return (
-    <div className="space-y-10">
-      <SectionHeading title={contact.title} description={contact.summary} />
+    <section aria-labelledby="contact-heading" className="space-y-10">
+      <SectionHeading
+        id="contact-heading"
+        headingLevel={1}
+        title={contact.title}
+        description={contact.summary}
+      />
 
       <header className="max-w-2xl space-y-3 border-t border-border/40 pt-10">
         <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{site.name}</h2>
@@ -29,10 +35,7 @@ export default function ContactSection() {
             <div className="flex flex-col gap-1 py-4 first:pt-0 sm:flex-row sm:items-baseline sm:justify-between">
               <dt className="text-sm font-medium text-foreground">Email</dt>
               <dd>
-                <a
-                  href={contact.email.href}
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
+                <a href={contact.email.href} className={cn("text-sm", textLinkClassName)}>
                   {contact.email.address}
                 </a>
               </dd>
@@ -54,10 +57,7 @@ export default function ContactSection() {
                 >
                   <p className="text-sm font-medium text-foreground">{profile.label}</p>
                   <p className="mt-2 text-sm">
-                    <ExternalLink
-                      href={profile.href}
-                      className="text-muted-foreground transition-colors hover:text-foreground"
-                    >
+                    <ExternalLink href={profile.href} className={textLinkClassName}>
                       View {profile.label} profile ↗
                     </ExternalLink>
                   </p>
@@ -88,14 +88,11 @@ export default function ContactSection() {
         </div>
 
         <p className="text-sm">
-          <Link
-            href="/resume"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
+          <Link href="/resume" className={cn("text-sm", textLinkClassName)}>
             View resume →
           </Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 }

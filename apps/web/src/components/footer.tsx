@@ -12,7 +12,7 @@ export default function Footer() {
           <span aria-hidden>/</span>
           <span className="text-foreground">{site.name}</span>
           <span aria-hidden>/</span>
-          <SocialLinks className="contents" />
+          <SocialLinks />
         </div>
       </div>
     </footer>

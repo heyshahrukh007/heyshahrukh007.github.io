@@ -1,5 +1,6 @@
 import { ExternalLink } from "@/components/external-link";
 import { getEnabledSocialLinks, socialLinks } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 type SocialLinksProps = {
@@ -17,16 +18,12 @@ export function SocialLinks({ className, excludeHrefs = [] }: SocialLinksProps) 
   }
 
   return (
-    <div className={cn("flex flex-wrap items-center gap-x-4 gap-y-2", className)}>
+    <nav aria-label="Social profiles" className={cn("flex flex-wrap items-center gap-x-4 gap-y-2", className)}>
       {enabledSocial.map((item) => (
-        <ExternalLink
-          key={item.label}
-          href={item.href}
-          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
+        <ExternalLink key={item.label} href={item.href} className={cn("text-sm", textLinkClassName)}>
           {item.label}
         </ExternalLink>
       ))}
-    </div>
+    </nav>
   );
 }

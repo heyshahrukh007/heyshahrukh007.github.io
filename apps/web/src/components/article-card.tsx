@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { TagList } from "@/components/tag-list";
 import { getArticleRoute, type Article } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 function formatReadingTime(minutes: number) {
@@ -47,10 +48,7 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
         <TagList items={article.tags} />
 
         <p className="text-sm">
-          <Link
-            href={getArticleRoute(article.slug)}
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
+          <Link href={getArticleRoute(article.slug)} className={textLinkClassName}>
             Read article →
           </Link>
         </p>
@@ -72,6 +70,7 @@ export function ArticlesList({ items, className, showTopBorder = true }: Article
 
   return (
     <ul
+      aria-label="Articles"
       className={cn(
         "space-y-8",
         showTopBorder && "border-t border-border/40 pt-10",

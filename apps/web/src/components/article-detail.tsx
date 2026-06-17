@@ -7,6 +7,7 @@ import {
   getRelatedArticles,
   type Article,
 } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 
 function formatReadingTime(minutes: number) {
   return `${minutes} min read`;
@@ -18,10 +19,7 @@ export function ArticleDetail({ article }: { article: Article }) {
   return (
     <article className="space-y-10">
       <p className="text-sm">
-        <Link
-          href={getArticlesIndexRoute()}
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
+        <Link href={getArticlesIndexRoute()} className={textLinkClassName}>
           ← All articles
         </Link>
       </p>

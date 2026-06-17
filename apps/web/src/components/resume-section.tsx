@@ -4,12 +4,18 @@ import { Subsection } from "@/components/subsection";
 import { buttonVariants } from "@/components/ui/button";
 import { SectionHeading } from "@/components/section-heading";
 import { resume, site } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 export default function ResumeSection() {
   return (
-    <div className="space-y-10">
-      <SectionHeading title={resume.title} description={resume.summary} />
+    <section aria-labelledby="resume-heading" className="space-y-10">
+      <SectionHeading
+        id="resume-heading"
+        headingLevel={1}
+        title={resume.title}
+        description={resume.summary}
+      />
 
       <header className="max-w-2xl space-y-3 border-t border-border/40 pt-10">
         <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{site.name}</h2>
@@ -60,18 +66,16 @@ export default function ResumeSection() {
             )}
           >
             View resume ↗
+            <span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>
 
         <p className="text-sm">
-          <Link
-            href="/#experience"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
+          <Link href="/#experience" className={cn("text-sm", textLinkClassName)}>
             View experience on the site →
           </Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 }

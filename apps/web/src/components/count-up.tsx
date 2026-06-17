@@ -93,7 +93,11 @@ export function CountUp({
   }, [value, suffix, delay, duration]);
 
   return (
-    <span ref={elementRef} className={cn("inline-block tabular-nums", className)}>
+    <span
+      ref={elementRef}
+      aria-label={`${value}${suffix}`}
+      className={cn("inline-block tabular-nums", className)}
+    >
       0{suffix}
     </span>
   );

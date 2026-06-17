@@ -18,7 +18,7 @@ export function ExternalLink({ className, children, href, ...props }: ExternalLi
       {...props}
       href={href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       className={cn(className)}
     >
       {children}
