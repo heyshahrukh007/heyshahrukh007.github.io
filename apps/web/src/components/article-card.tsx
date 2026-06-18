@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ContentThumbnail } from "@/components/content-thumbnail";
 import { TagList } from "@/components/tag-list";
 import { getArticleRoute, type Article } from "@/lib/site";
-import { LinkArrowRightIcon, LinkArrowUpRightIcon } from "@/components/link-icons";
+import { LinkArrowRightIcon } from "@/components/link-icons";
 import { textLinkWithIconClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 

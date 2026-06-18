@@ -1,5 +1,6 @@
 import { CountUp } from "@/components/count-up";
-import { ScrollReveal } from "@/components/scroll-reveal";import { SectionHeading } from "@/components/section-heading";
+import { ScrollReveal } from "@/components/scroll-reveal";
+import { SectionHeading } from "@/components/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { professionalHighlights } from "@/lib/site";
 import { cn } from "@/lib/utils";

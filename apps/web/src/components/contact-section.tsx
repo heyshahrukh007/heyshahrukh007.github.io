@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ExternalLink } from "@/components/external-link";
+import { LocationMap } from "@/components/location-map";
 import { Subsection } from "@/components/subsection";
 import { buttonVariants } from "@/components/ui/button";
 import { SectionHeading } from "@/components/section-heading";
@@ -50,6 +51,10 @@ export default function ContactSection({ headingLevel = 2 }: ContactSectionProps
               <dd className="text-sm text-muted-foreground">{site.location}</dd>
             </div>
           </dl>
+        </Subsection>
+
+        <Subsection title="Location">
+          <LocationMap />
         </Subsection>
 
         {profiles.length > 0 ? (

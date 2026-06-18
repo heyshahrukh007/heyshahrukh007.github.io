@@ -13,27 +13,11 @@ import { cn } from "@/lib/utils";
 
 type ScrollRevealProps = ComponentPropsWithoutRef<"div"> & {
   delay?: number;
-  /** Reveal immediately when the URL hash matches this element id (e.g. contact). */
-  hashTargetId?: string;
 };
-
-function hasHashTarget(element: HTMLElement, hashTargetId?: string) {
-  if (!hashTargetId) {
-    return false;
-  }
-
-  const hash = window.location.hash.slice(1);
-  if (!hash) {
-    return false;
-  }
-
-  return hash === hashTargetId || Boolean(element.querySelector(`#${CSS.escape(hash)}`));
-}
 
 export function ScrollReveal({
   className,
   delay = 0,
-  hashTargetId,
   style,
   children,
   ...props
@@ -48,7 +32,7 @@ export function ScrollReveal({
       return;
     }
 
-    if (prefersReducedMotion() || hasHashTarget(element, hashTargetId)) {
+    if (prefersReducedMotion()) {
       setIsRevealed(true);
       setShouldAnimate(false);
       return;
@@ -72,7 +56,7 @@ export function ScrollReveal({
     return () => {
       observer.disconnect();
     };
-  }, [hashTargetId]);
+  }, []);
 
   const revealStyle: CSSProperties | undefined =
     isRevealed && shouldAnimate ? { animationDelay: `${delay}ms`, ...style } : style;
