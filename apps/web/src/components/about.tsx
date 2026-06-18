@@ -4,8 +4,9 @@ import { ProfileAvatar } from "@/components/profile-avatar";
 import { SectionHeading } from "@/components/section-heading";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
+import { LinkArrowRightIcon } from "@/components/link-icons";
 import { about } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { textLinkWithIconClassName } from "@/lib/link-styles";
 
 type AboutProps = {
   compact?: boolean;
@@ -31,8 +32,9 @@ export default function About({ compact = false, headingLevel = 2 }: AboutProps)
 
       {compact ? (
         <p className="text-sm">
-          <Link href="/about" className={textLinkClassName}>
-            Read more about me →
+          <Link href="/about" className={textLinkWithIconClassName}>
+            Read more about me
+            <LinkArrowRightIcon />
           </Link>
         </p>
       ) : (

@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ContentThumbnail } from "@/components/content-thumbnail";
 import { TagList } from "@/components/tag-list";
 import { getArticleRoute, type Article } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { LinkArrowRightIcon, LinkArrowUpRightIcon } from "@/components/link-icons";
+import { textLinkWithIconClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 function formatReadingTime(minutes: number) {
@@ -50,8 +51,9 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
         <TagList items={article.tags} />
 
         <p className="text-sm">
-          <Link href={getArticleRoute(article.slug)} className={textLinkClassName}>
-            Read article →
+          <Link href={getArticleRoute(article.slug)} className={textLinkWithIconClassName}>
+            Read article
+            <LinkArrowRightIcon />
           </Link>
         </p>
       </div>

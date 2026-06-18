@@ -1,5 +1,6 @@
 "use client";
 
+import { CircleIcon, TriangleIcon } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 
 import { getInitials } from "@/lib/initials";
@@ -37,27 +38,19 @@ export function HeroPortrait({ className }: HeroPortraitProps) {
   return (
     <div className={cn("relative mx-auto w-full max-w-sm lg:max-w-lg xl:max-w-xl", className)}>
       <HeroShape className="top-4 -left-1 animate-icon-float text-primary/80">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
-          <circle cx="9" cy="9" r="9" />
-        </svg>
+        <CircleIcon className="size-[18px] fill-current" />
       </HeroShape>
 
       <HeroShape className="top-10 right-0 animate-orb-float text-primary/70 [animation-delay:400ms]">
-        <svg width="22" height="20" viewBox="0 0 22 20" fill="currentColor">
-          <path d="M11 0 22 20H0L11 0Z" />
-        </svg>
+        <TriangleIcon className="size-[22px] fill-current" />
       </HeroShape>
 
       <HeroShape className="bottom-24 -left-2 animate-icon-float text-primary/60 [animation-delay:800ms]">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-          <circle cx="7" cy="7" r="7" />
-        </svg>
+        <CircleIcon className="size-3.5 fill-current" />
       </HeroShape>
 
       <HeroShape className="right-2 bottom-12 animate-orb-float text-primary/50 [animation-delay:1.2s]">
-        <svg width="16" height="15" viewBox="0 0 16 15" fill="currentColor">
-          <path d="M8 0 16 15H0L8 0Z" />
-        </svg>
+        <TriangleIcon className="size-4 fill-current" />
       </HeroShape>
 
       <div className="relative aspect-4/5 w-full">

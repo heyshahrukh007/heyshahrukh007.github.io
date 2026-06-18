@@ -2,8 +2,9 @@ import Link from "next/link";
 
 import { ProjectCard } from "@/components/project-card";
 import { SectionHeading } from "@/components/section-heading";
+import { LinkArrowRightIcon } from "@/components/link-icons";
 import { getFeaturedProjects, home } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { textLinkWithIconClassName } from "@/lib/link-styles";
 
 export default function FeaturedProjects() {
   const items = getFeaturedProjects();
@@ -30,8 +31,9 @@ export default function FeaturedProjects() {
       </ul>
 
       <p className="text-sm">
-        <Link href="/projects" className={textLinkClassName}>
-          View all projects →
+        <Link href="/projects" className={textLinkWithIconClassName}>
+          View all projects
+          <LinkArrowRightIcon />
         </Link>
       </p>
     </section>

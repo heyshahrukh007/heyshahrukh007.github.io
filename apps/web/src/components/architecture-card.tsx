@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 import { ArchitectureDiagram } from "@/components/architecture-diagram";
+import { LinkArrowRightIcon } from "@/components/link-icons";
 import { getArchitectureRoute, type ArchitectureCaseStudy } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { textLinkWithIconClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 type ArchitectureCardProps = {
@@ -29,8 +30,9 @@ export function ArchitectureCard({ caseStudy, className }: ArchitectureCardProps
           </p>
 
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <Link href={getArchitectureRoute(caseStudy.slug)} className={textLinkClassName}>
-              Read case study →
+            <Link href={getArchitectureRoute(caseStudy.slug)} className={textLinkWithIconClassName}>
+              Read case study
+              <LinkArrowRightIcon />
             </Link>
           </div>
         </div>

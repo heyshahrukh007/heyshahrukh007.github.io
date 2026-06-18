@@ -4,8 +4,9 @@ import { ExternalLink } from "@/components/external-link";
 import { Subsection } from "@/components/subsection";
 import { buttonVariants } from "@/components/ui/button";
 import { SectionHeading } from "@/components/section-heading";
+import { LinkArrowRightIcon, LinkArrowUpRightIcon } from "@/components/link-icons";
 import { contact, getEnabledSocialLinks, site, socialLinks } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { textLinkClassName, textLinkWithIconClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 type ContactSectionProps = {
@@ -61,8 +62,9 @@ export default function ContactSection({ headingLevel = 2 }: ContactSectionProps
                 >
                   <p className="text-sm font-medium text-foreground">{profile.label}</p>
                   <p className="mt-2 text-sm">
-                    <ExternalLink href={profile.href} className={textLinkClassName}>
-                      View {profile.label} profile ↗
+                    <ExternalLink href={profile.href} className={textLinkWithIconClassName}>
+                      View {profile.label} profile
+                      <LinkArrowUpRightIcon />
                     </ExternalLink>
                   </p>
                 </li>
@@ -83,17 +85,19 @@ export default function ContactSection({ headingLevel = 2 }: ContactSectionProps
               href={github.href}
               className={cn(
                 buttonVariants({ variant: "outline", shape: "pill", size: "lg" }),
-                "inline-flex w-full justify-center px-5 sm:w-auto",
+                "inline-flex w-full items-center justify-center gap-1.5 px-5 sm:w-auto",
               )}
             >
-              GitHub ↗
+              GitHub
+              <LinkArrowUpRightIcon />
             </ExternalLink>
           ) : null}
         </div>
 
         <p className="text-sm">
-          <Link href="/resume" className={cn("text-sm", textLinkClassName)}>
-            View resume →
+          <Link href="/resume" className={cn("text-sm", textLinkWithIconClassName)}>
+            View resume
+            <LinkArrowRightIcon />
           </Link>
         </p>
       </div>

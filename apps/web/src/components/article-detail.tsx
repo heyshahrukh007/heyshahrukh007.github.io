@@ -2,12 +2,13 @@ import Link from "next/link";
 
 import { ArticleCard } from "@/components/article-card";
 import { TagList } from "@/components/tag-list";
+import { LinkArrowLeftIcon } from "@/components/link-icons";
 import {
   getArticlesIndexRoute,
   getRelatedArticles,
   type Article,
 } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { textLinkWithIconClassName } from "@/lib/link-styles";
 
 function formatReadingTime(minutes: number) {
   return `${minutes} min read`;
@@ -19,8 +20,9 @@ export function ArticleDetail({ article }: { article: Article }) {
   return (
     <article className="space-y-10">
       <p className="text-sm">
-        <Link href={getArticlesIndexRoute()} className={textLinkClassName}>
-          ← All articles
+        <Link href={getArticlesIndexRoute()} className={textLinkWithIconClassName}>
+          <LinkArrowLeftIcon />
+          All articles
         </Link>
       </p>
 

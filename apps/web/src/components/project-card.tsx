@@ -3,8 +3,9 @@ import Link from "next/link";
 import { ContentThumbnail } from "@/components/content-thumbnail";
 import { ExternalLink } from "@/components/external-link";
 import { TagList } from "@/components/tag-list";
+import { LinkArrowRightIcon, LinkArrowUpRightIcon } from "@/components/link-icons";
 import { getProjectRoute, type Project } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { textLinkWithIconClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {
@@ -40,17 +41,20 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           <TagList items={project.technologies} />
 
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <Link href={getProjectRoute(project.slug)} className={textLinkClassName}>
-              Read case study →
+            <Link href={getProjectRoute(project.slug)} className={textLinkWithIconClassName}>
+              Read case study
+              <LinkArrowRightIcon />
             </Link>
             {links && "live" in links ? (
-              <ExternalLink href={links.live} className={textLinkClassName}>
-                View project ↗
+              <ExternalLink href={links.live} className={textLinkWithIconClassName}>
+                View project
+                <LinkArrowUpRightIcon />
               </ExternalLink>
             ) : null}
             {links?.source ? (
-              <ExternalLink href={links.source} className={textLinkClassName}>
-                View source ↗
+              <ExternalLink href={links.source} className={textLinkWithIconClassName}>
+                View source
+                <LinkArrowUpRightIcon />
               </ExternalLink>
             ) : null}
           </div>

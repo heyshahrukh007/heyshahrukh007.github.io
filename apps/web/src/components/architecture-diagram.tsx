@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { cn } from "@/lib/utils";
+import { LinkArrowDownIcon } from "@/components/link-icons";import { cn } from "@/lib/utils";
 
 type ArchitectureDiagramLayer = {
   label: string;
@@ -47,10 +47,9 @@ export function ArchitectureDiagram({
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                     {layer.description}
                   </p>
-                </div>
-                {index < layers.length - 1 ? (
-                  <p aria-hidden className="text-center text-xs text-muted-foreground/60">
-                    ↓
+                </div>                {index < layers.length - 1 ? (
+                  <p aria-hidden className="flex justify-center text-muted-foreground/60">
+                    <LinkArrowDownIcon />
                   </p>
                 ) : null}
               </div>

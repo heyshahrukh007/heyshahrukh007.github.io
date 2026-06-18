@@ -1,6 +1,5 @@
 import { CountUp } from "@/components/count-up";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import { SectionHeading } from "@/components/section-heading";
+import { ScrollReveal } from "@/components/scroll-reveal";import { SectionHeading } from "@/components/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { professionalHighlights } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -29,8 +28,7 @@ export default function ProfessionalHighlights() {
                   "motion-interactive hover:border-border hover:bg-muted/20",
                 )}
               >
-                <CardContent className="flex flex-col items-start gap-1.5 pt-4 text-left">
-                  <p className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                <CardContent className="flex flex-col items-start gap-1.5 pt-4 text-left">                  <p className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
                     <CountUp
                       value={highlight.count}
                       suffix={"suffix" in highlight ? highlight.suffix : undefined}
@@ -48,8 +46,7 @@ export default function ProfessionalHighlights() {
                   ) : null}
                 </CardContent>
               </Card>
-            </ScrollReveal>
-          </li>
+            </ScrollReveal>          </li>
         ))}
       </ul>
     </section>

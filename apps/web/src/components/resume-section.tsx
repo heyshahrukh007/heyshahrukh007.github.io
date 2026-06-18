@@ -1,5 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { SectionHeading } from "@/components/section-heading";
+import { LinkArrowUpRightIcon } from "@/components/link-icons";
 import { resume } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -30,10 +31,11 @@ export default function ResumeSection() {
           rel="noopener noreferrer"
           className={cn(
             buttonVariants({ variant: "outline", shape: "pill", size: "lg" }),
-            "inline-flex w-full justify-center px-5 sm:w-auto",
+            "inline-flex w-full items-center justify-center gap-1.5 px-5 sm:w-auto",
           )}
         >
-          View resume ↗
+          View resume
+          <LinkArrowUpRightIcon />
           <span className="sr-only"> (opens in new tab)</span>
         </a>
       </div>

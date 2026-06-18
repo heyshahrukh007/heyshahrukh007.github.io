@@ -4,8 +4,9 @@ import { ContentThumbnail } from "@/components/content-thumbnail";
 import { ExternalLink } from "@/components/external-link";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
+import { LinkArrowLeftIcon, LinkArrowUpRightIcon } from "@/components/link-icons";
 import type { Project } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { textLinkWithIconClassName } from "@/lib/link-styles";
 
 export function ProjectDetail({ project }: { project: Project }) {
   const links = "links" in project ? project.links : undefined;
@@ -13,8 +14,9 @@ export function ProjectDetail({ project }: { project: Project }) {
   return (
     <article className="space-y-10">
       <p className="text-sm">
-        <Link href="/projects" className={textLinkClassName}>
-          ← All projects
+        <Link href="/projects" className={textLinkWithIconClassName}>
+          <LinkArrowLeftIcon />
+          All projects
         </Link>
       </p>
 
@@ -60,13 +62,15 @@ export function ProjectDetail({ project }: { project: Project }) {
           <Subsection title="Links">
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
               {"live" in links ? (
-                <ExternalLink href={links.live} className={textLinkClassName}>
-                  View project ↗
+                <ExternalLink href={links.live} className={textLinkWithIconClassName}>
+                  View project
+                  <LinkArrowUpRightIcon />
                 </ExternalLink>
               ) : null}
               {links.source ? (
-                <ExternalLink href={links.source} className={textLinkClassName}>
-                  View source ↗
+                <ExternalLink href={links.source} className={textLinkWithIconClassName}>
+                  View source
+                  <LinkArrowUpRightIcon />
                 </ExternalLink>
               ) : null}
             </div>

@@ -3,8 +3,9 @@ import Link from "next/link";
 import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
+import { LinkArrowLeftIcon } from "@/components/link-icons";
 import { getArchitectureIndexRoute, type ArchitectureCaseStudy } from "@/lib/site";
-import { textLinkClassName } from "@/lib/link-styles";
+import { textLinkWithIconClassName } from "@/lib/link-styles";
 
 export function ArchitectureDetail({ caseStudy }: { caseStudy: ArchitectureCaseStudy }) {
   const { diagram } = caseStudy;
@@ -12,8 +13,9 @@ export function ArchitectureDetail({ caseStudy }: { caseStudy: ArchitectureCaseS
   return (
     <article className="space-y-10">
       <p className="text-sm">
-        <Link href={getArchitectureIndexRoute()} className={textLinkClassName}>
-          ← All architecture
+        <Link href={getArchitectureIndexRoute()} className={textLinkWithIconClassName}>
+          <LinkArrowLeftIcon />
+          All architecture
         </Link>
       </p>
 
