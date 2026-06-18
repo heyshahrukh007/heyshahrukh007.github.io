@@ -75,6 +75,10 @@ export const professionalHighlights = [
 
 export const about = {
   title: "About",
+  photo: {
+    src: "/images/about-portrait.png",
+    alt: `${site.name} portrait`,
+  },
   summary: [
     "I'm a software engineer based in India with a focus on building dependable web products—balancing clean architecture, performance, and thoughtful user experience.",
     "I work across the stack, from interfaces and APIs to deployment and observability, and I care about code that teams can maintain and extend over time.",
