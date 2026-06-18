@@ -8,11 +8,14 @@ const contentDir = join(rootDir, "apps/web/src/lib/content");
 const sitemapPath = join(outDir, "sitemap.xml");
 
 const GENERIC_LINKEDIN_URL = /https:\/\/www\.linkedin\.com\/?["']/;
+const BOT_BLOCKED_HOSTS = ["instagram.com", "linkedin.com"];
 
 function isBotBlockedExternalUrl(url: string) {
   try {
-    const { hostname } = new URL(url);
-    return hostname === "linkedin.com" || hostname.endsWith(".linkedin.com");
+    const hostname = new URL(url).hostname.toLowerCase();
+    return BOT_BLOCKED_HOSTS.some(
+      (host) => hostname === host || hostname.endsWith(`.${host}`),
+    );
   } catch {
     return false;
   }
