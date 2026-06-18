@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ProjectCard } from "@/components/project-card";
 import { SectionHeading } from "@/components/section-heading";
 import { LinkArrowRightIcon } from "@/components/link-icons";
-import { getFeaturedProjects, home } from "@/lib/site";
+import { getFeaturedProjects, getPortfolioIndexRoute, home } from "@/lib/site";
 import { textLinkWithIconClassName } from "@/lib/link-styles";
 
 export default function FeaturedProjects() {
@@ -22,7 +22,7 @@ export default function FeaturedProjects() {
         description={home.featuredProjects.description}
       />
 
-      <ul aria-label="Featured projects" className="space-y-10 sm:space-y-12">
+      <ul aria-label="Featured portfolio work" className="space-y-10 sm:space-y-12">
         {items.map((project) => (
           <li key={project.slug}>
             <ProjectCard project={project} />
@@ -31,8 +31,8 @@ export default function FeaturedProjects() {
       </ul>
 
       <p className="text-sm">
-        <Link href="/projects" className={textLinkWithIconClassName}>
-          View all projects
+        <Link href={getPortfolioIndexRoute()} className={textLinkWithIconClassName}>
+          View portfolio
           <LinkArrowRightIcon />
         </Link>
       </p>

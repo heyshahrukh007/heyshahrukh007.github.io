@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
 
 import { absoluteUrl } from "@/lib/seo";
-import { architecture, articles, projects } from "@/lib/site";
+import { articles, projects } from "@/lib/site";
 
 export const dynamic = "force-static";
 
-const staticPaths = ["/", "/about", "/projects", "/architecture", "/resume", "/articles"] as const;
+const staticPaths = ["/", "/about", "/portfolio", "/resume", "/contact", "/articles"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -16,12 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const projectRoutes = projects.items.map((item) => ({
-    url: absoluteUrl(`/projects/${item.slug}`),
-    lastModified,
-  }));
-
-  const architectureRoutes = architecture.items.map((item) => ({
-    url: absoluteUrl(`/architecture/${item.slug}`),
+    url: absoluteUrl(`/portfolio/${item.slug}`),
     lastModified,
   }));
 
@@ -30,5 +25,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified,
   }));
 
-  return [...staticRoutes, ...projectRoutes, ...architectureRoutes, ...articleRoutes];
+  return [...staticRoutes, ...projectRoutes, ...articleRoutes];
 }

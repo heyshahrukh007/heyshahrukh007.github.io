@@ -1,22 +1,13 @@
 import About from "@/components/about";
-import ContactSection from "@/components/contact-section";
-import { ScrollReveal } from "@/components/scroll-reveal";
 import { createPageMetadata } from "@/lib/seo";
-import { about, contact } from "@/lib/site";
+import { about } from "@/lib/site";
 
 export const metadata = createPageMetadata({
   title: about.title,
-  description: contact.summary,
+  description: about.summary[0],
   path: "/about",
 });
 
 export default function AboutPage() {
-  return (
-    <div className="flex flex-col gap-12 sm:gap-16">
-      <About headingLevel={1} />
-      <ScrollReveal hashTargetId="contact">
-        <ContactSection headingLevel={2} />
-      </ScrollReveal>
-    </div>
-  );
+  return <About headingLevel={1} />;
 }

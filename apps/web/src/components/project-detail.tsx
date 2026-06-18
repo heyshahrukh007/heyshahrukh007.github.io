@@ -5,7 +5,7 @@ import { ExternalLink } from "@/components/external-link";
 import { Subsection } from "@/components/subsection";
 import { TagList } from "@/components/tag-list";
 import { LinkArrowLeftIcon, LinkArrowUpRightIcon } from "@/components/link-icons";
-import type { Project } from "@/lib/site";
+import { getPortfolioIndexRoute, type Project } from "@/lib/site";
 import { textLinkWithIconClassName } from "@/lib/link-styles";
 
 export function ProjectDetail({ project }: { project: Project }) {
@@ -14,9 +14,9 @@ export function ProjectDetail({ project }: { project: Project }) {
   return (
     <article className="space-y-10">
       <p className="text-sm">
-        <Link href="/projects" className={textLinkWithIconClassName}>
+        <Link href={getPortfolioIndexRoute()} className={textLinkWithIconClassName}>
           <LinkArrowLeftIcon />
-          All projects
+          All portfolio
         </Link>
       </p>
 

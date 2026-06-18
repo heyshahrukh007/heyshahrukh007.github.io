@@ -5,7 +5,7 @@ import { ProjectDetail } from "@/components/project-detail";
 import { createPageMetadata } from "@/lib/seo";
 import { getProjectBySlug, projects } from "@/lib/site";
 
-type ProjectPageProps = {
+type PortfolioItemPageProps = {
   params: Promise<{ slug: string }>;
 };
 
@@ -13,22 +13,22 @@ export function generateStaticParams() {
   return projects.items.map((project) => ({ slug: project.slug }));
 }
 
-export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PortfolioItemPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
   if (!project) {
-    return { title: "Project not found" };
+    return { title: "Portfolio item not found" };
   }
 
   return createPageMetadata({
     title: project.name,
     description: project.summary,
-    path: `/projects/${slug}`,
+    path: `/portfolio/${slug}`,
   });
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
+export default async function PortfolioItemPage({ params }: PortfolioItemPageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 

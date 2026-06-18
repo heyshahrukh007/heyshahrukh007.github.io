@@ -32,9 +32,9 @@ heyshahrukh007.github.io/
 | Page | Path |
 |------|------|
 | Home | `/` — hero, highlights, About summary |
-| About + Contact | `/about` |
-| Projects | `/projects`, `/projects/[slug]` |
-| Architecture | `/architecture`, `/architecture/[slug]` |
+| About | `/about` |
+| Portfolio | `/portfolio`, `/portfolio/[slug]` |
+| Contact | `/contact` |
 | Resume + Experience + Skills | `/resume` |
 | Articles | `/articles` (built, nav disabled) |
 

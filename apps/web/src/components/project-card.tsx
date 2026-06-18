@@ -77,7 +77,7 @@ export function ProjectsList({ items, className, showTopBorder = true }: Project
 
   return (
     <ul
-      aria-label="Projects"
+      aria-label="Portfolio"
       className={cn(
         "space-y-10 sm:space-y-12",
         showTopBorder && "border-t border-border/40 pt-10",
