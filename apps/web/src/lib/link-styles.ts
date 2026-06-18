@@ -5,5 +5,5 @@ export const textLinkClassName =
 
 export const textLinkWithIconClassName = cn(
   textLinkClassName,
-  "inline-flex items-center gap-1.5",
+  "group inline-flex items-center gap-1.5",
 );

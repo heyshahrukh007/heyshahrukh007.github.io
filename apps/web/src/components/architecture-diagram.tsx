@@ -1,6 +1,7 @@
 import Image from "next/image";
 
-import { LinkArrowDownIcon } from "@/components/link-icons";import { cn } from "@/lib/utils";
+import { LinkArrowDownIcon } from "@/components/link-icons";
+import { cn } from "@/lib/utils";
 
 type ArchitectureDiagramLayer = {
   label: string;

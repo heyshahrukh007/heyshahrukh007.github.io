@@ -1,8 +1,8 @@
-import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { ExternalLink } from "@/components/external-link";
 import { HeroPortrait } from "@/components/hero-portrait";
+import { LinkArrowRightIcon } from "@/components/link-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { SocialLinks } from "@/components/social-links";
 import {
@@ -26,13 +26,13 @@ function HeroCtaButton({
       shape: primary ? "default" : "pill",
       size: "lg",
     }),
-    primary ? "rounded-xl px-6 text-sm font-semibold" : "px-5",
+    primary ? "group rounded-xl px-6 text-sm font-semibold" : "px-5",
   );
 
   const content = (
     <>
       {cta.label}
-      {primary ? <ArrowRightIcon className="size-4" /> : null}
+      {primary ? <LinkArrowRightIcon className="size-4" /> : null}
     </>
   );
 

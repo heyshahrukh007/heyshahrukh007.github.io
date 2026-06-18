@@ -31,7 +31,7 @@ export default function ResumeSection() {
           rel="noopener noreferrer"
           className={cn(
             buttonVariants({ variant: "outline", shape: "pill", size: "lg" }),
-            "inline-flex w-full items-center justify-center gap-1.5 px-5 sm:w-auto",
+            "group inline-flex w-full items-center justify-center gap-1.5 px-5 sm:w-auto",
           )}
         >
           View resume

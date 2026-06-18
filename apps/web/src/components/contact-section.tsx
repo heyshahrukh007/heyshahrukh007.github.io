@@ -85,7 +85,7 @@ export default function ContactSection({ headingLevel = 2 }: ContactSectionProps
               href={github.href}
               className={cn(
                 buttonVariants({ variant: "outline", shape: "pill", size: "lg" }),
-                "inline-flex w-full items-center justify-center gap-1.5 px-5 sm:w-auto",
+                "group inline-flex w-full items-center justify-center gap-1.5 px-5 sm:w-auto",
               )}
             >
               GitHub
