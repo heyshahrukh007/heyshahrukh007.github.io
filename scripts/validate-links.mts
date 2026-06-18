@@ -9,6 +9,15 @@ const sitemapPath = join(outDir, "sitemap.xml");
 
 const GENERIC_LINKEDIN_URL = /https:\/\/www\.linkedin\.com\/?["']/;
 
+function isBotBlockedExternalUrl(url: string) {
+  try {
+    const { hostname } = new URL(url);
+    return hostname === "linkedin.com" || hostname.endsWith(".linkedin.com");
+  } catch {
+    return false;
+  }
+}
+
 function readContentSource() {
   const chunks: string[] = [];
 
@@ -295,6 +304,10 @@ async function main() {
   await mapConcurrent(externalUrls, 5, async (url) => {
     if (GENERIC_LINKEDIN_URL.test(`${url}"`)) {
       errors.push(`Placeholder external URL configured: ${url}`);
+      return;
+    }
+
+    if (isBotBlockedExternalUrl(url)) {
       return;
     }
 
