@@ -56,33 +56,28 @@ export function HeroPortrait({ className }: HeroPortraitProps) {
       <div className="relative aspect-4/5 w-full">
         <div
           aria-hidden
-          className="absolute top-[6%] left-1/2 size-[82%] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl"
+          className="absolute top-[4%] left-1/2 size-[92%] -translate-x-1/2 rounded-full bg-primary/30 blur-3xl"
         />
-        <div
-          aria-hidden
-          className="absolute top-[8%] left-1/2 size-[76%] -translate-x-1/2 rounded-full bg-card ring-1 ring-border"
-        />
+       
 
-        <div className="absolute inset-0 overflow-hidden rounded-[1.75rem] bg-card shadow-md ring-1 ring-border/50">
-          {hasError ? (
-            <div
-              aria-label={hero.photo.alt}
-              className="flex h-full items-center justify-center text-5xl font-semibold tracking-tight text-foreground/80 sm:text-6xl"
-            >
-              {getInitials(site.name)}
-            </div>
-          ) : (
-            <img
-              key={hero.photo.src}
-              src={hero.photo.src}
-              alt={hero.photo.alt}
-              decoding="async"
-              fetchPriority="high"
-              className="absolute inset-0 h-full w-full origin-bottom scale-[1.06] object-contain object-bottom"
-              onError={() => setHasError(true)}
-            />
-          )}
-        </div>
+        {hasError ? (
+          <div
+            aria-label={hero.photo.alt}
+            className="absolute inset-0 z-10 flex items-center justify-center text-5xl font-semibold tracking-tight text-foreground/80 sm:text-6xl"
+          >
+            {getInitials(site.name)}
+          </div>
+        ) : (
+          <img
+            key={hero.photo.src}
+            src={hero.photo.src}
+            alt={hero.photo.alt}
+            decoding="async"
+            fetchPriority="high"
+            className="absolute inset-0 z-10 h-full w-full origin-bottom scale-[1.06] object-contain object-bottom"
+            onError={() => setHasError(true)}
+          />
+        )}
       </div>
     </div>
   );
