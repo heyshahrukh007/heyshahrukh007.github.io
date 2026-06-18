@@ -31,6 +31,9 @@ jobs:
       - run: pnpm check-types
       - run: pnpm validate:content
       - run: pnpm build
+        env:
+          NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
+          NEXT_PUBLIC_CONTACT_FORM_URL: https://api.web3forms.com/submit
       - run: pnpm validate:links
 
       - uses: actions/upload-pages-artifact@v5

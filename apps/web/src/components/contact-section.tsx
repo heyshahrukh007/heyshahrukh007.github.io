@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ExternalLink } from "@/components/external-link";
+import { InquiryPanel } from "@/components/inquiry-panel";
 import { LocationMap } from "@/components/location-map";
 import { Subsection } from "@/components/subsection";
 import { buttonVariants } from "@/components/ui/button";
@@ -36,9 +37,12 @@ export default function ContactSection({ headingLevel = 2 }: ContactSectionProps
       <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">{contact.intro}</p>
 
       <div className="space-y-10 border-t border-border/40 pt-10">
+        <Subsection title="Send a message">
+          <InquiryPanel />
+        </Subsection>
+
         <Subsection title="Contact details">
-          <dl className="max-w-2xl divide-y divide-border/40">
-            <div className="flex flex-col gap-1 py-4 first:pt-0 sm:flex-row sm:items-baseline sm:justify-between">
+          <dl className="max-w-2xl divide-y divide-border/40">            <div className="flex flex-col gap-1 py-4 first:pt-0 sm:flex-row sm:items-baseline sm:justify-between">
               <dt className="text-sm font-medium text-foreground">Email</dt>
               <dd>
                 <a href={contact.email.href} className={cn("text-sm", textLinkClassName)}>

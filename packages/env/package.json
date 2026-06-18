@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./load-env": "./src/load-env.ts",
     "./web": "./src/web.ts"
   },
   "dependencies": {

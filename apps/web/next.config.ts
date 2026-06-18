@@ -1,3 +1,4 @@
+import "@heyshahrukh007.github.io/env/load-env";
 import "@heyshahrukh007.github.io/env/web";
 import type { NextConfig } from "next";
 
