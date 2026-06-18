@@ -1,18 +1,39 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), "..");
-const siteFilePath = join(rootDir, "apps/web/src/lib/site.ts");
+const contentDir = join(rootDir, "apps/web/src/lib/content");
 
 const PLACEHOLDER_ORGANIZATIONS = ["Tech Company", "Digital Solutions Ltd."];
 const GENERIC_LINKEDIN_URL = /https:\/\/www\.linkedin\.com\/?["']/;
 const GITHUB_PROFILE_ONLY_SOURCE = /source:\s*"https:\/\/github\.com\/[^/"]+\/?"/;
 
+function readContentSource(): string {
+  const chunks: string[] = [];
+
+  function walk(directory: string) {
+    for (const entry of readdirSync(directory)) {
+      const fullPath = join(directory, entry);
+      if (statSync(fullPath).isDirectory()) {
+        walk(fullPath);
+        continue;
+      }
+
+      if (entry.endsWith(".ts")) {
+        chunks.push(readFileSync(fullPath, "utf8"));
+      }
+    }
+  }
+
+  walk(contentDir);
+  return chunks.join("\n");
+}
+
 function main() {
   const errors: string[] = [];
   const warnings: string[] = [];
-  const siteSource = readFileSync(siteFilePath, "utf8");
+  const siteSource = readContentSource();
 
   if (!/name:\s*"[^"]+"/.test(siteSource)) {
     errors.push("site.name is missing");
@@ -28,7 +49,7 @@ function main() {
   }
 
   if (GENERIC_LINKEDIN_URL.test(siteSource)) {
-    errors.push("site.ts contains a generic LinkedIn homepage URL");
+    errors.push("lib/content contains a generic LinkedIn homepage URL");
   }
 
   if (GITHUB_PROFILE_ONLY_SOURCE.test(siteSource)) {

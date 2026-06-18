@@ -1,4 +1,4 @@
-import ContactSection from "@/components/contact-section";
+import ContactSection from "@/components/contact/contact-section";
 import { createPageMetadata } from "@/lib/seo";
 import { contact } from "@/lib/site";
 

@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { ExternalLink } from "@/components/external-link";
-import { HeroPortrait } from "@/components/hero-portrait";
-import { LinkArrowRightIcon } from "@/components/link-icons";
+import { ExternalLink } from "@/components/shared/external-link";
+import { HeroPortrait } from "@/components/home/hero-portrait";
+import { LinkArrowRightIcon } from "@/components/shared/link-icons";
 import { buttonVariants } from "@/components/ui/button";
 import {
   getEnabledHeroCtas,

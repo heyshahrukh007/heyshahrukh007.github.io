@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import { ContentThumbnail } from "@/components/content-thumbnail";
-import { ExternalLink } from "@/components/external-link";
-import { TagList } from "@/components/tag-list";
-import { LinkArrowRightIcon, LinkArrowUpRightIcon } from "@/components/link-icons";
+import { ContentThumbnail } from "@/components/portfolio/content-thumbnail";
+import { ExternalLink } from "@/components/shared/external-link";
+import { TagList } from "@/components/shared/tag-list";
+import { LinkArrowRightIcon, LinkArrowUpRightIcon } from "@/components/shared/link-icons";
 import { getProjectRoute, type Project } from "@/lib/site";
 import { textLinkWithIconClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";

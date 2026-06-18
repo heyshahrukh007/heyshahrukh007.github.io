@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 
 import { hero, site } from "@/lib/site";
+import type { PageMetadataOptions } from "@/types/seo";
 
 export const siteUrl = "https://heyshahrukh007.github.io";
 
 export const defaultDescription = hero.summary;
 
 export const defaultTitle = `${site.name} — ${site.role}`;
-
-type PageMetadataOptions = {
-  title?: string;
-  description?: string;
-  path?: `/${string}` | "/";
-};
 
 export function absoluteUrl(path: string = "/"): string {
   const normalized = path.startsWith("/") ? path : `/${path}`;

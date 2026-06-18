@@ -1,6 +1,6 @@
-import { ProjectsList } from "@/components/project-card";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import { SectionHeading } from "@/components/section-heading";
+import { ProjectsList } from "@/components/portfolio/project-card";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
+import { SectionHeading } from "@/components/shared/section-heading";
 import { createPageMetadata } from "@/lib/seo";
 import { projects } from "@/lib/site";
 

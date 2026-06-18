@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { ProjectCard } from "@/components/project-card";
-import { SectionHeading } from "@/components/section-heading";
-import { LinkArrowRightIcon } from "@/components/link-icons";
+import { ProjectCard } from "@/components/portfolio/project-card";
+import { SectionHeading } from "@/components/shared/section-heading";
+import { LinkArrowRightIcon } from "@/components/shared/link-icons";
 import { getFeaturedProjects, getPortfolioIndexRoute, home } from "@/lib/site";
 import { textLinkWithIconClassName } from "@/lib/link-styles";
 

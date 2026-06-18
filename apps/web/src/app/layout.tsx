@@ -1,11 +1,11 @@
 import "@fontsource-variable/inter";
 
 import "../index.css";
-import Footer from "@/components/footer";
-import Header from "@/components/header";
-import { MouseSpotlight } from "@/components/mouse-spotlight";
-import Providers from "@/components/providers";
-import SkipLink from "@/components/skip-link";
+import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/header";
+import { MouseSpotlight } from "@/components/layout/mouse-spotlight";
+import Providers from "@/components/layout/providers";
+import SkipLink from "@/components/layout/skip-link";
 import { rootMetadata } from "@/lib/seo";
 
 export const metadata = rootMetadata;

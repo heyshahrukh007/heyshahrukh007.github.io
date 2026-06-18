@@ -1,5 +1,5 @@
-import { ExternalLink } from "@/components/external-link";
-import { socialIconComponents } from "@/components/social-icons";
+import { ExternalLink } from "@/components/shared/external-link";
+import { socialIconComponents } from "@/components/shared/social-icons";
 import { getEnabledSocialLinks, socialLinks } from "@/lib/site";
 import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";

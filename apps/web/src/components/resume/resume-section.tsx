@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
-import { SectionHeading } from "@/components/section-heading";
-import { LinkArrowUpRightIcon } from "@/components/link-icons";
+import { SectionHeading } from "@/components/shared/section-heading";
+import { LinkArrowUpRightIcon } from "@/components/shared/link-icons";
 import { resume } from "@/lib/site";
 import { cn } from "@/lib/utils";
 

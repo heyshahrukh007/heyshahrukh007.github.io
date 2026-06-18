@@ -1,7 +1,7 @@
-import Experience from "@/components/experience";
-import ResumeSection from "@/components/resume-section";
-import { ScrollReveal } from "@/components/scroll-reveal";
-import Skills from "@/components/skills";
+import Experience from "@/components/resume/experience";
+import ResumeSection from "@/components/resume/resume-section";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
+import Skills from "@/components/resume/skills";
 import { createPageMetadata } from "@/lib/seo";
 import { resume } from "@/lib/site";
 

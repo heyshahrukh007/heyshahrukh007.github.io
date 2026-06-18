@@ -4,29 +4,13 @@ import { useForm } from "@tanstack/react-form";
 import { env } from "@heyshahrukh007.github.io/env/web";
 import { Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-
-const inquirySchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100, "Name is too long"),
-  email: z
-    .string()
-    .trim()
-    .min(1, "Email is required")
-    .email("Enter a valid email address"),
-  message: z
-    .string()
-    .trim()
-    .min(10, "Message must be at least 10 characters")
-    .max(5000, "Message is too long"),
-});
-
-type InquiryValues = z.infer<typeof inquirySchema>;
+import { inquirySchema, type InquiryValues } from "@/types/contact";
 
 const accessField = ["access", "key"].join("_");
 

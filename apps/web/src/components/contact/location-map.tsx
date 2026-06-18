@@ -1,5 +1,5 @@
-import { ExternalLink } from "@/components/external-link";
-import { LinkArrowUpRightIcon } from "@/components/link-icons";
+import { ExternalLink } from "@/components/shared/external-link";
+import { LinkArrowUpRightIcon } from "@/components/shared/link-icons";
 import { contact, site } from "@/lib/site";
 import { textLinkWithIconClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";

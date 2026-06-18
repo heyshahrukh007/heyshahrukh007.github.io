@@ -1,5 +1,5 @@
-import HeaderNav from "@/components/header-nav";
-import { SiteLogo } from "@/components/site-logo";
+import HeaderNav from "@/components/layout/header-nav";
+import { SiteLogo } from "@/components/layout/site-logo";
 
 export default function Header() {
   return (

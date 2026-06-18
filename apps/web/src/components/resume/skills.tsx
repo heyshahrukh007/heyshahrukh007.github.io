@@ -1,6 +1,6 @@
-import { SectionHeading } from "@/components/section-heading";
-import { Subsection } from "@/components/subsection";
-import { TagList } from "@/components/tag-list";
+import { SectionHeading } from "@/components/shared/section-heading";
+import { Subsection } from "@/components/shared/subsection";
+import { TagList } from "@/components/shared/tag-list";
 import { skills } from "@/lib/site";
 
 type SkillsProps = {

@@ -36,7 +36,6 @@ heyshahrukh007.github.io/
 | Portfolio | `/portfolio`, `/portfolio/[slug]` |
 | Contact | `/contact` |
 | Resume + Experience + Skills | `/resume` |
-| Articles | `/articles` (built, nav disabled) |
 
 ## Common Commands
 

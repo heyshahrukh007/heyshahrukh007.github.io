@@ -1,8 +1,8 @@
-import About from "@/components/about";
-import FeaturedProjects from "@/components/featured-projects";
-import Hero from "@/components/hero";
-import ProfessionalHighlights from "@/components/professional-highlights";
-import { ScrollReveal } from "@/components/scroll-reveal";
+import About from "@/components/about/about";
+import FeaturedProjects from "@/components/home/featured-projects";
+import Hero from "@/components/home/hero";
+import ProfessionalHighlights from "@/components/home/professional-highlights";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({ path: "/" });

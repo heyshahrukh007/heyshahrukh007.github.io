@@ -1,4 +1,4 @@
-import { SectionHeading } from "@/components/section-heading";
+import { SectionHeading } from "@/components/shared/section-heading";
 import { experience } from "@/lib/site";
 
 type ExperienceEntryProps = {

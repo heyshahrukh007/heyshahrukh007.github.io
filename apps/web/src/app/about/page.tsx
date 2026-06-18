@@ -1,4 +1,4 @@
-import About from "@/components/about";
+import About from "@/components/about/about";
 import { createPageMetadata } from "@/lib/seo";
 import { about } from "@/lib/site";
 

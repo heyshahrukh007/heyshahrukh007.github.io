@@ -1,5 +1,7 @@
 import type { SVGProps } from "react";
 
+import type { SocialIconName } from "@/types/social";
+
 type SocialIconProps = SVGProps<SVGSVGElement>;
 
 export function GithubIcon({ className, ...props }: SocialIconProps) {
@@ -48,6 +50,6 @@ export const socialIconComponents = {
   github: GithubIcon,
   linkedin: LinkedinIcon,
   instagram: InstagramIcon,
-} as const;
+} as const satisfies Record<SocialIconName, typeof GithubIcon>;
 
-export type SocialIconName = keyof typeof socialIconComponents;
+export type { SocialIconName } from "@/types/social";

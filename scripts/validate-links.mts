@@ -4,13 +4,30 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = join(rootDir, "apps/web/out");
-const siteFilePath = join(rootDir, "apps/web/src/lib/site.ts");
+const contentDir = join(rootDir, "apps/web/src/lib/content");
 const sitemapPath = join(outDir, "sitemap.xml");
 
 const GENERIC_LINKEDIN_URL = /https:\/\/www\.linkedin\.com\/?["']/;
 
-function readSiteSource() {
-  return readFileSync(siteFilePath, "utf8");
+function readContentSource() {
+  const chunks: string[] = [];
+
+  function walk(directory: string) {
+    for (const entry of readdirSync(directory)) {
+      const fullPath = join(directory, entry);
+      if (statSync(fullPath).isDirectory()) {
+        walk(fullPath);
+        continue;
+      }
+
+      if (entry.endsWith(".ts")) {
+        chunks.push(readFileSync(fullPath, "utf8"));
+      }
+    }
+  }
+
+  walk(contentDir);
+  return chunks.join("\n");
 }
 
 function collectExternalUrls(siteSource: string) {
@@ -236,7 +253,7 @@ async function mapConcurrent<T>(
 
 async function main() {
   const errors: string[] = [];
-  const siteSource = readSiteSource();
+  const siteSource = readContentSource();
 
   if (!existsSync(outDir)) {
     console.error("validate-links: build output not found. Run `pnpm build` first.");
@@ -244,7 +261,7 @@ async function main() {
   }
 
   if (GENERIC_LINKEDIN_URL.test(siteSource)) {
-    errors.push("site.ts contains a generic LinkedIn homepage URL");
+    errors.push("lib/content contains a generic LinkedIn homepage URL");
   }
 
   for (const route of parseSitemapRoutes()) {

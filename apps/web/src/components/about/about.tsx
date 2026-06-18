@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { ProfileAvatar } from "@/components/profile-avatar";
-import { SectionHeading } from "@/components/section-heading";
-import { Subsection } from "@/components/subsection";
-import { TagList } from "@/components/tag-list";
-import { LinkArrowRightIcon } from "@/components/link-icons";
+import { ProfileAvatar } from "@/components/about/profile-avatar";
+import { SectionHeading } from "@/components/shared/section-heading";
+import { Subsection } from "@/components/shared/subsection";
+import { TagList } from "@/components/shared/tag-list";
+import { LinkArrowRightIcon } from "@/components/shared/link-icons";
 import { about } from "@/lib/site";
 import { textLinkWithIconClassName } from "@/lib/link-styles";
 

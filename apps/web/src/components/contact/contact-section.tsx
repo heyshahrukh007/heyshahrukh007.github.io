@@ -1,7 +1,7 @@
-import { InquiryPanel } from "@/components/inquiry-panel";
-import { LocationMap } from "@/components/location-map";
-import { Subsection } from "@/components/subsection";
-import { SectionHeading } from "@/components/section-heading";
+import { InquiryPanel } from "@/components/contact/inquiry-panel";
+import { LocationMap } from "@/components/contact/location-map";
+import { Subsection } from "@/components/shared/subsection";
+import { SectionHeading } from "@/components/shared/section-heading";
 import { contact } from "@/lib/site";
 
 type ContactSectionProps = {
