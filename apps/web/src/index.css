@@ -5,54 +5,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.98 0.002 247.96);
-  --foreground: oklch(0.2 0.004 247.96);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.004 247.96);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.004 247.96);
-  --primary: oklch(0.65 0.15 180);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.88 0.08 180);
-  --secondary-foreground: oklch(0.2 0.004 247.96);
-  --muted: oklch(0.94 0.002 247.96);
-  --muted-foreground: oklch(0.5 0.002 247.96);
-  --accent: oklch(0.65 0.15 180);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.58 0.22 27);
-  --border: oklch(0.92 0.004 247.96);
-  --input: oklch(0.96 0.004 247.96);
-  --ring: oklch(0.65 0.15 180);
-  --chart-1: oklch(0.65 0.15 180);
-  --chart-2: oklch(0.55 0.12 180);
-  --chart-3: oklch(0.75 0.1 200);
-  --chart-4: oklch(0.7 0.12 190);
-  --chart-5: oklch(0.6 0.14 170);
-  --sidebar: oklch(0.98 0.002 247.96);
-  --sidebar-foreground: oklch(0.2 0.004 247.96);
-  --sidebar-primary: oklch(0.65 0.15 180);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.88 0.08 180);
-  --sidebar-accent-foreground: oklch(0.2 0.004 247.96);
-  --sidebar-border: oklch(0.92 0.004 247.96);
-  --sidebar-ring: oklch(0.65 0.15 180);
-  --radius: 0.5rem;
-  --motion-duration-fast: 150ms;
-  --motion-duration-normal: 220ms;
-  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --location-map-filter: sepia(0.22) saturate(1.45) hue-rotate(145deg) brightness(1.03);
-  --location-map-tint: color-mix(in oklch, var(--primary) 34%, transparent);
-  --location-map-tint-opacity: 0.34;
-  --location-map-tint-blend: soft-light;
-  --scrollbar-size: 8px;
-  --scrollbar-track: transparent;
-  --scrollbar-thumb: color-mix(in oklch, var(--muted) 22%, transparent);
-  --scrollbar-thumb-border: color-mix(in oklch, var(--border) 55%, transparent);
-  --scrollbar-thumb-hover: color-mix(in oklch, var(--primary) 28%, transparent);
-  --scrollbar-thumb-hover-border: color-mix(in oklch, var(--primary) 42%, transparent);
-}
-
-.dark {
   --background: oklch(0.15 0.004 247.96);
   --foreground: oklch(0.95 0.002 247.96);
   --card: oklch(0.22 0.004 247.96);
@@ -84,11 +36,16 @@
   --sidebar-accent-foreground: oklch(0.95 0.002 247.96);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.7 0.15 180);
+  --radius: 0.5rem;
+  --motion-duration-fast: 150ms;
+  --motion-duration-normal: 220ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --location-map-filter: invert(0.94) hue-rotate(180deg) brightness(0.78) saturate(0.72) sepia(0.28)
     hue-rotate(152deg);
   --location-map-tint: color-mix(in oklch, var(--primary) 48%, transparent);
   --location-map-tint-opacity: 0.44;
   --location-map-tint-blend: color;
+  --scrollbar-size: 8px;
   --scrollbar-track: transparent;
   --scrollbar-thumb: color-mix(in oklch, var(--foreground) 12%, transparent);
   --scrollbar-thumb-border: color-mix(in oklch, var(--border) 65%, transparent);
@@ -272,14 +229,28 @@
 
   html {
     @apply font-sans overflow-x-clip;
+    color-scheme: dark;
     scrollbar-gutter: stable;
   }
+
   body {
     @apply font-sans bg-background text-foreground;
-    background-image: 
-      radial-gradient(ellipse at 100% 0%, rgba(20, 184, 166, 0.10) 0%, transparent 50%),
-      repeating-linear-gradient(0deg, transparent, transparent 40px, color-mix(in oklch, var(--primary) 5%, transparent) 40px, color-mix(in oklch, var(--primary) 5%, transparent) 40.5px),
-      repeating-linear-gradient(90deg, transparent, transparent 40px, color-mix(in oklch, var(--primary) 5%, transparent) 40px, color-mix(in oklch, var(--primary) 5%, transparent) 40.5px);
+    background-image:
+      radial-gradient(ellipse at 100% 0%, rgba(20, 184, 166, 0.1) 0%, transparent 50%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 40px,
+        color-mix(in oklch, var(--primary) 5%, transparent) 40px,
+        color-mix(in oklch, var(--primary) 5%, transparent) 40.5px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 40px,
+        color-mix(in oklch, var(--primary) 5%, transparent) 40px,
+        color-mix(in oklch, var(--primary) 5%, transparent) 40.5px
+      );
     background-size: 100% 100%, 100% 100%, 100% 100%;
     background-attachment: fixed;
   }

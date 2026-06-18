@@ -60,10 +60,10 @@ export function HeroPortrait({ className }: HeroPortraitProps) {
         />
         <div
           aria-hidden
-          className="absolute top-[8%] left-1/2 size-[76%] -translate-x-1/2 rounded-full bg-background ring-1 ring-border dark:bg-card"
+          className="absolute top-[8%] left-1/2 size-[76%] -translate-x-1/2 rounded-full bg-card ring-1 ring-border"
         />
 
-        <div className="absolute inset-0 overflow-hidden rounded-[1.75rem] bg-card shadow-lg ring-1 ring-border dark:shadow-md dark:ring-border/50">
+        <div className="absolute inset-0 overflow-hidden rounded-[1.75rem] bg-card shadow-md ring-1 ring-border/50">
           {hasError ? (
             <div
               aria-label={hero.photo.alt}

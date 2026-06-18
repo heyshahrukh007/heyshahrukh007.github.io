@@ -13,7 +13,13 @@ export function SiteLogo({ className }: SiteLogoProps) {
   const initials = getInitials(site.name);
 
   return (
-    <div className={cn("flex min-w-0 items-center gap-3", className)}>
+    <div
+      className={cn(
+        "flex w-fit max-w-full items-center gap-3",
+        "mx-auto md:mx-0 md:min-w-0",
+        className,
+      )}
+    >
       <Link
         href="/"
         aria-label={`${site.name} — home`}

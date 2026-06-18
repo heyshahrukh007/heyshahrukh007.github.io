@@ -134,13 +134,13 @@ export default function HeaderNav({ className }: { className?: string }) {
       aria-label="Primary"
       className={cn(
         "min-w-0 -mx-6 px-6",
-        "md:mx-0 md:flex md:justify-center md:px-0",
+        "md:mx-0 md:flex md:justify-end md:px-0",
         className,
       )}
     >
       <ul
         ref={listRef}
-        className="scrollbar-none relative mx-auto flex w-max max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-border/60 bg-muted/20 p-1"
+        className="scrollbar-none relative mx-auto flex w-max max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-border/60 bg-muted/20 p-1 md:mx-0 md:ml-auto"
       >
         {showIndicator ? (
           <span
