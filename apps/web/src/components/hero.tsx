@@ -4,7 +4,6 @@ import { ExternalLink } from "@/components/external-link";
 import { HeroPortrait } from "@/components/hero-portrait";
 import { LinkArrowRightIcon } from "@/components/link-icons";
 import { buttonVariants } from "@/components/ui/button";
-import { SocialLinks } from "@/components/social-links";
 import {
   getEnabledHeroCtas,
   hero,
@@ -89,11 +88,6 @@ export default function Hero() {
             ))}
           </div>
         ) : null}
-
-        <SocialLinks
-          className="justify-center lg:justify-start"
-          excludeHrefs={ctas.map((cta) => cta.href)}
-        />
       </div>
 
       <HeroPortrait className="lg:justify-self-end" />

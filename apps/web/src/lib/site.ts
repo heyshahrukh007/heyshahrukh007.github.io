@@ -471,7 +471,7 @@ export const contact = {
   title: "Contact",
   summary: "Get in touch for collaboration, opportunities, or technical conversations.",
   intro:
-    "I'm open to discussing software engineering roles, freelance work, and interesting product ideas. Email is the fastest way to reach me.",
+    "Use the form below for collaboration, roles, or project ideas.",
   email: {
     address: "heyshahrukh007@gmail.com",
     href: "mailto:heyshahrukh007@gmail.com",
@@ -488,6 +488,19 @@ export const socialLinks = [
   {
     label: "GitHub",
     href: "https://github.com/heyshahrukh007",
+    icon: "github",
+    enabled: true,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/heyshahrukh007",
+    icon: "linkedin",
+    enabled: true,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/heyshahrukh007",
+    icon: "instagram",
     enabled: true,
   },
 ] as const;

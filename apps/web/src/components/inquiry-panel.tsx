@@ -115,7 +115,7 @@ export function InquiryPanel() {
 
           return (
             <div className="space-y-2">
-              <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
+              <Label htmlFor={field.name} className="text-sm font-medium tracking-tight text-foreground">
                 Name
               </Label>
               <Input
@@ -129,6 +129,7 @@ export function InquiryPanel() {
                 aria-invalid={isInvalid}
                 aria-describedby={isInvalid ? errorId : undefined}
                 placeholder="Your name"
+                className="h-10 text-sm"
               />
               {isInvalid ? (
                 <p id={errorId} className="text-xs text-destructive" role="alert">
@@ -149,7 +150,7 @@ export function InquiryPanel() {
 
           return (
             <div className="space-y-2">
-              <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
+              <Label htmlFor={field.name} className="text-sm font-medium tracking-tight text-foreground">
                 Email
               </Label>
               <Input
@@ -164,6 +165,7 @@ export function InquiryPanel() {
                 aria-invalid={isInvalid}
                 aria-describedby={isInvalid ? errorId : undefined}
                 placeholder="you@example.com"
+                className="h-10 text-sm"
               />
               {isInvalid ? (
                 <p id={errorId} className="text-xs text-destructive" role="alert">
@@ -184,7 +186,7 @@ export function InquiryPanel() {
 
           return (
             <div className="space-y-2">
-              <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
+              <Label htmlFor={field.name} className="text-sm font-medium tracking-tight text-foreground">
                 Message
               </Label>
               <Textarea
@@ -197,7 +199,7 @@ export function InquiryPanel() {
                 aria-invalid={isInvalid}
                 aria-describedby={isInvalid ? errorId : undefined}
                 placeholder="Tell me about your project, role, or idea..."
-                className="min-h-32 resize-y"
+                className="min-h-32 resize-y text-sm leading-relaxed"
               />
               {isInvalid ? (
                 <p id={errorId} className="text-xs text-destructive" role="alert">
@@ -211,22 +213,23 @@ export function InquiryPanel() {
 
       <form.Subscribe selector={(state) => [state.isSubmitting] as const}>
         {([isSubmitting]) => (
-          <Button
-            type="submit"
-            shape="pill"
-            size="lg"
-            disabled={isSubmitting}
-            className={cn("w-full justify-center px-5 sm:w-auto")}
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2Icon className="size-4 animate-spin" />
-                Sending...
-              </>
-            ) : (
-              "Send message"
-            )}
-          </Button>
+          <div className="flex justify-end pt-1">
+            <Button
+              type="submit"
+              size="lg"
+              disabled={isSubmitting}
+              className={cn("h-10 px-6 text-sm font-medium tracking-tight")}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2Icon className="size-4 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                "Send message"
+              )}
+            </Button>
+          </div>
         )}
       </form.Subscribe>
     </form>

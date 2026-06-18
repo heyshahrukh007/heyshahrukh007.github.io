@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 import { getInitials } from "@/lib/initials";
-import { site } from "@/lib/site";
+import { contact, site } from "@/lib/site";
+import { textLinkClassName } from "@/lib/link-styles";
 import { cn } from "@/lib/utils";
 
 type SiteLogoProps = {
@@ -12,21 +13,28 @@ export function SiteLogo({ className }: SiteLogoProps) {
   const initials = getInitials(site.name);
 
   return (
-    <Link
-      href="/"
-      aria-label={`${site.name} — home`}
-      className={cn("group motion-interactive inline-flex min-w-0 items-center gap-2.5", className)}
-    >
-      <span className="relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-background text-xs font-semibold tracking-tight text-primary shadow-sm transition-colors group-hover:border-primary/40">
-        <span
-          aria-hidden
-          className="absolute inset-0 bg-linear-to-br from-primary/15 via-transparent to-primary/5"
-        />
-        <span className="relative">{initials}</span>
-      </span>
-      <span className="hidden truncate text-sm font-medium tracking-tight text-foreground transition-colors group-hover:text-primary md:inline">
-        {site.name}
-      </span>
-    </Link>
+    <div className={cn("flex min-w-0 items-center gap-3", className)}>
+      <Link
+        href="/"
+        aria-label={`${site.name} — home`}
+        className="motion-interactive relative flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 font-semibold tracking-tight text-primary ring-1 ring-primary/20 transition-all hover:bg-primary/15 hover:ring-primary/35"
+      >
+        <span className="text-[0.7rem] leading-none">{initials}</span>
+      </Link>
+      <div className="flex min-w-0 flex-col gap-0.5">
+        <Link
+          href="/"
+          className="truncate text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
+        >
+          {site.name}
+        </Link>
+        <a
+          href={contact.email.href}
+          className={cn("truncate text-xs text-muted-foreground", textLinkClassName)}
+        >
+          {contact.email.address}
+        </a>
+      </div>
+    </div>
   );
 }
