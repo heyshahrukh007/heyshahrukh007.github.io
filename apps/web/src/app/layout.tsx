@@ -3,6 +3,7 @@ import "@fontsource-variable/inter";
 import "../index.css";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import { MouseSpotlight } from "@/components/mouse-spotlight";
 import Providers from "@/components/providers";
 import SkipLink from "@/components/skip-link";
 import { rootMetadata } from "@/lib/seo";
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className="antialiased">
         <Providers>
           <div className="relative flex min-h-svh flex-col">
+            <MouseSpotlight />
             <SkipLink />
             <Header />
             <main
