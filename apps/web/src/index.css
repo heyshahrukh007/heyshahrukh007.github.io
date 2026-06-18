@@ -159,6 +159,8 @@
 
   .motion-interactive,
   .motion-nav-indicator,
+  .site-header__backdrop,
+  .site-header__accent,
   .location-map__iframe,
   .location-map__tint {
     transition: none !important;
@@ -273,6 +275,14 @@
     transition-property: color, background-color, border-color, opacity, transform;
     transition-duration: var(--motion-duration-fast);
     transition-timing-function: var(--motion-ease);
+  }
+
+  .site-header__backdrop {
+    transition: opacity 400ms var(--motion-ease);
+  }
+
+  .site-header__accent {
+    transition: opacity 400ms var(--motion-ease);
   }
 
   .motion-page-enter {
