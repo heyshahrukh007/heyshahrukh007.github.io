@@ -11,6 +11,8 @@ type HeroPortraitProps = {
   className?: string;
 };
 
+const portraitImageMaskClass = "hero-portrait-image-mask";
+
 function HeroShape({
   className,
   children,
@@ -63,20 +65,25 @@ export function HeroPortrait({ className }: HeroPortraitProps) {
         {hasError ? (
           <div
             aria-label={hero.photo.alt}
-            className="absolute inset-0 z-10 flex items-center justify-center text-5xl font-semibold tracking-tight text-foreground/80 sm:text-6xl"
+            className={cn(
+              "absolute inset-0 z-10 flex items-center justify-center text-5xl font-semibold tracking-tight text-foreground/80 sm:text-6xl",
+              portraitImageMaskClass,
+            )}
           >
             {getInitials(site.name)}
           </div>
         ) : (
-          <img
-            key={hero.photo.src}
-            src={hero.photo.src}
-            alt={hero.photo.alt}
-            decoding="async"
-            fetchPriority="high"
-            className="absolute inset-0 z-10 h-full w-full origin-bottom scale-[1.06] object-contain object-bottom"
-            onError={() => setHasError(true)}
-          />
+          <div className={cn("absolute inset-0 z-10", portraitImageMaskClass)}>
+            <img
+              key={hero.photo.src}
+              src={hero.photo.src}
+              alt={hero.photo.alt}
+              decoding="async"
+              fetchPriority="high"
+              className="h-full w-full origin-bottom scale-[1.06] object-contain object-bottom"
+              onError={() => setHasError(true)}
+            />
+          </div>
         )}
       </div>
     </div>

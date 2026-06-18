@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { ExternalLink } from "@/components/shared/external-link";
-import { HeroPortrait } from "@/components/home/hero-portrait";
+import { HeroVisual } from "@/components/home/hero-visual";
 import { LinkArrowRightIcon } from "@/components/shared/link-icons";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -90,7 +90,7 @@ export default function Hero() {
         ) : null}
       </div>
 
-      <HeroPortrait className="lg:justify-self-end" />
+      <HeroVisual className="lg:justify-self-end" />
     </section>
   );
 }

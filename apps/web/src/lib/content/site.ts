@@ -27,6 +27,13 @@ export const hero = {
     src: "/images/hero-portrait.png",
     alt: `${site.name} portrait`,
   },
+  developerSnippet: {
+    variableName: "developer",
+    name: site.name,
+    role: site.role,
+    skills: ["TypeScript", "React", "Next.js", "Node.js"],
+    passion: "Building scalable solutions",
+  },
   ctas: [
     { label: "View Portfolio", enabled: true, href: "/portfolio" },
     { label: "Download Resume", enabled: true, href: "/resume", variant: "outline" },
@@ -43,6 +50,13 @@ export const hero = {
   photo: {
     src: string;
     alt: string;
+  };
+  developerSnippet: {
+    variableName: string;
+    name: string;
+    role: string;
+    skills: readonly string[];
+    passion: string;
   };
   ctas: readonly HeroCta[];
 };
