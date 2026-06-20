@@ -57,7 +57,7 @@ export default function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12 xl:gap-16"
+      className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-0"
     >
       <div className="flex min-w-0 flex-col gap-6 text-center lg:gap-7 lg:text-left">
         <p className="text-sm font-medium text-muted-foreground sm:text-base">{hero.greeting}</p>

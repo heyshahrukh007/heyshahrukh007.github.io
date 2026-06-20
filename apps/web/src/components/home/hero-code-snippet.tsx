@@ -22,7 +22,7 @@ export function HeroCodeSnippet({ className, compact = false }: HeroCodeSnippetP
   return (
     <figure
       className={cn(
-        "rounded-xl border border-border/60 bg-card/85 shadow-lg ring-1 ring-border/40 backdrop-blur-md",
+        "rounded-xl border border-border/45 bg-card/70 shadow-lg ring-1 ring-border/30 backdrop-blur-lg",
         className,
       )}
     >
