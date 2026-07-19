@@ -27,10 +27,15 @@
 | TASK-023 | Nav Active Indicator Fix  | DONE   | High     |
 | TASK-024 | Home GSAP Parallax        | DONE   | Medium   |
 | TASK-025 | Home Projects Scroll Story | DONE   | High     |
+| TASK-026 | Home Intro Hero→Proof→Projects | DONE   | High     |
+
+## TASK-026 — Home Intro Hero→Proof→Projects
+
+Single home story scene (`home-intro-scene`, `proof-stats`, `use-home-intro-scroll`, `home-intro-timeline`). Desktop pins Hero→Proof→Projects scrub under header (same handoff language between beats), then nested coverflow; tablet/mobile/short viewports stacked reveal + GSAP counts with separate projects pin/stack; reduced-motion static. Replaces separate hero parallax + professional highlights + rAF count-up + standalone home `ProjectSection` pin.
 
 ## TASK-025 — Home Projects Scroll Story
 
-Pinned horizontal project track on home (`project-section`, `use-project-scroll`, `project-timeline`). Vertical scroll scrubs a spaced flex row; mobile + reduced-motion stacked fade. `/portfolio` list unchanged.
+Coverflow primitives live in `project-timeline.ts` (`attachProjectCoverflow`, layout helpers). On home they nest inside TASK-026’s pin; stacked breakpoints still use `createProjectScrollTimeline` for tablet+. `/portfolio` list unchanged.
 
 ## Review backlog (Critical & High)
 

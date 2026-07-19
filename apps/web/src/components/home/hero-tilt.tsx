@@ -23,7 +23,9 @@ export function HeroTilt({ children, className }: HeroTiltProps) {
   useGSAP(
     () => {
       const element = ref.current;
-      if (!element || prefersReducedMotion() || !hasFinePointer()) {
+      // Desktop + fine pointer only — intro pin / stacked mobile skip tilt.
+      const desktop = window.matchMedia("(min-width: 1024px)").matches;
+      if (!element || prefersReducedMotion() || !hasFinePointer() || !desktop) {
         return;
       }
 

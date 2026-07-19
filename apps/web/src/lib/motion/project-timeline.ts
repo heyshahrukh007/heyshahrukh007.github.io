@@ -109,21 +109,21 @@ function applyPinnedTop(pin: gsap.DOMTarget | null | undefined) {
   const el = resolvePinEl(pin);
   if (!el) return;
   // Keep pin under the sticky header (header is z-50).
-  gsap.set(el, { top: getPinTop(), zIndex: 40 });
+  gsap.set(el, { top: getPinTop(), zIndex: 45 });
 }
 
 /** Track `x` that centers `card` in the stage (ignores current track transform). */
-function getTrackXToCenter(stage: HTMLElement, card: HTMLElement) {
+export function getTrackXToCenter(stage: HTMLElement, card: HTMLElement) {
   const stageCenter = stage.clientWidth / 2;
   const cardCenter = card.offsetLeft + card.offsetWidth / 2;
   return stageCenter - cardCenter;
 }
 
-function getScrollLength(cardCount: number, segmentVh: number) {
+export function getProjectScrollLength(cardCount: number, segmentVh: number) {
   return Math.max(0, cardCount - 1) * window.innerHeight * (segmentVh / 100);
 }
 
-function createFloat(card: HTMLElement) {
+export function createFloat(card: HTMLElement) {
   return gsap.to(card, {
     y: FLOAT_Y,
     duration: FLOAT_DURATION,
@@ -133,7 +133,7 @@ function createFloat(card: HTMLElement) {
   });
 }
 
-function nearestCardIndex(stage: HTMLElement, cards: HTMLElement[]) {
+export function nearestCardIndex(stage: HTMLElement, cards: HTMLElement[]) {
   const stageRect = stage.getBoundingClientRect();
   const stageCenter = stageRect.left + stageRect.width / 2;
   let best = 0;
@@ -156,7 +156,7 @@ function nearestCardIndex(stage: HTMLElement, cards: HTMLElement[]) {
  * Scale / fade cards by distance from stage center so neighbors stay visible
  * but the focused project reads clearly.
  */
-function updateCardFocus(stage: HTMLElement, cards: HTMLElement[]) {
+export function updateCardFocus(stage: HTMLElement, cards: HTMLElement[]) {
   const stageRect = stage.getBoundingClientRect();
   const stageCenter = stageRect.left + stageRect.width / 2;
   const step = Math.max(1, getCardWidth(stage) + TRACK_GAP_PX);
@@ -173,7 +173,11 @@ function updateCardFocus(stage: HTMLElement, cards: HTMLElement[]) {
   });
 }
 
-function layoutTrack(stage: HTMLElement, track: HTMLElement, cards: HTMLElement[]) {
+export function layoutProjectTrack(
+  stage: HTMLElement,
+  track: HTMLElement,
+  cards: HTMLElement[],
+) {
   gsap.set(track, {
     display: "flex",
     flexDirection: "row",
@@ -202,6 +206,81 @@ function layoutTrack(stage: HTMLElement, track: HTMLElement, cards: HTMLElement[
 }
 
 /**
+ * Attach horizontal coverflow scrub to an existing master timeline (no own pin).
+ * Used by the home intro story after Proof → Projects handoff.
+ */
+export function attachProjectCoverflow(
+  timeline: gsap.core.Timeline,
+  stage: HTMLElement,
+  track: HTMLElement,
+  cards: HTMLElement[],
+  position: string | number = ">",
+  duration = 1,
+): () => void {
+  if (cards.length === 0) {
+    return () => undefined;
+  }
+
+  layoutProjectTrack(stage, track, cards);
+  cards.forEach((card, index) => {
+    setCardAccessibility(card, index === 0);
+  });
+
+  if (cards.length === 1) {
+    const floatTween = createFloat(cards[0]!);
+    return () => {
+      floatTween.kill();
+      gsap.set(cards[0]!, { clearProps: "all" });
+      gsap.set([stage, track], { clearProps: "all" });
+    };
+  }
+
+  let activeIndex = 0;
+  let floatTween: gsap.core.Tween | null = createFloat(cards[0]!);
+
+  const setActiveIndex = (next: number) => {
+    if (next === activeIndex) return;
+    floatTween?.kill();
+    floatTween = null;
+    gsap.set(cards[activeIndex]!, { y: 0 });
+    activeIndex = next;
+    cards.forEach((card, index) => {
+      setCardAccessibility(card, index === activeIndex);
+    });
+    floatTween = createFloat(cards[activeIndex]!);
+  };
+
+  const onCoverflowUpdate = () => {
+    updateCardFocus(stage, cards);
+    setActiveIndex(nearestCardIndex(stage, cards));
+  };
+
+  timeline.fromTo(
+    track,
+    { x: () => getTrackXToCenter(stage, cards[0]!) },
+    {
+      x: () => getTrackXToCenter(stage, cards[cards.length - 1]!),
+      ease: "none",
+      duration,
+      onUpdate: onCoverflowUpdate,
+    },
+    position,
+  );
+
+  return () => {
+    floatTween?.kill();
+    floatTween = null;
+    cards.forEach((card) => {
+      gsap.set(card, { clearProps: "all" });
+      card.removeAttribute("aria-hidden");
+      card.removeAttribute("inert");
+    });
+    gsap.set(track, { clearProps: "all" });
+    gsap.set(stage, { clearProps: "all" });
+  };
+}
+
+/**
  * Builds the scrubbed pin + horizontal coverflow timeline.
  * Caller owns matchMedia / useGSAP lifecycle.
  */
@@ -218,52 +297,16 @@ export function createProjectScrollTimeline({
     return null;
   }
 
-  layoutTrack(stage, track, cards);
-  cards.forEach((card, index) => {
-    setCardAccessibility(card, index === 0);
-  });
-
-  if (cards.length === 1) {
-    const floatTween = createFloat(cards[0]!);
-    return {
-      timeline: gsap.timeline(),
-      cleanup: () => {
-        floatTween.kill();
-        gsap.set(cards[0]!, { clearProps: "all" });
-        gsap.set([stage, track, ...cards], { clearProps: "all" });
-      },
-    };
-  }
+  layoutProjectTrack(stage, track, cards);
 
   const count = cards.length;
-  let activeIndex = 0;
-  let floatTween: gsap.core.Tween | null = createFloat(cards[0]!);
-
-  const setActiveIndex = (next: number) => {
-    if (next === activeIndex) {
-      return;
-    }
-
-    floatTween?.kill();
-    floatTween = null;
-    gsap.set(cards[activeIndex]!, { y: 0 });
-
-    activeIndex = next;
-
-    cards.forEach((card, index) => {
-      setCardAccessibility(card, index === activeIndex);
-    });
-
-    floatTween = createFloat(cards[activeIndex]!);
-  };
-
   const timeline = gsap.timeline({
     defaults: { ease: "none", force3D: true },
     scrollTrigger: {
       trigger: section,
       // Pin clearly below the sticky header (height + clearance).
       start: () => `top ${getPinTop()}px`,
-      end: () => `+=${getScrollLength(count, segmentVh)}`,
+      end: () => `+=${getProjectScrollLength(count, segmentVh)}`,
       pin: true,
       pinSpacing: true,
       pinReparent: true,
@@ -279,49 +322,34 @@ export function createProjectScrollTimeline({
         applyPinnedTop(self.pin);
       },
       onRefresh: (self) => {
-        layoutTrack(stage, track, cards);
+        layoutProjectTrack(stage, track, cards);
         if (self.isActive) {
           applyPinnedTop(self.pin);
         }
       },
-      onUpdate: () => {
-        updateCardFocus(stage, cards);
-        setActiveIndex(nearestCardIndex(stage, cards));
-      },
     },
   });
 
-  timeline.fromTo(
+  const cleanupCoverflow = attachProjectCoverflow(
+    timeline,
+    stage,
     track,
-    {
-      x: () => getTrackXToCenter(stage, cards[0]!),
-    },
-    {
-      x: () => getTrackXToCenter(stage, cards[count - 1]!),
-      ease: "none",
-      duration: 1,
-    },
+    cards,
+    0,
+    1,
   );
 
   requestAnimationFrame(() => {
-    layoutTrack(stage, track, cards);
+    layoutProjectTrack(stage, track, cards);
     timeline.scrollTrigger?.refresh();
   });
 
   return {
     timeline,
     cleanup: () => {
-      floatTween?.kill();
-      floatTween = null;
+      cleanupCoverflow();
       timeline.scrollTrigger?.kill();
       timeline.kill();
-      cards.forEach((card) => {
-        gsap.set(card, { clearProps: "all" });
-        card.removeAttribute("aria-hidden");
-        card.removeAttribute("inert");
-      });
-      gsap.set(track, { clearProps: "all" });
-      gsap.set(stage, { clearProps: "all" });
     },
   };
 }

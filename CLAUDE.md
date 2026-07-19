@@ -16,7 +16,7 @@ This file provides context about the project for AI assistants.
 - Framework: next
 - CSS: tailwind
 - UI Library: shadcn-ui
-- Motion: GSAP + ScrollTrigger (`@gsap/react`); home hero parallax/tilt; home pinned projects scroll story; CSS keyframes for page enter / scroll reveal / hover
+- Motion: GSAP + ScrollTrigger (`@gsap/react`); home story Hero→Proof→Projects scene + nested coverflow; CSS keyframes for page enter / scroll reveal / hover
 
 ## Project Structure
 
@@ -32,7 +32,7 @@ heyshahrukh007.github.io/
 
 | Page | Path |
 |------|------|
-| Home | `/` — hero, highlights, projects scroll story, About summary |
+| Home | `/` — intro story (hero + proof + projects), About summary |
 | About | `/about` |
 | Portfolio | `/portfolio`, `/portfolio/[slug]` |
 | Contact | `/contact` |

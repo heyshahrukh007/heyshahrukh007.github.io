@@ -140,7 +140,7 @@ heyshahrukh007.github.io/
 |------|--------|
 | Global layout | Header, skip link, main landmark, footer |
 | Navigation | Enabled: Home, About, Projects, Architecture, Resume |
-| Home page | Hero, professional highlights, featured projects scroll story, compact About summary |
+| Home page | Intro story (hero → proof → projects), compact About summary |
 | About page | Full About + Contact (`/about`, contact at `#contact`) |
 | Resume page | Download CTAs, experience timeline, skills (`/resume`) |
 | Projects | Index + `[slug]` detail pages |
@@ -161,7 +161,7 @@ Section copy, navigation, and structured lists live in [`apps/web/src/lib/site.t
 
 | Route | Section | Nav | Notes |
 |-------|---------|-----|-------|
-| `/` | Home | Yes | Hero + highlights + projects story + About summary |
+| `/` | Home | Yes | Intro (hero + proof) + projects story + About summary |
 | `/about` | About + Contact | Yes | Contact section uses `id="contact"` |
 | `/projects` | Projects | Yes | Full project listing |
 | `/projects/[slug]` | Project detail | — | `generateStaticParams` |
@@ -266,7 +266,7 @@ pnpm build
 - **Utility helper:** `cn()` from `@/lib/utils`
 - **Responsive:** Mobile-first Tailwind breakpoints
 - **Accessibility:** Semantic HTML, `prefers-reduced-motion` on custom animations
-- **Motion:** Home hero uses GSAP ScrollTrigger for shallow parallax layers, scroll-exit, and pointer tilt (`apps/web/src/lib/gsap.ts`). Home featured projects use a pinned horizontal coverflow scrubbed by vertical scroll (`project-timeline.ts` + `use-project-scroll.ts`): desktop/tablet pin + `pinReparent`; focused card centered at full size, neighbors smaller/faded; mobile and `prefers-reduced-motion` use stacked fade-up without pin. Gate with `gsap.matchMedia`. Keep CSS for page enter, ScrollReveal, and hover transitions.
+- **Motion:** Home story uses one GSAP scene (`home-intro-timeline.ts` + `use-home-intro-scroll.ts`): desktop (`min-width: 1024px` and tall viewport) pins under the sticky header and scrubs Hero→Proof→Projects (same fade/lift handoff between beats), then nested horizontal coverflow (`attachProjectCoverflow` in `project-timeline.ts`); tablet/mobile or short viewports use stacked proof reveal + counts, with projects pin/coverflow from `768px` or stacked fade on mobile; `prefers-reduced-motion` shows final state statically. Hero pointer tilt is desktop + fine-pointer only. Gate with `gsap.matchMedia`. Keep CSS for page enter, ScrollReveal, and hover transitions.
 
 ### Design reference
 
