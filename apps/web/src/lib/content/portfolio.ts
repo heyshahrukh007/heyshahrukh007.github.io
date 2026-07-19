@@ -98,3 +98,8 @@ export function getProjectBySlug(slug: string): Project | undefined {
 export function getFeaturedProjects(limit = home.featuredProjects.limit) {
   return projects.items.slice(0, limit);
 }
+
+/** All projects for the home pinned scroll story (length drives scroll distance). */
+export function getStoryProjects(): readonly Project[] {
+  return projects.items;
+}

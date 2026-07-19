@@ -1,5 +1,5 @@
 import About from "@/components/about/about";
-import FeaturedProjects from "@/components/home/featured-projects";
+import ProjectSection from "@/components/home/project-section";
 import Hero from "@/components/home/hero";
 import { HomeSectionParallax } from "@/components/home/home-section-parallax";
 import ProfessionalHighlights from "@/components/home/professional-highlights";
@@ -17,9 +17,7 @@ export default function Home() {
       <HomeSectionParallax>
         <ProfessionalHighlights />
       </HomeSectionParallax>
-      <HomeSectionParallax>
-        <FeaturedProjects />
-      </HomeSectionParallax>
+      <ProjectSection />
       <HomeSectionParallax>
         <ScrollReveal delay={100}>
           <About compact headingLevel={2} />

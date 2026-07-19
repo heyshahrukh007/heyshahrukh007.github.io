@@ -140,7 +140,7 @@ heyshahrukh007.github.io/
 |------|--------|
 | Global layout | Header, skip link, main landmark, footer |
 | Navigation | Enabled: Home, About, Projects, Architecture, Resume |
-| Home page | Hero, professional highlights, compact About summary |
+| Home page | Hero, professional highlights, featured projects scroll story, compact About summary |
 | About page | Full About + Contact (`/about`, contact at `#contact`) |
 | Resume page | Download CTAs, experience timeline, skills (`/resume`) |
 | Projects | Index + `[slug]` detail pages |
@@ -161,7 +161,7 @@ Section copy, navigation, and structured lists live in [`apps/web/src/lib/site.t
 
 | Route | Section | Nav | Notes |
 |-------|---------|-----|-------|
-| `/` | Home | Yes | Hero + highlights + About summary |
+| `/` | Home | Yes | Hero + highlights + projects story + About summary |
 | `/about` | About + Contact | Yes | Contact section uses `id="contact"` |
 | `/projects` | Projects | Yes | Full project listing |
 | `/projects/[slug]` | Project detail | — | `generateStaticParams` |
@@ -266,7 +266,7 @@ pnpm build
 - **Utility helper:** `cn()` from `@/lib/utils`
 - **Responsive:** Mobile-first Tailwind breakpoints
 - **Accessibility:** Semantic HTML, `prefers-reduced-motion` on custom animations
-- **Motion:** Home hero uses GSAP ScrollTrigger for shallow parallax layers, scroll-exit, and pointer tilt (`apps/web/src/lib/gsap.ts`). Gate with `gsap.matchMedia` / `prefers-reduced-motion`. Keep CSS for page enter, ScrollReveal, and hover transitions.
+- **Motion:** Home hero uses GSAP ScrollTrigger for shallow parallax layers, scroll-exit, and pointer tilt (`apps/web/src/lib/gsap.ts`). Home featured projects use a pinned, scrubbed storytelling timeline (`project-timeline.ts` + `use-project-scroll.ts`): vertical scroll advances one project at a time on desktop/tablet; mobile and `prefers-reduced-motion` use stacked fade-up without pin. Gate with `gsap.matchMedia`. Keep CSS for page enter, ScrollReveal, and hover transitions.
 
 ### Design reference
 

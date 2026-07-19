@@ -18,6 +18,7 @@ export {
   getPortfolioIndexRoute,
   getProjectBySlug,
   getProjectRoute,
+  getStoryProjects,
   projects,
 } from "@/lib/content/portfolio";
 

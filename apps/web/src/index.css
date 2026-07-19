@@ -131,7 +131,8 @@
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* Must be `none` — translateY(0) still creates a containing block and breaks position:fixed pins. */
+    transform: none;
   }
 }
 
@@ -142,7 +143,7 @@
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 
@@ -370,6 +371,73 @@
     .location-map__frame {
       height: 380px;
       border-radius: 1.125rem;
+    }
+  }
+
+  /* Home pinned projects scroll stage.
+   * Absolute stacking is also applied inline by GSAP in pin mode (dev CSS can omit these rules). */
+  .project-story-card {
+    will-change: transform, opacity, filter;
+  }
+
+  .project-stage[data-project-stage="pinned"] {
+    min-height: min(90svh, 720px);
+  }
+
+  .project-stage[data-project-stage="pinned"] .project-story-card {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: fit-content;
+    margin-block: auto;
+  }
+
+  .project-stage[data-project-stage="stacked"],
+  .project-stage[data-project-stage="reduced"] {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    min-height: 0;
+  }
+
+  .project-stage[data-project-stage="stacked"] .project-story-card,
+  .project-stage[data-project-stage="reduced"] .project-story-card {
+    position: relative;
+    opacity: 1;
+    will-change: auto;
+  }
+
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .project-stage:not([data-project-stage]) {
+      min-height: min(90svh, 720px);
+    }
+
+    .project-stage:not([data-project-stage]) .project-story-card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: fit-content;
+      margin-block: auto;
+    }
+
+    .project-stage:not([data-project-stage]) .project-story-card:not(:first-child) {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  @media (max-width: 767px), (prefers-reduced-motion: reduce) {
+    .project-stage:not([data-project-stage="pinned"]) {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      min-height: 0;
+    }
+
+    .project-stage:not([data-project-stage="pinned"]) .project-story-card {
+      position: relative;
+      opacity: 1;
+      will-change: auto;
     }
   }
 }
