@@ -14,13 +14,15 @@ const TABLET_SEGMENT_VH = 80;
 const TABLET_MAX = 1023;
 
 type UseProjectScrollOptions = {
+  /** Element that ScrollTrigger pins (stage wrapper — not the section heading). */
   sectionRef: RefObject<HTMLElement | null>;
   stageRef: RefObject<HTMLElement | null>;
+  trackRef: RefObject<HTMLElement | null>;
   enabled?: boolean;
 };
 
-function collectCards(stage: HTMLElement) {
-  return gsap.utils.toArray<HTMLElement>("[data-project-card]", stage);
+function collectCards(track: HTMLElement) {
+  return gsap.utils.toArray<HTMLElement>("[data-project-card]", track);
 }
 
 function segmentVhForViewport() {
@@ -28,12 +30,13 @@ function segmentVhForViewport() {
 }
 
 /**
- * Orchestrates pinned project storytelling (desktop/tablet) and stacked
- * fade-up (mobile). Reduced motion clears transforms and skips pin/scrub.
+ * Orchestrates pinned horizontal project storytelling (desktop/tablet) and
+ * stacked fade-up (mobile). Reduced motion clears transforms and skips pin/scrub.
  */
 export function useProjectScroll({
   sectionRef,
   stageRef,
+  trackRef,
   enabled = true,
 }: UseProjectScrollOptions) {
   useGSAP(
@@ -44,17 +47,17 @@ export function useProjectScroll({
 
       const section = sectionRef.current;
       const stage = stageRef.current;
-      if (!section || !stage) {
+      const track = trackRef.current;
+      if (!section || !stage || !track) {
         return;
       }
 
-      const cards = collectCards(stage);
+      const cards = collectCards(track);
       if (cards.length === 0) {
         return;
       }
 
       const mm = gsap.matchMedia();
-      const markers = process.env.NODE_ENV === "development";
 
       mm.add(PIN_QUERY, () => {
         stage.dataset.projectStage = "pinned";
@@ -62,10 +65,10 @@ export function useProjectScroll({
         const handle = createProjectScrollTimeline({
           section,
           stage,
+          track,
           cards,
           segmentVh: segmentVhForViewport(),
-          markers,
-          scrub: 0.6,
+          scrub: 0.65,
         });
 
         return () => {
@@ -76,7 +79,7 @@ export function useProjectScroll({
 
       mm.add(STACK_FADE_QUERY, () => {
         stage.dataset.projectStage = "stacked";
-        gsap.set(cards, { clearProps: "all" });
+        gsap.set([track, ...cards], { clearProps: "all" });
 
         cards.forEach((card, index) => {
           card.removeAttribute("aria-hidden");
@@ -103,7 +106,7 @@ export function useProjectScroll({
 
       mm.add(REDUCED_QUERY, () => {
         stage.dataset.projectStage = "reduced";
-        gsap.set(cards, { clearProps: "all" });
+        gsap.set([track, ...cards], { clearProps: "all" });
         cards.forEach((card) => {
           card.removeAttribute("aria-hidden");
           card.removeAttribute("inert");

@@ -374,35 +374,51 @@
     }
   }
 
-  /* Home pinned projects scroll stage.
-   * Absolute stacking is also applied inline by GSAP in pin mode (dev CSS can omit these rules). */
+  /* Home pinned projects — horizontal track on desktop, stacked on mobile */
   .project-story-card {
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity;
+  }
+
+  .project-track {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    width: max-content;
   }
 
   .project-stage[data-project-stage="pinned"] {
-    min-height: min(90svh, 720px);
+    min-height: 0;
+    overflow: hidden;
   }
 
   .project-stage[data-project-stage="pinned"] .project-story-card {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: fit-content;
-    margin-block: auto;
+    position: relative;
+    flex: 0 0 auto;
   }
 
   .project-stage[data-project-stage="stacked"],
   .project-stage[data-project-stage="reduced"] {
+    overflow: visible;
+    min-height: 0;
+  }
+
+  .project-stage[data-project-stage="stacked"] .project-track,
+  .project-stage[data-project-stage="reduced"] .project-track {
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
-    min-height: 0;
+    width: 100%;
+    transform: none;
   }
 
   .project-stage[data-project-stage="stacked"] .project-story-card,
   .project-stage[data-project-stage="reduced"] .project-story-card {
     position: relative;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    flex-basis: auto;
     opacity: 1;
     will-change: auto;
   }
@@ -410,32 +426,26 @@
   @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
     .project-stage:not([data-project-stage]) {
       min-height: min(90svh, 720px);
-    }
-
-    .project-stage:not([data-project-stage]) .project-story-card {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: fit-content;
-      margin-block: auto;
-    }
-
-    .project-stage:not([data-project-stage]) .project-story-card:not(:first-child) {
-      opacity: 0;
-      pointer-events: none;
+      overflow: hidden;
     }
   }
 
   @media (max-width: 767px), (prefers-reduced-motion: reduce) {
     .project-stage:not([data-project-stage="pinned"]) {
+      overflow: visible;
+      min-height: 0;
+    }
+
+    .project-stage:not([data-project-stage="pinned"]) .project-track {
       display: flex;
       flex-direction: column;
       gap: 2.5rem;
-      min-height: 0;
+      width: 100%;
     }
 
     .project-stage:not([data-project-stage="pinned"]) .project-story-card {
       position: relative;
+      width: 100%;
       opacity: 1;
       will-change: auto;
     }

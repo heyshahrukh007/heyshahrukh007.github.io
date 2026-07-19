@@ -12,12 +12,14 @@ import { textLinkWithIconClassName } from "@/lib/link-styles";
 
 export default function ProjectSection() {
   const items = getStoryProjects();
-  const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useProjectScroll({
-    sectionRef,
+    sectionRef: pinRef,
     stageRef,
+    trackRef,
     enabled: items.length > 0,
   });
 
@@ -27,26 +29,34 @@ export default function ProjectSection() {
 
   return (
     <section
-      ref={sectionRef}
       aria-labelledby="featured-projects-heading"
       className="project-section space-y-8 sm:space-y-10"
     >
-      <SectionHeading
-        id="featured-projects-heading"
-        headingLevel={2}
-        title={home.featuredProjects.title}
-        description={home.featuredProjects.description}
-      />
+      {/* Pin heading + stage together below the sticky header. */}
+      <div className="project-bleed relative w-screen ml-[calc(50%-50vw)] px-6 sm:px-8">
+        <div ref={pinRef} className="project-pin space-y-8 sm:space-y-10">
+          <div className="mx-auto w-full max-w-3xl">
+            <SectionHeading
+              id="featured-projects-heading"
+              headingLevel={2}
+              title={home.featuredProjects.title}
+              description={home.featuredProjects.description}
+            />
+          </div>
 
-      <div
-        ref={stageRef}
-        data-project-stage
-        className="project-stage relative"
-        aria-label="Featured portfolio work"
-      >
-        {items.map((project) => (
-          <ProjectStoryCard key={project.slug} project={project} />
-        ))}
+          <div
+            ref={stageRef}
+            data-project-stage
+            className="project-stage relative"
+            aria-label="Featured portfolio work"
+          >
+            <div ref={trackRef} data-project-track className="project-track gap-8">
+              {items.map((project) => (
+                <ProjectStoryCard key={project.slug} project={project} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <p className="text-sm">

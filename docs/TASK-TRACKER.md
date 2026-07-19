@@ -30,7 +30,7 @@
 
 ## TASK-025 — Home Projects Scroll Story
 
-Pinned, scrubbed GSAP storytelling on home featured projects (`project-section`, `use-project-scroll`, `project-timeline`). Desktop/tablet pin; mobile + reduced-motion stacked fade. `/portfolio` list unchanged.
+Pinned horizontal project track on home (`project-section`, `use-project-scroll`, `project-timeline`). Vertical scroll scrubs a spaced flex row; mobile + reduced-motion stacked fade. `/portfolio` list unchanged.
 
 ## Review backlog (Critical & High)
 

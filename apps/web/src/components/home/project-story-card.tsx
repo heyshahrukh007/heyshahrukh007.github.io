@@ -14,7 +14,7 @@ type ProjectStoryCardProps = {
 };
 
 /**
- * Presentational card for the home projects scroll stage.
+ * Presentational card for the home projects horizontal scroll track.
  * Animation is applied by the scroll hook via `[data-project-card]` — keep this JSX free of GSAP.
  */
 export function ProjectStoryCard({ project, className }: ProjectStoryCardProps) {
@@ -24,7 +24,7 @@ export function ProjectStoryCard({ project, className }: ProjectStoryCardProps) 
     <article
       data-project-card
       className={cn(
-        "project-story-card flex w-full flex-col justify-center gap-6 rounded-2xl border border-border/40 bg-card/40 p-5 backdrop-blur-sm sm:gap-8 sm:p-8 lg:p-10",
+        "project-story-card flex flex-col justify-center gap-6 rounded-2xl border border-border/40 bg-card/40 p-5 backdrop-blur-sm sm:gap-8 sm:p-8 lg:p-10",
         className,
       )}
     >

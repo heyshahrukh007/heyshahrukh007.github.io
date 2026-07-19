@@ -266,7 +266,7 @@ pnpm build
 - **Utility helper:** `cn()` from `@/lib/utils`
 - **Responsive:** Mobile-first Tailwind breakpoints
 - **Accessibility:** Semantic HTML, `prefers-reduced-motion` on custom animations
-- **Motion:** Home hero uses GSAP ScrollTrigger for shallow parallax layers, scroll-exit, and pointer tilt (`apps/web/src/lib/gsap.ts`). Home featured projects use a pinned, scrubbed storytelling timeline (`project-timeline.ts` + `use-project-scroll.ts`): vertical scroll advances one project at a time on desktop/tablet; mobile and `prefers-reduced-motion` use stacked fade-up without pin. Gate with `gsap.matchMedia`. Keep CSS for page enter, ScrollReveal, and hover transitions.
+- **Motion:** Home hero uses GSAP ScrollTrigger for shallow parallax layers, scroll-exit, and pointer tilt (`apps/web/src/lib/gsap.ts`). Home featured projects use a pinned horizontal coverflow scrubbed by vertical scroll (`project-timeline.ts` + `use-project-scroll.ts`): desktop/tablet pin + `pinReparent`; focused card centered at full size, neighbors smaller/faded; mobile and `prefers-reduced-motion` use stacked fade-up without pin. Gate with `gsap.matchMedia`. Keep CSS for page enter, ScrollReveal, and hover transitions.
 
 ### Design reference
 
