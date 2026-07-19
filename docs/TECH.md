@@ -54,7 +54,7 @@ AI assistants and developers implementing tasks must check for existing abstract
 | Primitives | Radix UI, Base UI |
 | Icons | Lucide React |
 | Fonts | Inter Variable, Geist (Google Fonts) |
-| Animations | tw-animate-css + custom CSS keyframes |
+| Animations | GSAP + ScrollTrigger (`@gsap/react`); tw-animate-css + custom CSS keyframes for page enter / reveal / hover |
 | Theming | Dark mode only via `html.dark` |
 | Toasts | Sonner |
 | Forms (planned) | TanStack React Form |
@@ -266,6 +266,7 @@ pnpm build
 - **Utility helper:** `cn()` from `@/lib/utils`
 - **Responsive:** Mobile-first Tailwind breakpoints
 - **Accessibility:** Semantic HTML, `prefers-reduced-motion` on custom animations
+- **Motion:** Home hero uses GSAP ScrollTrigger for shallow parallax layers, scroll-exit, and pointer tilt (`apps/web/src/lib/gsap.ts`). Gate with `gsap.matchMedia` / `prefers-reduced-motion`. Keep CSS for page enter, ScrollReveal, and hover transitions.
 
 ### Design reference
 

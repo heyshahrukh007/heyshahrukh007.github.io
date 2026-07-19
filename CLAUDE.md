@@ -16,6 +16,7 @@ This file provides context about the project for AI assistants.
 - Framework: next
 - CSS: tailwind
 - UI Library: shadcn-ui
+- Motion: GSAP + ScrollTrigger (`@gsap/react`); CSS keyframes for page enter / scroll reveal / hover
 
 ## Project Structure
 

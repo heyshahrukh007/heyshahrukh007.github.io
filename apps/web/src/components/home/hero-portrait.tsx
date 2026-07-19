@@ -3,9 +3,10 @@ import { hero } from "@/lib/site";
 
 type HeroPortraitProps = {
   className?: string;
+  parallax?: boolean;
 };
 
-export function HeroPortrait({ className }: HeroPortraitProps) {
+export function HeroPortrait({ className, parallax = false }: HeroPortraitProps) {
   return (
     <PortraitFrame
       src={hero.photo.src}
@@ -13,6 +14,7 @@ export function HeroPortrait({ className }: HeroPortraitProps) {
       className={className}
       size="hero"
       fetchPriority="high"
+      parallax={parallax}
     />
   );
 }

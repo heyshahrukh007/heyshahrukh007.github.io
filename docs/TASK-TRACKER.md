@@ -25,6 +25,7 @@
 | TASK-021 | Route Motion Regression Fix | DONE | High     |
 | TASK-022 | CI Link Validation Hardening | DONE | High     |
 | TASK-023 | Nav Active Indicator Fix  | DONE   | High     |
+| TASK-024 | Home GSAP Parallax        | DONE   | Medium   |
 
 ## Review backlog (Critical & High)
 

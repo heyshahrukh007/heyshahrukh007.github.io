@@ -1,6 +1,7 @@
 import About from "@/components/about/about";
 import FeaturedProjects from "@/components/home/featured-projects";
 import Hero from "@/components/home/hero";
+import { HomeSectionParallax } from "@/components/home/home-section-parallax";
 import ProfessionalHighlights from "@/components/home/professional-highlights";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { createPageMetadata } from "@/lib/seo";
@@ -13,13 +14,17 @@ export default function Home() {
       <div className="relative left-1/2 w-screen max-w-5xl -translate-x-1/2 px-6">
         <Hero />
       </div>
-      <ProfessionalHighlights />
-      <ScrollReveal delay={50}>
+      <HomeSectionParallax>
+        <ProfessionalHighlights />
+      </HomeSectionParallax>
+      <HomeSectionParallax>
         <FeaturedProjects />
-      </ScrollReveal>
-      <ScrollReveal delay={100}>
-        <About compact headingLevel={2} />
-      </ScrollReveal>
+      </HomeSectionParallax>
+      <HomeSectionParallax>
+        <ScrollReveal delay={100}>
+          <About compact headingLevel={2} />
+        </ScrollReveal>
+      </HomeSectionParallax>
     </div>
   );
 }

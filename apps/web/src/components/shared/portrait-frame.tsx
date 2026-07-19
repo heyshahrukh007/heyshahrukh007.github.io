@@ -17,6 +17,7 @@ type PortraitFrameProps = {
   className?: string;
   size?: keyof typeof portraitSizeClasses;
   fetchPriority?: "high" | "low" | "auto";
+  parallax?: boolean;
 };
 
 function PortraitShape({
@@ -42,24 +43,32 @@ export function PortraitFrame({
   className,
   size = "hero",
   fetchPriority = "auto",
+  parallax = false,
 }: PortraitFrameProps) {
   return (
     <div className={cn("relative mx-auto w-full", portraitSizeClasses[size], className)}>
-      <PortraitShape className="top-4 -left-1 animate-icon-float text-primary/80">
-        <CircleIcon className="size-[18px] fill-current" />
-      </PortraitShape>
+      <div
+        {...(parallax ? { "data-parallax": "mid" } : {})}
+        className={cn(
+          parallax && "pointer-events-none absolute inset-0 z-20 will-change-transform",
+        )}
+      >
+        <PortraitShape className="top-4 -left-1 animate-icon-float text-primary/80">
+          <CircleIcon className="size-[18px] fill-current" />
+        </PortraitShape>
 
-      <PortraitShape className="top-10 right-0 animate-orb-float text-primary/70 [animation-delay:400ms]">
-        <TriangleIcon className="size-[22px] fill-current" />
-      </PortraitShape>
+        <PortraitShape className="top-10 right-0 animate-orb-float text-primary/70 [animation-delay:400ms]">
+          <TriangleIcon className="size-[22px] fill-current" />
+        </PortraitShape>
 
-      <PortraitShape className="bottom-24 -left-2 animate-icon-float text-primary/60 [animation-delay:800ms]">
-        <CircleIcon className="size-3.5 fill-current" />
-      </PortraitShape>
+        <PortraitShape className="bottom-24 -left-2 animate-icon-float text-primary/60 [animation-delay:800ms]">
+          <CircleIcon className="size-3.5 fill-current" />
+        </PortraitShape>
 
-      <PortraitShape className="right-2 bottom-12 animate-orb-float text-primary/50 [animation-delay:1.2s]">
-        <TriangleIcon className="size-4 fill-current" />
-      </PortraitShape>
+        <PortraitShape className="right-2 bottom-12 animate-orb-float text-primary/50 [animation-delay:1.2s]">
+          <TriangleIcon className="size-4 fill-current" />
+        </PortraitShape>
+      </div>
 
       <div
         className={cn(
@@ -69,9 +78,20 @@ export function PortraitFrame({
       >
         <div
           aria-hidden
-          className="absolute top-[4%] left-1/2 size-[92%] -translate-x-1/2 rounded-full bg-primary/30 blur-3xl"
-        />
-        <PortraitImage src={src} alt={alt} fetchPriority={fetchPriority} />
+          {...(parallax ? { "data-parallax": "far" } : {})}
+          className={cn(
+            "absolute top-[4%] left-0 flex w-full justify-center",
+            parallax && "will-change-transform",
+          )}
+        >
+          <div className="size-[92%] rounded-full bg-primary/30 blur-3xl" />
+        </div>
+        <div
+          {...(parallax ? { "data-parallax": "mid" } : {})}
+          className={cn("relative h-full w-full", parallax && "will-change-transform")}
+        >
+          <PortraitImage src={src} alt={alt} fetchPriority={fetchPriority} />
+        </div>
       </div>
     </div>
   );
