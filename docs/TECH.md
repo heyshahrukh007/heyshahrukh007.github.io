@@ -266,7 +266,7 @@ pnpm build
 - **Utility helper:** `cn()` from `@/lib/utils`
 - **Responsive:** Mobile-first Tailwind breakpoints
 - **Accessibility:** Semantic HTML, `prefers-reduced-motion` on custom animations
-- **Motion:** Home story uses one GSAP scene (`home-intro-timeline.ts` + `use-home-intro-scroll.ts`): desktop (`min-width: 1024px` and tall viewport) pins under the sticky header and scrubs Hero→Proof→Projects (same fade/lift handoff between beats), then nested horizontal coverflow (`attachProjectCoverflow` in `project-timeline.ts`); tablet/mobile or short viewports use stacked proof reveal + counts, with projects pin/coverflow from `768px` or stacked fade on mobile; `prefers-reduced-motion` shows final state statically. Hero pointer tilt is desktop + fine-pointer only. Gate with `gsap.matchMedia`. Keep CSS for page enter, ScrollReveal, and hover transitions.
+- **Motion:** Home story uses one GSAP scene (`home-intro-timeline.ts` + `use-home-intro-scroll.ts`): desktop (`min-width: 1024px` and tall viewport) pins under the sticky header and scrubs Hero→Proof→Projects — Beat 1 side-parks hero copy/visual (move/scale only, no fade) and spotlights one Highlights card at center per scrub slot; Beat 2 pushes sides off-stage and hands off to nested horizontal coverflow (`attachProjectCoverflow` in `project-timeline.ts`); tablet/mobile or short viewports use stacked proof reveal + counts, with projects pin/coverflow from `768px` or stacked fade on mobile; `prefers-reduced-motion` shows final state statically. Hero pointer tilt is desktop + fine-pointer only (disabled while parked). Gate with `gsap.matchMedia`. Keep CSS for page enter, ScrollReveal, and hover transitions.
 
 ### Media aspect ratios
 

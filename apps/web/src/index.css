@@ -428,7 +428,7 @@
 
   @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
     .project-stage:not([data-project-stage]) {
-      min-height: min(90svh, 720px);
+      min-height: min(90dvh, 720px);
       overflow: hidden;
     }
   }

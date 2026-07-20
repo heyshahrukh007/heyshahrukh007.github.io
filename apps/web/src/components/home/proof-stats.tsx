@@ -15,12 +15,13 @@ export function ProofStats({ className }: ProofStatsProps) {
     <section
       data-intro-proof
       aria-labelledby="professional-highlights-heading"
-      className={cn("space-y-8 sm:space-y-10", className)}
+      className={cn("space-y-5 sm:space-y-6", className)}
     >
       <SectionHeading
         id="professional-highlights-heading"
         title="Highlights"
         description="A snapshot of experience, delivery, and the domains I work in."
+        align="center"
       />
 
       <ul
@@ -31,11 +32,11 @@ export function ProofStats({ className }: ProofStatsProps) {
           <li key={highlight.label} className="h-full" data-proof-item>
             <div
               className={cn(
-                "flex h-full flex-col items-start gap-1.5 rounded-xl border border-border/40 bg-muted/10 px-4 py-4 text-left",
-                "sm:px-5 sm:py-5",
+                "flex h-full flex-col items-start gap-2 rounded-xl border border-border/40 bg-muted/10 px-5 py-5 text-left",
+                "sm:px-6 sm:py-6",
               )}
             >
-              <p className="text-2xl font-semibold tracking-tight text-foreground tabular-nums sm:text-3xl">
+              <p className="text-3xl font-semibold tracking-tight text-foreground tabular-nums sm:text-4xl">
                 <span
                   data-proof-value
                   data-count={highlight.count}
@@ -45,7 +46,7 @@ export function ProofStats({ className }: ProofStatsProps) {
                   {`0${"suffix" in highlight ? (highlight.suffix ?? "") : ""}`}
                 </span>
               </p>
-              <p className="text-xs leading-snug text-muted-foreground sm:text-sm">
+              <p className="text-sm leading-snug text-muted-foreground">
                 {highlight.label}
               </p>
               {"description" in highlight && highlight.description ? (

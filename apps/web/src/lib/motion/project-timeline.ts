@@ -30,26 +30,55 @@ export type ProjectTimelineHandle = {
 const FLOAT_Y = -6;
 const FLOAT_DURATION = 2.4;
 /** Room above/below cards so float + shadows are not clipped by overflow:hidden. */
-const STAGE_PAD_Y = 16;
+const STAGE_PAD_Y = 12;
 /** Explicit gap — CSS `gap` on `.project-track` is often missing from Turbopack's CSS chunk. */
 const TRACK_GAP_PX = 28;
 /** Focused card width as a fraction of the stage (neighbors must clearly peek). */
 const ACTIVE_WIDTH_RATIO = 0.5;
+const ACTIVE_WIDTH_RATIO_COMPACT = 0.62;
 /** Cap so ultra-wide viewports do not make the focused card enormous. */
 const ACTIVE_MAX_WIDTH = 680;
+const ACTIVE_MAX_WIDTH_COMPACT = 520;
+const ACTIVE_MIN_WIDTH = 240;
 const SIDE_SCALE = 0.82;
 const SIDE_OPACITY = 0.55;
+/** Never scale cards below this when fitting short viewports. */
+const MIN_FIT_SCALE = 0.58;
 
-function setCardAccessibility(card: HTMLElement, active: boolean) {
-  card.setAttribute("aria-hidden", active ? "false" : "true");
-  card.toggleAttribute("inert", !active);
+function getViewportHeight() {
+  const vv = window.visualViewport?.height;
+  if (typeof vv === "number" && vv > 0) return vv;
+  return window.innerHeight;
+}
+
+function isCompactViewport() {
+  return window.innerWidth < 1100 || getViewportHeight() < 820;
 }
 
 function getCardWidth(stage: HTMLElement) {
+  const compact = isCompactViewport();
+  const ratio = compact ? ACTIVE_WIDTH_RATIO_COMPACT : ACTIVE_WIDTH_RATIO;
+  const maxW = compact ? ACTIVE_MAX_WIDTH_COMPACT : ACTIVE_MAX_WIDTH;
   return Math.max(
-    260,
-    Math.min(ACTIVE_MAX_WIDTH, Math.round(stage.clientWidth * ACTIVE_WIDTH_RATIO)),
+    ACTIVE_MIN_WIDTH,
+    Math.min(maxW, Math.round(stage.clientWidth * ratio)),
   );
+}
+
+function getAvailableStageHeight(stage: HTMLElement) {
+  const parent = stage.parentElement;
+  if (!parent || parent.clientHeight <= 0) {
+    return Math.max(200, getViewportHeight() * 0.55);
+  }
+
+  let used = 0;
+  for (const child of Array.from(parent.children)) {
+    if (child === stage) continue;
+    used += (child as HTMLElement).offsetHeight;
+  }
+  const gap = window.innerWidth >= 640 ? 32 : 24;
+  const gaps = Math.max(0, parent.children.length - 1);
+  return Math.max(160, parent.clientHeight - used - gap * Math.min(2, gaps));
 }
 
 function applyCardSize(card: HTMLElement, width: number) {
@@ -63,22 +92,48 @@ function applyCardSize(card: HTMLElement, width: number) {
     maxWidth: width,
     boxSizing: "border-box",
     height: "auto",
+    maxHeight: "none",
     transformOrigin: "50% 50%",
     force3D: true,
   });
 }
 
-function applyStageSize(stage: HTMLElement, cards: HTMLElement[]) {
-  const maxCardHeight = Math.max(...cards.map((card) => card.offsetHeight), 320);
-  // One overflow value only — mixed x/y visible+hidden forces both axes to clip.
+function readFitScale(stage: HTMLElement) {
+  const raw = Number(stage.dataset.fitScale ?? "1");
+  return Number.isFinite(raw) && raw > 0 ? raw : 1;
+}
+
+function applyStageSize(
+  stage: HTMLElement,
+  fitScale: number,
+  contentCardHeight: number,
+) {
+  const available = getAvailableStageHeight(stage);
+  const fittedContentH = Math.max(
+    120,
+    Math.ceil(contentCardHeight * fitScale) + STAGE_PAD_Y * 2,
+  );
+  // Size to cards (keeps CTA close). Cap by available so short viewports still fit.
+  const targetH = Math.min(available, fittedContentH);
+
   gsap.set(stage, {
     overflow: "hidden",
     boxSizing: "border-box",
     paddingTop: STAGE_PAD_Y,
     paddingBottom: STAGE_PAD_Y,
-    height: maxCardHeight + STAGE_PAD_Y * 2,
-    minHeight: maxCardHeight + STAGE_PAD_Y * 2,
+    height: targetH,
+    minHeight: targetH,
+    maxHeight: available,
+    flexGrow: 0,
+    flexShrink: 0,
   });
+
+  stage.dataset.fitScale = String(fitScale);
+}
+
+function setCardAccessibility(card: HTMLElement, active: boolean) {
+  card.setAttribute("aria-hidden", active ? "false" : "true");
+  card.toggleAttribute("inert", !active);
 }
 
 /** Extra space so pinned content sits clearly below the sticky header chrome. */
@@ -120,10 +175,23 @@ export function getTrackXToCenter(stage: HTMLElement, card: HTMLElement) {
 }
 
 export function getProjectScrollLength(cardCount: number, segmentVh: number) {
-  return Math.max(0, cardCount - 1) * window.innerHeight * (segmentVh / 100);
+  const vh =
+    typeof window.visualViewport?.height === "number" &&
+    window.visualViewport.height > 0
+      ? window.visualViewport.height
+      : window.innerHeight;
+  return Math.max(0, cardCount - 1) * vh * (segmentVh / 100);
 }
 
 export function createFloat(card: HTMLElement) {
+  const stage = card.closest<HTMLElement>(".project-stage");
+  const fitScale = stage ? readFitScale(stage) : 1;
+  // Skip float when cards are already scaled down to fit — avoids clipping.
+  if (fitScale < 0.92) {
+    gsap.set(card, { y: 0 });
+    return gsap.to(card, { duration: 0.01 });
+  }
+
   return gsap.to(card, {
     y: FLOAT_Y,
     duration: FLOAT_DURATION,
@@ -154,19 +222,21 @@ export function nearestCardIndex(stage: HTMLElement, cards: HTMLElement[]) {
 
 /**
  * Scale / fade cards by distance from stage center so neighbors stay visible
- * but the focused project reads clearly.
+ * but the focused project reads clearly. Multiplies in viewport fitScale so
+ * short devices keep the full card visible inside the stage.
  */
 export function updateCardFocus(stage: HTMLElement, cards: HTMLElement[]) {
-  const stageRect = stage.getBoundingClientRect();
-  const stageCenter = stageRect.left + stageRect.width / 2;
+  const track = cards[0]?.parentElement;
+  const trackX = track ? Number(gsap.getProperty(track, "x")) || 0 : 0;
+  const stageCenter = stage.clientWidth / 2;
   const step = Math.max(1, getCardWidth(stage) + TRACK_GAP_PX);
+  const fitScale = readFitScale(stage);
 
   cards.forEach((card) => {
-    const rect = card.getBoundingClientRect();
-    const cardCenter = rect.left + rect.width / 2;
+    const cardCenter = card.offsetLeft + card.offsetWidth / 2 + trackX;
     const t = Math.min(1, Math.abs(cardCenter - stageCenter) / step);
     gsap.set(card, {
-      scale: gsap.utils.interpolate(1, SIDE_SCALE, t),
+      scale: fitScale * gsap.utils.interpolate(1, SIDE_SCALE, t),
       autoAlpha: gsap.utils.interpolate(1, SIDE_OPACITY, t),
       transformOrigin: "50% 50%",
     });
@@ -189,11 +259,30 @@ export function layoutProjectTrack(
     force3D: true,
   });
 
+  // Provisional stage height = available max so width math is stable.
+  const available = getAvailableStageHeight(stage);
+  gsap.set(stage, {
+    overflow: "hidden",
+    boxSizing: "border-box",
+    height: available,
+    minHeight: available,
+    maxHeight: available,
+  });
+
   const cardWidth = getCardWidth(stage);
   cards.forEach((card) => {
     applyCardSize(card, cardWidth);
+    card.toggleAttribute("data-project-card-compact", isCompactViewport());
   });
-  applyStageSize(stage, cards);
+
+  const maxCardHeight = Math.max(...cards.map((card) => card.offsetHeight), 1);
+  const innerBudget = Math.max(120, available - STAGE_PAD_Y * 2);
+  const fitScale =
+    maxCardHeight > innerBudget
+      ? Math.max(MIN_FIT_SCALE, innerBudget / maxCardHeight)
+      : 1;
+
+  applyStageSize(stage, fitScale, maxCardHeight);
 
   const first = cards[0];
   if (first) {
