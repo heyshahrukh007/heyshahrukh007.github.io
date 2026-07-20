@@ -36,7 +36,7 @@ Theme tokens `--aspect-portrait` (4∶5) and `--aspect-media` (16∶9); portrait
 
 ## TASK-026 — Home Intro Hero→Proof→Projects
 
-Single home story scene (`home-intro-scene`, `proof-stats`, `use-home-intro-scroll`, `home-intro-timeline`). Desktop pins Hero→Proof→Projects under header: Beat 1 side-parks copy/visual (no fade) and spotlights one Highlights card at center per scrub slot (per-card counts); Beat 2 pushes sides off-stage then nested coverflow; tablet/mobile/short viewports stacked reveal + GSAP counts with separate projects pin/stack; reduced-motion static. Replaces separate hero parallax + professional highlights + rAF count-up + standalone home `ProjectSection` pin.
+Single home story scene (`home-intro-scene`, `proof-stats`, `use-home-intro-scroll`, `home-intro-timeline`). Desktop pins Hero→Proof→Projects under header: Beat 1 side-parks copy/visual (no fade) and crossfades one Highlights metric at a time (typography-first + progress dots); Beat 2 clears hero then nested coverflow; tablet/mobile/short viewports stacked reveal with separate projects pin/stack; reduced-motion static. Replaces separate hero parallax + professional highlights + rAF count-up + standalone home `ProjectSection` pin.
 
 ## TASK-025 — Home Projects Scroll Story
 

@@ -7,15 +7,16 @@ type ProofStatsProps = {
 };
 
 /**
- * Presentational proof strip for the home intro scene.
- * Numbers are filled by the intro scroll timeline via `[data-proof-value]`.
+ * Highlights proof for the home intro.
+ * Desktop pin: one metric at a time in a shared stage (timeline-driven).
+ * Stacked breakpoints: quiet vertical list — no card chrome.
  */
 export function ProofStats({ className }: ProofStatsProps) {
   return (
     <section
       data-intro-proof
       aria-labelledby="professional-highlights-heading"
-      className={cn("space-y-5 sm:space-y-6", className)}
+      className={cn("space-y-6 sm:space-y-8", className)}
     >
       <SectionHeading
         id="professional-highlights-heading"
@@ -24,40 +25,56 @@ export function ProofStats({ className }: ProofStatsProps) {
         align="center"
       />
 
-      <ul
-        data-proof-list
-        className="grid grid-cols-2 items-stretch gap-3 sm:grid-cols-4 sm:gap-4"
+      <div
+        data-proof-stage
+        className="relative mx-auto w-full max-w-md"
+      >
+        <ul
+          data-proof-list
+          className="flex flex-col gap-8 md:gap-10"
+        >
+          {professionalHighlights.map((highlight) => {
+            const suffix = "suffix" in highlight ? (highlight.suffix ?? "") : "";
+            const value = `${highlight.count}${suffix}`;
+
+            return (
+              <li
+                key={highlight.label}
+                data-proof-item
+                className="text-center"
+              >
+                <p className="text-5xl font-semibold tracking-tight text-foreground tabular-nums sm:text-6xl">
+                  <span data-proof-value aria-label={value}>
+                    {value}
+                  </span>
+                </p>
+                <p className="mt-3 text-base font-medium text-foreground/90 sm:text-lg">
+                  {highlight.label}
+                </p>
+                {"description" in highlight && highlight.description ? (
+                  <p className="mx-auto mt-1.5 max-w-xs text-sm leading-relaxed text-muted-foreground">
+                    {highlight.description}
+                  </p>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <div
+        data-proof-progress
+        className="hidden items-center justify-center gap-2 lg:flex"
+        aria-hidden
       >
         {professionalHighlights.map((highlight) => (
-          <li key={highlight.label} className="h-full" data-proof-item>
-            <div
-              className={cn(
-                "flex h-full flex-col items-start gap-2 rounded-xl border border-border/40 bg-muted/10 px-5 py-5 text-left",
-                "sm:px-6 sm:py-6",
-              )}
-            >
-              <p className="text-3xl font-semibold tracking-tight text-foreground tabular-nums sm:text-4xl">
-                <span
-                  data-proof-value
-                  data-count={highlight.count}
-                  data-suffix={"suffix" in highlight ? (highlight.suffix ?? "") : ""}
-                  aria-label={`${highlight.count}${"suffix" in highlight ? (highlight.suffix ?? "") : ""}`}
-                >
-                  {`0${"suffix" in highlight ? (highlight.suffix ?? "") : ""}`}
-                </span>
-              </p>
-              <p className="text-sm leading-snug text-muted-foreground">
-                {highlight.label}
-              </p>
-              {"description" in highlight && highlight.description ? (
-                <p className="text-xs leading-snug text-muted-foreground/80">
-                  {highlight.description}
-                </p>
-              ) : null}
-            </div>
-          </li>
+          <span
+            key={highlight.label}
+            data-proof-dot
+            className="size-1.5 rounded-full bg-border transition-[background-color,transform] duration-200"
+          />
         ))}
-      </ul>
+      </div>
     </section>
   );
 }

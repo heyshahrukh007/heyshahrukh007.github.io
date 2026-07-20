@@ -9,9 +9,9 @@ import {
 /**
  * Home story (Hero → Proof → Projects) timelines.
  *
- * Desktop: one pin; Beat 1 side-parks hero copy/visual (no fade) and spotlights
- * one Highlights card at a time, then Beat 2 hands off to nested coverflow.
- * Stacked: reveal + count once; projects pin/stack separately.
+ * Desktop: one pin; Beat 1 side-parks hero copy/visual (no fade) and crossfades
+ * one Highlights metric at a time, then Beat 2 hands off to nested coverflow.
+ * Stacked: reveal; projects pin/stack separately.
  */
 
 export type HomeIntroElements = {
@@ -31,32 +31,27 @@ export type HomeIntroHandle = {
 const HEADER_CLEARANCE_PX = 16;
 /** Scroll distance (vh) per handoff beat. */
 const HANDOFF_VH = 100;
-const COUNT_DURATION = 1.1;
 const HANDOFF_UNITS = 1;
 const TABLET_MAX = 1023;
 const DESKTOP_SEGMENT_VH = 100;
 const TABLET_SEGMENT_VH = 80;
 
-/** Beat 1: park copy/visual aside — move/scale only, never fade. */
-const PARK_X_PERCENT = 18;
-const PARK_X_VW = 5;
-const PARK_SCALE = 0.92;
-const PARK_EXIT_X_PERCENT = 42;
-const PARK_EXIT_X_VW = 14;
-const PARK_EXIT_SCALE = 0.86;
-/** Center spotlight band (heading + one card). */
-const PROOF_PIN_MAX_WIDTH = "28rem";
-const PROOF_CARD_MAX_WIDTH = "22rem";
+/** Beat 1: park copy/visual toward outer edges without leaving the viewport. */
+const PARK_SCALE = 0.85;
+/** Tiny settle only — large translates clip against overflow:hidden. */
+const PARK_X_VW = 1;
+const PARK_EXIT_SCALE = 0.72;
+const PARK_EXIT_X_VW = 6;
+/** Center proof band for the metric stage. */
+const PROOF_PIN_MAX_WIDTH = "36rem";
 /** Keep Highlights aligned with hero copy, not vertically centered. */
-const PROOF_PIN_TOP = "12%";
+const PROOF_PIN_TOP = "14%";
 
-/** Beat 1 timeline units: park, then one discrete slot per Highlights card. */
+/** Beat 1 timeline units: park, then one discrete slot per Highlights metric. */
 const PARK_UNITS = 0.3;
 const CARD_UNITS = 0.55;
 const HOLD_UNITS = 0.2;
-const CARD_ENTER_RATIO = 0.42;
-const CARD_EXIT_RATIO = 0.38;
-const CARD_COUNT_RATIO = 0.5;
+const CARD_ENTER_RATIO = 0.5;
 
 function getProofBeatUnits(itemCount: number) {
   return PARK_UNITS + Math.max(0, itemCount) * CARD_UNITS + HOLD_UNITS;
@@ -64,10 +59,6 @@ function getProofBeatUnits(itemCount: number) {
 
 function cardEnterAt(index: number) {
   return PARK_UNITS + index * CARD_UNITS;
-}
-
-function cardCountAt(index: number) {
-  return cardEnterAt(index) + CARD_UNITS * CARD_COUNT_RATIO;
 }
 
 function getHeaderOffset() {
@@ -98,14 +89,27 @@ function resolvePinEl(pin: gsap.DOMTarget | null | undefined): HTMLElement | nul
   return null;
 }
 
+function getViewportWidth() {
+  const vv = window.visualViewport?.width;
+  if (typeof vv === "number" && vv > 0) return Math.round(vv);
+  return window.innerWidth;
+}
+
 function applyPinnedTop(pin: gsap.DOMTarget | null | undefined) {
   const el = resolvePinEl(pin);
   if (!el) return;
-  gsap.set(el, { top: getPinTop(), zIndex: 45 });
-}
-
-function collectValueNodes(root: HTMLElement) {
-  return gsap.utils.toArray<HTMLElement>("[data-proof-value]", root);
+  // Pin lives under sticky header. Force true viewport width — otherwise the
+  // pin inherits main's max-w-3xl and overflow:hidden clips the hero.
+  gsap.set(el, {
+    top: getPinTop(),
+    zIndex: 45,
+    left: 0,
+    right: "auto",
+    width: getViewportWidth(),
+    maxWidth: "none",
+    x: 0,
+    xPercent: 0,
+  });
 }
 
 function collectProofItems(proof: HTMLElement) {
@@ -114,47 +118,6 @@ function collectProofItems(proof: HTMLElement) {
 
 function collectProjectCards(track: HTMLElement) {
   return gsap.utils.toArray<HTMLElement>("[data-project-card]", track);
-}
-
-function setValueDisplay(el: HTMLElement, count: number) {
-  const suffix = el.dataset.suffix ?? "";
-  el.textContent = `${count}${suffix}`;
-}
-
-function readTargetCount(el: HTMLElement) {
-  return Number(el.dataset.count ?? "0") || 0;
-}
-
-function setFinalCounts(proof: HTMLElement) {
-  collectValueNodes(proof).forEach((el) => {
-    setValueDisplay(el, readTargetCount(el));
-  });
-}
-
-function setZeroCounts(proof: HTMLElement) {
-  collectValueNodes(proof).forEach((el) => {
-    setValueDisplay(el, 0);
-  });
-}
-
-function animateValueNode(el: HTMLElement) {
-  const target = readTargetCount(el);
-  const proxy = { val: 0 };
-  setValueDisplay(el, 0);
-  const tween = gsap.to(proxy, {
-    val: target,
-    duration: COUNT_DURATION,
-    ease: "power2.out",
-    onUpdate: () => {
-      setValueDisplay(el, Math.round(proxy.val));
-    },
-    onComplete: () => {
-      setValueDisplay(el, target);
-    },
-  });
-  return () => {
-    tween.kill();
-  };
 }
 
 function setHeroCtaInert(hero: HTMLElement, inert: boolean) {
@@ -173,52 +136,69 @@ function setHeroVisualInteractive(
 }
 
 /**
- * Stack Highlights cards in one centered slot so only one can read at a time.
- * Grid markup stays for stacked breakpoints; pin mode overrides with absolute.
+ * Pin-mode Highlights stage: one metric slot (absolute layers, crossfade — not a deck).
+ * Stacked breakpoints keep normal document flow via clearProofSpotlight.
  */
-function layoutProofSpotlight(proof: HTMLElement, items: HTMLElement[]) {
+function layoutProofStage(proof: HTMLElement, items: HTMLElement[]) {
   const list = proof.querySelector<HTMLElement>("[data-proof-list]");
-  if (!list || items.length === 0) return;
+  const stage = proof.querySelector<HTMLElement>("[data-proof-stage]");
+  if (!list || !stage || items.length === 0) return;
+
+  gsap.set(stage, {
+    position: "relative",
+    width: "100%",
+    maxWidth: "28rem",
+    marginLeft: "auto",
+    marginRight: "auto",
+  });
 
   gsap.set(list, {
     display: "block",
     position: "relative",
     width: "100%",
-    maxWidth: PROOF_CARD_MAX_WIDTH,
-    marginLeft: "auto",
-    marginRight: "auto",
-    height: "auto",
-    minHeight: 160,
+    margin: 0,
+    gap: 0,
   });
 
-  items.forEach((item) => {
+  items.forEach((item, index) => {
     gsap.set(item, {
       position: "absolute",
       left: "50%",
       xPercent: -50,
       top: 0,
       width: "100%",
-      maxWidth: PROOF_CARD_MAX_WIDTH,
       margin: 0,
-      height: "auto",
+      zIndex: index + 1,
     });
   });
 
-  let maxH = 160;
+  let maxH = 140;
   items.forEach((item) => {
     maxH = Math.max(maxH, item.offsetHeight || 0);
   });
+  gsap.set(stage, { height: maxH, minHeight: maxH });
   gsap.set(list, { height: maxH, minHeight: maxH });
 }
 
 function clearProofSpotlight(proof: HTMLElement, items: HTMLElement[]) {
   const list = proof.querySelector<HTMLElement>("[data-proof-list]");
-  if (list) {
-    gsap.set(list, { clearProps: "all" });
-  }
-  if (items.length > 0) {
-    gsap.set(items, { clearProps: "all" });
-  }
+  const stage = proof.querySelector<HTMLElement>("[data-proof-stage]");
+  if (list) gsap.set(list, { clearProps: "all" });
+  if (stage) gsap.set(stage, { clearProps: "all" });
+  if (items.length > 0) gsap.set(items, { clearProps: "all" });
+}
+
+function syncProofProgress(proof: HTMLElement, activeIndex: number, active: boolean) {
+  const dots = gsap.utils.toArray<HTMLElement>("[data-proof-dot]", proof);
+  dots.forEach((dot, index) => {
+    const on = active && index === activeIndex;
+    gsap.set(dot, {
+      backgroundColor: on
+        ? "var(--primary)"
+        : "color-mix(in oklch, var(--border) 85%, transparent)",
+      scale: on ? 1.35 : 1,
+    });
+  });
 }
 
 function segmentVhForViewport() {
@@ -262,7 +242,8 @@ function layoutPinnedStage(
   projects: HTMLElement,
 ) {
   const stageH = Math.max(420, Math.round(getViewportHeight() - getPinTop()));
-  // max-w-5xl = 64rem — keep in sync with Tailwind on the scene markup.
+  const stageW = getViewportWidth();
+  // max-w-5xl = 64rem — keep in sync with Tailwind on the hero markup.
   const contentMax = "64rem";
 
   gsap.set(stage, {
@@ -270,7 +251,12 @@ function layoutPinnedStage(
     height: stageH,
     minHeight: stageH,
     maxHeight: stageH,
+    width: stageW,
+    maxWidth: stageW,
     overflow: "hidden",
+    left: 0,
+    x: 0,
+    xPercent: 0,
   });
 
   // Undo layoutAfterPin collapse (height:0 / visibility:hidden) on reverse re-entry.
@@ -281,6 +267,7 @@ function layoutPinnedStage(
     pointerEvents: "auto",
   };
 
+  // Keep the designed hero composition (centered max-w-5xl), not full-bleed stretch.
   gsap.set(hero, {
     ...uncollapse,
     position: "absolute",
@@ -319,7 +306,6 @@ function layoutPinnedStage(
     yPercent: 0,
     display: "flex",
     flexDirection: "column",
-    // Keep heading + cards + CTA as one cluster (not pinned to top/bottom).
     justifyContent: "center",
     gap: window.innerWidth >= 640 ? 28 : 20,
     zIndex: 3,
@@ -364,7 +350,7 @@ function layoutAfterPin(
   projects: HTMLElement,
 ) {
   gsap.set(stage, {
-    clearProps: "height,minHeight,maxHeight,overflow",
+    clearProps: "height,minHeight,maxHeight,overflow,width,maxWidth,left,x,xPercent",
   });
 
   const collapse = {
@@ -394,7 +380,7 @@ function layoutAfterPin(
 }
 
 function clearIntroPinChrome(pin: HTMLElement) {
-  gsap.set(pin, { clearProps: "zIndex,top" });
+  gsap.set(pin, { clearProps: "zIndex,top,left,right,width,maxWidth,x,xPercent" });
 }
 
 /**
@@ -418,38 +404,33 @@ export function createPinnedIntroTimeline(
     cards,
   } = getIntroParts(elements);
 
-  const countCleanups: Array<(() => void) | null> = items.map(() => null);
-  const counted = items.map(() => false);
   let cleanupCoverflow: (() => void) | null = null;
 
-  const resetAllCounts = () => {
-    countCleanups.forEach((fn, i) => {
-      fn?.();
-      countCleanups[i] = null;
-      counted[i] = false;
-    });
-    setZeroCounts(proof);
-  };
-
-  setZeroCounts(proof);
   setHeroCtaInert(hero, false);
   setHeroVisualInteractive(visual, true);
   layoutPinnedStage(stage, hero, proof, projects);
-  layoutProofSpotlight(proof, items);
+  layoutProofStage(proof, items);
 
   gsap.set(hero, { autoAlpha: 1 });
   gsap.set(proof, { autoAlpha: 0, y: 28, force3D: true });
   gsap.set(projects, { autoAlpha: 0, y: 100 });
 
   if (items.length > 0) {
-    gsap.set(items, { y: 48, autoAlpha: 0, force3D: true });
+    gsap.set(items, { y: 28, autoAlpha: 0, force3D: true });
   }
 
+  syncProofProgress(proof, 0, false);
+
   if (copy) {
-    gsap.set(copy, { xPercent: 0, x: 0, scale: 1, force3D: true });
+    gsap.set(copy, { x: 0, scale: 1, force3D: true, transformOrigin: "0% 50%" });
   }
   if (visual) {
-    gsap.set(visual, { xPercent: 0, x: 0, scale: 1, force3D: true });
+    gsap.set(visual, {
+      x: 0,
+      scale: 1,
+      force3D: true,
+      transformOrigin: "100% 50%",
+    });
   }
 
   if (cards.length > 0) {
@@ -503,7 +484,7 @@ export function createPinnedIntroTimeline(
       invalidateOnRefresh: true,
       onEnter: (self) => {
         layoutPinnedStage(stage, hero, proof, projects);
-        layoutProofSpotlight(proof, items);
+        layoutProofStage(proof, items);
         if (cards.length > 0) {
           layoutProjectTrack(projectStage, projectTrack, cards);
           fitProjectStageInPanel(projects, projectStage);
@@ -513,7 +494,7 @@ export function createPinnedIntroTimeline(
       },
       onEnterBack: (self) => {
         layoutPinnedStage(stage, hero, proof, projects);
-        layoutProofSpotlight(proof, items);
+        layoutProofStage(proof, items);
         if (cards.length > 0) {
           layoutProjectTrack(projectStage, projectTrack, cards);
           fitProjectStageInPanel(projects, projectStage);
@@ -537,7 +518,7 @@ export function createPinnedIntroTimeline(
           clearIntroPinChrome(pin);
         } else {
           layoutPinnedStage(stage, hero, proof, projects);
-          layoutProofSpotlight(proof, items);
+          layoutProofStage(proof, items);
           if (cards.length > 0) {
             layoutProjectTrack(projectStage, projectTrack, cards);
             fitProjectStageInPanel(projects, projectStage);
@@ -558,55 +539,35 @@ export function createPinnedIntroTimeline(
         setHeroCtaInert(hero, proofIn || projectsFocused);
         setHeroVisualInteractive(visual, atHeroRest);
 
-        if (t < PARK_UNITS) {
-          if (counted.some(Boolean)) {
-            resetAllCounts();
-          }
+        if (items.length === 0 || t < PARK_UNITS) {
+          syncProofProgress(proof, 0, false);
           return;
         }
 
-        for (let i = 0; i < items.length; i++) {
-          const threshold = cardCountAt(i);
-
-          if (t < threshold) {
-            if (counted[i]) {
-              countCleanups[i]?.();
-              countCleanups[i] = null;
-              counted[i] = false;
-              const value = items[i].querySelector<HTMLElement>("[data-proof-value]");
-              if (value) setValueDisplay(value, 0);
-            }
-            continue;
-          }
-
-          // Stop starting new counts once proof is exiting toward projects.
-          if (t >= beat2 + 0.25) break;
-          if (counted[i]) continue;
-
-          counted[i] = true;
-          const value = items[i].querySelector<HTMLElement>("[data-proof-value]");
-          if (!value) continue;
-          countCleanups[i]?.();
-          countCleanups[i] = animateValueNode(value);
-        }
+        const activeIndex = Math.min(
+          items.length - 1,
+          Math.max(0, Math.floor((t - PARK_UNITS) / CARD_UNITS)),
+        );
+        syncProofProgress(proof, activeIndex, t < beat2);
       },
     },
   });
 
   const heroSides = [copy, visual].filter(Boolean) as HTMLElement[];
 
-  // —— Beat 1: park hero sides (no fade), swap one Highlights card at center ——
+  // —— Beat 1: park hero sides toward outer edges (stay on-screen), one metric ——
+  // Scale from the outer edge so content compresses into the side gutter
+  // instead of translating past the stage's overflow:hidden clip.
   if (copy) {
     timeline.fromTo(
       copy,
-      { xPercent: 0, x: 0, scale: 1 },
+      { x: 0, scale: 1 },
       {
-        xPercent: -PARK_X_PERCENT,
         x: () => `${-PARK_X_VW}vw`,
         scale: PARK_SCALE,
         duration: PARK_UNITS,
         force3D: true,
-        transformOrigin: "50% 50%",
+        transformOrigin: "0% 50%",
       },
       0,
     );
@@ -615,14 +576,13 @@ export function createPinnedIntroTimeline(
   if (visual) {
     timeline.fromTo(
       visual,
-      { xPercent: 0, x: 0, scale: 1 },
+      { x: 0, scale: 1 },
       {
-        xPercent: PARK_X_PERCENT,
         x: () => `${PARK_X_VW}vw`,
         scale: PARK_SCALE,
         duration: PARK_UNITS,
         force3D: true,
-        transformOrigin: "50% 50%",
+        transformOrigin: "100% 50%",
       },
       0,
     );
@@ -630,49 +590,46 @@ export function createPinnedIntroTimeline(
 
   timeline.fromTo(
     proof,
-    { y: 28, autoAlpha: 0 },
+    { y: 20, autoAlpha: 0 },
     { y: 0, autoAlpha: 1, duration: PARK_UNITS * 0.85, force3D: true },
     PARK_UNITS * 0.15,
   );
 
   const cardEnterDur = CARD_UNITS * CARD_ENTER_RATIO;
-  const cardExitDur = CARD_UNITS * CARD_EXIT_RATIO;
 
   items.forEach((item, index) => {
     const at = cardEnterAt(index);
 
-    timeline.fromTo(
-      item,
-      { y: 48, autoAlpha: 0 },
-      {
-        y: 0,
-        autoAlpha: 1,
-        duration: cardEnterDur,
-        force3D: true,
-      },
-      at,
-    );
-
-    // Previous card leaves as the next one arrives — always one in the spotlight.
+    // Hard crossfade — previous fully clears before the next reads.
     if (index > 0) {
       timeline.to(
         items[index - 1],
         {
-          y: -40,
+          y: -16,
           autoAlpha: 0,
-          duration: cardExitDur,
+          duration: cardEnterDur * 0.55,
           force3D: true,
         },
         at,
       );
     }
+
+    timeline.fromTo(
+      item,
+      { y: 20, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: cardEnterDur * 0.7,
+        force3D: true,
+      },
+      index > 0 ? at + cardEnterDur * 0.25 : at,
+    );
   });
 
   timeline.to({}, { duration: HOLD_UNITS }, beat1Units - HOLD_UNITS);
 
   // —— Beat 2: hide hero fully + Proof → Projects ——
-  // Highlights park keeps copy/visual opaque; projects must clear the stage.
-  // Use .to() so reverse scrub restores parked sides, then Beat 1 fromTo restores rest.
   timeline.to(
     hero,
     {
@@ -687,7 +644,6 @@ export function createPinnedIntroTimeline(
     timeline.to(
       copy,
       {
-        xPercent: -PARK_EXIT_X_PERCENT,
         x: () => `${-PARK_EXIT_X_VW}vw`,
         scale: PARK_EXIT_SCALE,
         duration: 0.45,
@@ -701,7 +657,6 @@ export function createPinnedIntroTimeline(
     timeline.to(
       visual,
       {
-        xPercent: PARK_EXIT_X_PERCENT,
         x: () => `${PARK_EXIT_X_VW}vw`,
         scale: PARK_EXIT_SCALE,
         duration: 0.45,
@@ -768,7 +723,6 @@ export function createPinnedIntroTimeline(
   return {
     cleanup: () => {
       window.visualViewport?.removeEventListener("resize", onViewportResize);
-      resetAllCounts();
       cleanupCoverflow?.();
       cleanupCoverflow = null;
       setHeroCtaInert(hero, false);
@@ -776,11 +730,11 @@ export function createPinnedIntroTimeline(
       timeline.scrollTrigger?.kill();
       timeline.kill();
       clearProofSpotlight(proof, items);
+      syncProofProgress(proof, 0, false);
       gsap.set(
         [stage, hero, proof, projects, ...heroSides, ...items],
         { clearProps: "all" },
       );
-      setFinalCounts(proof);
     },
   };
 }
@@ -793,12 +747,10 @@ export function createStackedIntroTimeline(
 ): HomeIntroHandle {
   const { hero, proof, items, stage, projects, projectStage, projectTrack, cards } =
     getIntroParts(elements);
-  const countCleanups: Array<() => void> = [];
   const tweens: gsap.core.Tween[] = [];
   let projectCleanup: (() => void) | null = null;
 
   gsap.set([stage, hero, proof, projects, ...items], { clearProps: "all" });
-  setZeroCounts(proof);
   setHeroCtaInert(hero, false);
 
   const shellTween = gsap.to(hero, {
@@ -814,9 +766,6 @@ export function createStackedIntroTimeline(
   tweens.push(shellTween);
 
   items.forEach((item, index) => {
-    const value = item.querySelector<HTMLElement>("[data-proof-value]");
-    let counted = false;
-
     const tween = gsap.from(item, {
       autoAlpha: 0,
       y: 28,
@@ -827,11 +776,6 @@ export function createStackedIntroTimeline(
         trigger: item,
         start: "top 88%",
         toggleActions: "play none none none",
-        onEnter: () => {
-          if (counted || !value) return;
-          counted = true;
-          countCleanups.push(animateValueNode(value));
-        },
       },
     });
     tweens.push(tween);
@@ -879,18 +823,16 @@ export function createStackedIntroTimeline(
         tween.scrollTrigger?.kill();
         tween.kill();
       });
-      countCleanups.forEach((fn) => fn());
       projectCleanup?.();
       delete projectStage.dataset.projectStage;
       setHeroCtaInert(hero, false);
       gsap.set([stage, hero, proof, projects, ...items], { clearProps: "all" });
-      setFinalCounts(proof);
     },
   };
 }
 
 /**
- * Reduced motion: final visible state, full numbers.
+ * Reduced motion: final visible state.
  */
 export function applyStaticIntro(elements: HomeIntroElements): HomeIntroHandle {
   const { pin, stage, hero, proof, projects, projectStage, projectTrack } =
@@ -905,7 +847,6 @@ export function applyStaticIntro(elements: HomeIntroElements): HomeIntroHandle {
     card.removeAttribute("inert");
   });
   setHeroCtaInert(hero, false);
-  setFinalCounts(proof);
 
   return {
     cleanup: () => {
