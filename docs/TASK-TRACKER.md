@@ -28,6 +28,11 @@
 | TASK-024 | Home GSAP Parallax        | DONE   | Medium   |
 | TASK-025 | Home Projects Scroll Story | DONE   | High     |
 | TASK-026 | Home Intro Hero→Proof→Projects | DONE   | High     |
+| TASK-027 | Media Aspect Ratio System | DONE   | Medium   |
+
+## TASK-027 — Media Aspect Ratio System
+
+Theme tokens `--aspect-portrait` (4∶5) and `--aspect-media` (16∶9); portrait + project thumbnails use them; removed `max-h-*` on aspect boxes; TECH.md documents masters + OG 1200×630.
 
 ## TASK-026 — Home Intro Hero→Proof→Projects
 

@@ -325,3 +325,24 @@ Prepare website for release.
 #### Dependencies
 
 All Tasks
+
+---
+
+## Epic 13: Media contracts
+
+### TASK-027 Media Aspect Ratio System
+
+#### Objective
+
+Formalize portrait and project media aspect ratios as design tokens and remove height caps that fight aspect boxes.
+
+#### Deliverables
+
+- `--aspect-portrait` (4∶5) and `--aspect-media` (16∶9) in `apps/web/src/index.css`
+- `PortraitFrame` / `ContentThumbnail` use the tokens
+- Call sites size media with width only (no `max-h-*` on aspect boxes)
+- TECH.md media aspect ratio contract (incl. OG 1200×630)
+
+#### Dependencies
+
+TASK-015

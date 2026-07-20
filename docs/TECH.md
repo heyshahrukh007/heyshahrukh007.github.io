@@ -268,6 +268,16 @@ pnpm build
 - **Accessibility:** Semantic HTML, `prefers-reduced-motion` on custom animations
 - **Motion:** Home story uses one GSAP scene (`home-intro-timeline.ts` + `use-home-intro-scroll.ts`): desktop (`min-width: 1024px` and tall viewport) pins under the sticky header and scrubs Hero→Proof→Projects (same fade/lift handoff between beats), then nested horizontal coverflow (`attachProjectCoverflow` in `project-timeline.ts`); tablet/mobile or short viewports use stacked proof reveal + counts, with projects pin/coverflow from `768px` or stacked fade on mobile; `prefers-reduced-motion` shows final state statically. Hero pointer tilt is desktop + fine-pointer only. Gate with `gsap.matchMedia`. Keep CSS for page enter, ScrollReveal, and hover transitions.
 
+### Media aspect ratios
+
+Locked roles only — size media with width (`w-full`, `max-w-*`), not `max-h-*` on aspect boxes. Use `object-cover` when real images replace placeholders. Layout/motion breakpoints stay width+height media queries, not aspect ratio.
+
+| Role | Ratio / size | Token / source |
+|------|----------------|----------------|
+| Portrait | 4∶5 · masters ≥1200×1500 | `aspect-portrait` (`--aspect-portrait`) |
+| Project media | 16∶9 · masters ≥1600×900 | `aspect-media` (`--aspect-media`) |
+| Open Graph | 1200×630 | `opengraph-image.tsx` `size` |
+
 ### Design reference
 
 When implementing UI sections (hero, about, work/projects, blog, gallery, contact, etc.), use [Magic Portfolio](https://github.com/once-ui-system/magic-portfolio) as the UX and layout reference. Live demo: [demo.magic-portfolio.com](https://demo.magic-portfolio.com).

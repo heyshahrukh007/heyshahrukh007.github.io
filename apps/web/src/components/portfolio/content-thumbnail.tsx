@@ -9,7 +9,7 @@ type ContentThumbnailProps = {
 export function ContentThumbnail({
   label,
   className,
-  aspectClassName = "aspect-[16/10] sm:aspect-video",
+  aspectClassName = "aspect-media",
 }: ContentThumbnailProps) {
   const initials = label
     .split(/\s+/)

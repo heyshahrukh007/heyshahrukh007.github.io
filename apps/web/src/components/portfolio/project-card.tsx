@@ -18,7 +18,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
 
   return (
     <article className={cn("space-y-4", className)}>
-      <ContentThumbnail label={project.name} className="max-h-48 sm:max-h-none" />
+      <ContentThumbnail label={project.name} />
 
       <div className="grid gap-4 lg:grid-cols-12 lg:gap-8">
         <h3 className="text-balance text-xl font-semibold tracking-tight text-foreground lg:col-span-5 lg:text-2xl">

@@ -20,7 +20,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         </Link>
       </p>
 
-      <ContentThumbnail label={project.name} className="max-h-48 sm:max-h-none" />
+      <ContentThumbnail label={project.name} />
 
       <header className="space-y-4">
         <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl">

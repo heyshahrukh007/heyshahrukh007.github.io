@@ -28,7 +28,7 @@ export function ProjectStoryCard({ project, className }: ProjectStoryCardProps) 
         className,
       )}
     >
-      <ContentThumbnail label={project.name} className="max-h-44 sm:max-h-56 lg:max-h-64" />
+      <ContentThumbnail label={project.name} />
 
       <div className="grid gap-4 lg:grid-cols-12 lg:items-start lg:gap-8">
         <div className="space-y-2 lg:col-span-5">

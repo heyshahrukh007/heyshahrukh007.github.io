@@ -72,7 +72,7 @@ export function PortraitFrame({
 
       <div
         className={cn(
-          "relative aspect-4/5 w-full",
+          "relative aspect-portrait w-full",
           size === "hero" && "lg:max-h-(--site-hero-height)",
         )}
       >
