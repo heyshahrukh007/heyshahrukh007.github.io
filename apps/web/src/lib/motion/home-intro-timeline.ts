@@ -82,6 +82,9 @@ function proofCardIndexAt(time: number, itemCount: number) {
 /**
  * One wheel/touch gesture → one Highlights metric (ignores delta magnitude).
  * Park / handoff / coverflow stay normal scrubbed scroll.
+ *
+ * Hard trackpad flicks emit many wheel events over ~1s; unlock only after the
+ * step tween finishes AND Observer reports the gesture stopped (`onStop`).
  */
 function attachProofCardWheelSteps(options: {
   timeline: gsap.core.Timeline;
@@ -93,6 +96,14 @@ function attachProofCardWheelSteps(options: {
 
   let stepTween: gsap.core.Tween | null = null;
   let locked = false;
+  let tweenRunning = false;
+  let holdScrollY: number | null = null;
+
+  const releaseIfReady = () => {
+    if (tweenRunning) return;
+    locked = false;
+    holdScrollY = null;
+  };
 
   const scrollToTime = (targetTime: number) => {
     const st = timeline.scrollTrigger;
@@ -103,6 +114,8 @@ function attachProofCardWheelSteps(options: {
     const proxy = { y: st.scroll() };
 
     locked = true;
+    tweenRunning = true;
+    holdScrollY = targetY;
     stepTween?.kill();
     stepTween = gsap.to(proxy, {
       y: targetY,
@@ -112,8 +125,11 @@ function attachProofCardWheelSteps(options: {
         st.scroll(proxy.y);
       },
       onComplete: () => {
-        locked = false;
+        st.scroll(targetY);
+        holdScrollY = targetY;
+        tweenRunning = false;
         stepTween = null;
+        // Stay locked until onStop — kills multi-card skips from flick inertia.
       },
     });
   };
@@ -122,17 +138,26 @@ function attachProofCardWheelSteps(options: {
     target: window,
     type: "wheel,touch",
     tolerance: 8,
+    // Fire on the first event (don't coalesce a hard flick into late handling).
+    debounce: false,
     preventDefault: false,
+    // Wait out trackpad inertia before allowing the next step.
+    onStopDelay: 0.35,
+    onStop: () => {
+      releaseIfReady();
+    },
     // Runtime-supported; keeps wheel non-passive so conditional preventDefault works.
     passive: false,
     onChangeY(self) {
-      if (locked) {
-        self.event?.preventDefault();
-        return;
-      }
-
       const st = timeline.scrollTrigger;
       if (!st?.isActive) return;
+
+      if (locked) {
+        self.event?.preventDefault();
+        // After the step tween, pin scroll while flick inertia keeps firing.
+        if (!tweenRunning && holdScrollY != null) st.scroll(holdScrollY);
+        return;
+      }
 
       const t = timeline.time();
       // Discrete only while a metric slot is active (after park, before handoff).
