@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap, Observer, ScrollTrigger } from "@/lib/gsap";
 import {
   attachProjectCoverflow,
   createProjectScrollTimeline,
@@ -9,9 +9,10 @@ import {
 /**
  * Home story (Hero → Proof → Projects) timelines.
  *
- * Desktop: one pin; Beat 1 side-parks hero copy/visual (no fade) and crossfades
- * one Highlights metric at a time, then Beat 2 hands off to nested coverflow.
- * Stacked: reveal; projects pin/stack separately.
+ * CSS width ≥1024: one pin; Beat 1 side-parks copy/visual (gutter-clamped, no fade)
+ * and crossfades Highlights metrics (one wheel/touch → one metric), then Beat 2 → nested coverflow.
+ * CSS width ≤1023: stacked reveal; projects pin/stack separately.
+ * All layout/park math uses visualViewport CSS px (DPI-safe).
  */
 
 export type HomeIntroElements = {
@@ -36,16 +37,20 @@ const TABLET_MAX = 1023;
 const DESKTOP_SEGMENT_VH = 100;
 const TABLET_SEGMENT_VH = 80;
 
-/** Beat 1: park copy/visual toward outer edges without leaving the viewport. */
-const PARK_SCALE = 0.85;
-/** Tiny settle only — large translates clip against overflow:hidden. */
-const PARK_X_VW = 1;
-const PARK_EXIT_SCALE = 0.72;
-const PARK_EXIT_X_VW = 6;
+/** Beat 1: park copy/visual aside — move/scale only, never fade. */
+const PARK_SCALE = 0.92;
+const PARK_EXIT_SCALE = 0.86;
+/** Desired park travel as a fraction of the side's layout width (CSS px). */
+const PARK_WIDTH_FRACTION = 0.18;
+const PARK_EXIT_WIDTH_FRACTION = 0.42;
+/** Keep parked edges inside the stage (CSS px). */
+const PARK_PAD_PX = 10;
 /** Center proof band for the metric stage. */
 const PROOF_PIN_MAX_WIDTH = "36rem";
 /** Keep Highlights aligned with hero copy, not vertically centered. */
 const PROOF_PIN_TOP = "14%";
+const PROOF_PIN_TOP_SHORT = "10%";
+const SHORT_STAGE_H = 640;
 
 /** Beat 1 timeline units: park, then one discrete slot per Highlights metric. */
 const PARK_UNITS = 0.3;
@@ -61,6 +66,100 @@ function cardEnterAt(index: number) {
   return PARK_UNITS + index * CARD_UNITS;
 }
 
+/** Settled time inside a Highlights metric slot (fully visible after enter). */
+function cardSettleAt(index: number) {
+  return PARK_UNITS + index * CARD_UNITS + CARD_UNITS * 0.65;
+}
+
+function proofCardIndexAt(time: number, itemCount: number) {
+  if (itemCount <= 0 || time < PARK_UNITS) return -1;
+  return Math.min(
+    itemCount - 1,
+    Math.max(0, Math.floor((time - PARK_UNITS) / CARD_UNITS)),
+  );
+}
+
+/**
+ * One wheel/touch gesture → one Highlights metric (ignores delta magnitude).
+ * Park / handoff / coverflow stay normal scrubbed scroll.
+ */
+function attachProofCardWheelSteps(options: {
+  timeline: gsap.core.Timeline;
+  itemCount: number;
+  beat2: number;
+}): () => void {
+  const { timeline, itemCount, beat2 } = options;
+  if (itemCount <= 1) return () => {};
+
+  let stepTween: gsap.core.Tween | null = null;
+  let locked = false;
+
+  const scrollToTime = (targetTime: number) => {
+    const st = timeline.scrollTrigger;
+    if (!st) return;
+    const duration = timeline.duration() || 1;
+    const progress = gsap.utils.clamp(0, 1, targetTime / duration);
+    const targetY = st.start + (st.end - st.start) * progress;
+    const proxy = { y: st.scroll() };
+
+    locked = true;
+    stepTween?.kill();
+    stepTween = gsap.to(proxy, {
+      y: targetY,
+      duration: 0.45,
+      ease: "power2.out",
+      onUpdate: () => {
+        st.scroll(proxy.y);
+      },
+      onComplete: () => {
+        locked = false;
+        stepTween = null;
+      },
+    });
+  };
+
+  const observer = Observer.create({
+    target: window,
+    type: "wheel,touch",
+    tolerance: 8,
+    preventDefault: false,
+    // Runtime-supported; keeps wheel non-passive so conditional preventDefault works.
+    passive: false,
+    onChangeY(self) {
+      if (locked) {
+        self.event?.preventDefault();
+        return;
+      }
+
+      const st = timeline.scrollTrigger;
+      if (!st?.isActive) return;
+
+      const t = timeline.time();
+      // Discrete only while a metric slot is active (after park, before handoff).
+      if (t < PARK_UNITS || t >= beat2) return;
+
+      const dir = self.deltaY > 0 ? 1 : self.deltaY < 0 ? -1 : 0;
+      if (dir === 0) return;
+
+      const current = proofCardIndexAt(t, itemCount);
+      if (current < 0) return;
+
+      const next = current + dir;
+      // At ends: release to native scrub (back into park / forward into hold).
+      if (next < 0 || next >= itemCount) return;
+
+      self.event?.preventDefault();
+      scrollToTime(cardSettleAt(next));
+    },
+  } as Observer.ObserverVars & { passive?: boolean });
+
+  return () => {
+    stepTween?.kill();
+    stepTween = null;
+    observer.kill();
+  };
+}
+
 function getHeaderOffset() {
   const header = document.querySelector("header");
   if (!header) return 0;
@@ -71,10 +170,10 @@ function getPinTop() {
   return getHeaderOffset() + HEADER_CLEARANCE_PX;
 }
 
-/** Prefer visualViewport so mobile browser chrome / dvh-like sizing is respected. */
+/** Prefer visualViewport CSS px so DPI scale / mobile chrome are respected. Never use DPR. */
 function getViewportHeight() {
   const vv = window.visualViewport?.height;
-  if (typeof vv === "number" && vv > 0) return vv;
+  if (typeof vv === "number" && vv > 0) return Math.round(vv);
   return window.innerHeight;
 }
 
@@ -93,6 +192,62 @@ function getViewportWidth() {
   const vv = window.visualViewport?.width;
   if (typeof vv === "number" && vv > 0) return Math.round(vv);
   return window.innerWidth;
+}
+
+/** Debounced ScrollTrigger.refresh on window + visualViewport resize/scroll (DPI / chrome). */
+function attachViewportRefresh(onRefresh: () => void): () => void {
+  let raf = 0;
+  const schedule = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      onRefresh();
+    });
+  };
+
+  const vv = window.visualViewport;
+  window.addEventListener("resize", schedule);
+  vv?.addEventListener("resize", schedule);
+  vv?.addEventListener("scroll", schedule);
+
+  return () => {
+    if (raf) cancelAnimationFrame(raf);
+    window.removeEventListener("resize", schedule);
+    vv?.removeEventListener("resize", schedule);
+    vv?.removeEventListener("scroll", schedule);
+  };
+}
+
+/**
+ * Park travel in CSS px: desired = fraction of layout width, clamped so the
+ * outer edge stays inside the stage. Strips current GSAP x so invalidate mid-scrub
+ * still measures against the rest position.
+ */
+function getParkX(
+  el: HTMLElement,
+  stage: HTMLElement,
+  direction: -1 | 1,
+  widthFraction: number,
+): number {
+  const stageRect = stage.getBoundingClientRect();
+  const elRect = el.getBoundingClientRect();
+  const currentX = Number(gsap.getProperty(el, "x")) || 0;
+  const restLeft = elRect.left - currentX;
+  const restRight = elRect.right - currentX;
+  const layoutW = el.offsetWidth || elRect.width;
+  const desired = Math.max(0, layoutW * widthFraction);
+
+  if (direction < 0) {
+    const maxTravel = Math.max(0, restLeft - stageRect.left - PARK_PAD_PX);
+    return -Math.min(desired, maxTravel);
+  }
+
+  const maxTravel = Math.max(0, stageRect.right - restRight - PARK_PAD_PX);
+  return Math.min(desired, maxTravel);
+}
+
+function getProofPinTop(stageH: number) {
+  return stageH < SHORT_STAGE_H ? PROOF_PIN_TOP_SHORT : PROOF_PIN_TOP;
 }
 
 function applyPinnedTop(pin: gsap.DOMTarget | null | undefined) {
@@ -202,7 +357,7 @@ function syncProofProgress(proof: HTMLElement, activeIndex: number, active: bool
 }
 
 function segmentVhForViewport() {
-  return window.innerWidth <= TABLET_MAX ? TABLET_SEGMENT_VH : DESKTOP_SEGMENT_VH;
+  return getViewportWidth() <= TABLET_MAX ? TABLET_SEGMENT_VH : DESKTOP_SEGMENT_VH;
 }
 
 function getIntroParts(elements: HomeIntroElements) {
@@ -245,6 +400,7 @@ function layoutPinnedStage(
   const stageW = getViewportWidth();
   // max-w-5xl = 64rem — keep in sync with Tailwind on the hero markup.
   const contentMax = "64rem";
+  const proofTop = getProofPinTop(stageH);
 
   gsap.set(stage, {
     position: "relative",
@@ -284,7 +440,7 @@ function layoutPinnedStage(
     position: "absolute",
     left: "50%",
     xPercent: -50,
-    top: PROOF_PIN_TOP,
+    top: proofTop,
     yPercent: 0,
     width: "100%",
     maxWidth: PROOF_PIN_MAX_WIDTH,
@@ -307,7 +463,7 @@ function layoutPinnedStage(
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    gap: window.innerWidth >= 640 ? 28 : 20,
+    gap: getViewportWidth() >= 640 ? 28 : 20,
     zIndex: 3,
   });
 }
@@ -325,7 +481,7 @@ function fitProjectStageInPanel(
     if (child === projectStage) continue;
     used += (child as HTMLElement).offsetHeight;
   }
-  const gap = window.innerWidth >= 640 ? 28 : 20;
+  const gap = getViewportWidth() >= 640 ? 28 : 20;
   const available = Math.max(160, panelH - used - gap * 2);
   const contentH = Math.max(
     160,
@@ -405,6 +561,7 @@ export function createPinnedIntroTimeline(
   } = getIntroParts(elements);
 
   let cleanupCoverflow: (() => void) | null = null;
+  let cleanupProofWheel: (() => void) | null = null;
 
   setHeroCtaInert(hero, false);
   setHeroVisualInteractive(visual, true);
@@ -422,10 +579,17 @@ export function createPinnedIntroTimeline(
   syncProofProgress(proof, 0, false);
 
   if (copy) {
-    gsap.set(copy, { x: 0, scale: 1, force3D: true, transformOrigin: "0% 50%" });
+    gsap.set(copy, {
+      xPercent: 0,
+      x: 0,
+      scale: 1,
+      force3D: true,
+      transformOrigin: "0% 50%",
+    });
   }
   if (visual) {
     gsap.set(visual, {
+      xPercent: 0,
       x: 0,
       scale: 1,
       force3D: true,
@@ -463,23 +627,31 @@ export function createPinnedIntroTimeline(
       pinSpacing: true,
       pinReparent: true,
       scrub: 0.65,
-      ...(cards.length > 1
-        ? {
-            // Snap only across coverflow steps (ignore handoff region).
-            snap: {
-              snapTo: (value: number) => {
-                const coverStart = (beat1Units + beat2Units) / totalUnits;
-                if (value < coverStart) return value;
-                const local = (value - coverStart) / (1 - coverStart);
-                const steps = Math.max(1, cards.length - 1);
-                const snapped = Math.round(local * steps) / steps;
-                return coverStart + snapped * (1 - coverStart);
-              },
-              duration: { min: 0.1, max: 0.35 },
-              delay: 0.05,
-            },
+      snap: {
+        snapTo: (value: number) => {
+          const t = value * totalUnits;
+
+          // Discrete Highlights slots (one metric per step).
+          if (items.length > 1 && t >= PARK_UNITS && t < beat2) {
+            const idx = proofCardIndexAt(t, items.length);
+            return cardSettleAt(idx) / totalUnits;
           }
-        : {}),
+
+          // Snap only across coverflow steps (ignore handoff region).
+          if (cards.length > 1) {
+            const coverStart = (beat1Units + beat2Units) / totalUnits;
+            if (value < coverStart) return value;
+            const local = (value - coverStart) / (1 - coverStart);
+            const steps = Math.max(1, cards.length - 1);
+            const snapped = Math.round(local * steps) / steps;
+            return coverStart + snapped * (1 - coverStart);
+          }
+
+          return value;
+        },
+        duration: { min: 0.1, max: 0.35 },
+        delay: 0.05,
+      },
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onEnter: (self) => {
@@ -544,26 +716,28 @@ export function createPinnedIntroTimeline(
           return;
         }
 
-        const activeIndex = Math.min(
-          items.length - 1,
-          Math.max(0, Math.floor((t - PARK_UNITS) / CARD_UNITS)),
-        );
-        syncProofProgress(proof, activeIndex, t < beat2);
+        const activeIndex = proofCardIndexAt(t, items.length);
+        syncProofProgress(proof, Math.max(0, activeIndex), t < beat2);
       },
     },
   });
 
+  cleanupProofWheel = attachProofCardWheelSteps({
+    timeline,
+    itemCount: items.length,
+    beat2,
+  });
+
   const heroSides = [copy, visual].filter(Boolean) as HTMLElement[];
 
-  // —— Beat 1: park hero sides toward outer edges (stay on-screen), one metric ——
-  // Scale from the outer edge so content compresses into the side gutter
-  // instead of translating past the stage's overflow:hidden clip.
+  // —— Beat 1: park hero sides (no fade), gutter-clamped CSS px travel ——
   if (copy) {
     timeline.fromTo(
       copy,
-      { x: 0, scale: 1 },
+      { xPercent: 0, x: 0, scale: 1 },
       {
-        x: () => `${-PARK_X_VW}vw`,
+        xPercent: 0,
+        x: () => getParkX(copy, stage, -1, PARK_WIDTH_FRACTION),
         scale: PARK_SCALE,
         duration: PARK_UNITS,
         force3D: true,
@@ -576,9 +750,10 @@ export function createPinnedIntroTimeline(
   if (visual) {
     timeline.fromTo(
       visual,
-      { x: 0, scale: 1 },
+      { xPercent: 0, x: 0, scale: 1 },
       {
-        x: () => `${PARK_X_VW}vw`,
+        xPercent: 0,
+        x: () => getParkX(visual, stage, 1, PARK_WIDTH_FRACTION),
         scale: PARK_SCALE,
         duration: PARK_UNITS,
         force3D: true,
@@ -644,7 +819,8 @@ export function createPinnedIntroTimeline(
     timeline.to(
       copy,
       {
-        x: () => `${-PARK_EXIT_X_VW}vw`,
+        xPercent: 0,
+        x: () => getParkX(copy, stage, -1, PARK_EXIT_WIDTH_FRACTION),
         scale: PARK_EXIT_SCALE,
         duration: 0.45,
         force3D: true,
@@ -657,7 +833,8 @@ export function createPinnedIntroTimeline(
     timeline.to(
       visual,
       {
-        x: () => `${PARK_EXIT_X_VW}vw`,
+        xPercent: 0,
+        x: () => getParkX(visual, stage, 1, PARK_EXIT_WIDTH_FRACTION),
         scale: PARK_EXIT_SCALE,
         duration: 0.45,
         force3D: true,
@@ -715,14 +892,15 @@ export function createPinnedIntroTimeline(
     timeline.to({}, { duration: coverflowUnits }, beat2 + beat2Units);
   }
 
-  const onViewportResize = () => {
+  const detachViewportRefresh = attachViewportRefresh(() => {
     ScrollTrigger.refresh();
-  };
-  window.visualViewport?.addEventListener("resize", onViewportResize);
+  });
 
   return {
     cleanup: () => {
-      window.visualViewport?.removeEventListener("resize", onViewportResize);
+      detachViewportRefresh();
+      cleanupProofWheel?.();
+      cleanupProofWheel = null;
       cleanupCoverflow?.();
       cleanupCoverflow = null;
       setHeroCtaInert(hero, false);
@@ -740,7 +918,7 @@ export function createPinnedIntroTimeline(
 }
 
 /**
- * Tablet / mobile / short viewport: no pin for intro; projects pin or stack.
+ * Narrow CSS width (≤1023): no intro pin; projects pin or stack.
  */
 export function createStackedIntroTimeline(
   elements: HomeIntroElements,
@@ -782,7 +960,7 @@ export function createStackedIntroTimeline(
   });
 
   if (cards.length > 0) {
-    const pinProjects = window.matchMedia("(min-width: 768px)").matches;
+    const pinProjects = getViewportWidth() >= 768;
 
     if (pinProjects) {
       const handle = createProjectScrollTimeline({

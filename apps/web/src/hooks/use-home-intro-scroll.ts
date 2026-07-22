@@ -9,13 +9,17 @@ import {
   createStackedIntroTimeline,
 } from "@/lib/motion/home-intro-timeline";
 
-/** Desktop pin: wide + tall enough + motion OK */
+/**
+ * Pin story (side-park): CSS width ≥1024 only — DPI-agnostic.
+ * No height gate: scaled 1080p laptops often sit at ~550–650 CSS px tall.
+ * Use range syntax so there is no 1px gap vs STACK at the boundary.
+ */
 const PIN_QUERY =
-  "(min-width: 1024px) and (min-height: 701px) and (prefers-reduced-motion: no-preference)";
+  "(width >= 1024px) and (prefers-reduced-motion: no-preference)";
 
-/** Stacked: narrow OR short viewport, motion OK (mutually exclusive with PIN_QUERY) */
+/** Stacked: CSS width <1024 (phone/tablet). Mutually exclusive with PIN_QUERY. */
 const STACK_QUERY =
-  "(prefers-reduced-motion: no-preference) and ((max-width: 1023px) or (max-height: 700px))";
+  "(width < 1024px) and (prefers-reduced-motion: no-preference)";
 
 const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
 
